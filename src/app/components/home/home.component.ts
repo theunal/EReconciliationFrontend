@@ -16,4 +16,6 @@ export class HomeComponent implements OnInit {
   changeButton() { // sağ alttaki ayar butonu
     return this.buttonClass
   }
+
+
 }
