@@ -9,17 +9,23 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RegisterComponent } from './components/register/register.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { MailConfirmComponent } from './components/mail-confirm/mail-confirm.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    MailConfirmComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NgxSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,

@@ -12,17 +12,25 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup
-
+  mailAgainForm : FormGroup
+  
   constructor(private router: Router, private authService: AuthService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.createLoginForm()
+    this.createmailAgainForm()
   }
 
   createLoginForm() {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    })
+  }
+
+  createmailAgainForm() {
+    this.mailAgainForm = new FormGroup({
+      emailAgain: new FormControl('', [Validators.required, Validators.email])
     })
   }
 
@@ -43,12 +51,22 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  sleep(milliseconds: number) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-      currentDate = Date.now();
-    } while (currentDate - date < milliseconds);
+  confirmEmailAgain() {
+    if (this.mailAgainForm.valid) {
+      this.authService.confirmEmailAgain(this.mailAgainForm.value.emailAgain).subscribe((res: any) => {
+        this.toastr.success(res.message)
+      }, err => {
+        if (err.error.message == 'Mail zaten onaylanmış.') {
+          this.toastr.success(err.error.message)
+        } else {
+          this.toastr.warning(err.error.message)
+        }
+      })
+    } else {
+      this.toastr.warning("lütfen mail adresinizi girin.")
+    }
   }
+
+
 
 }

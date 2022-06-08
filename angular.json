@@ -28,17 +28,19 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/ngx-toastr/toastr.css",
+              "./node_modules/ngx-toastr/toastr.css",
               "src/assets/css/nucleo-icons.css",
               "src/assets/css/nucleo-svg.css",
-              "src/assets/css/material-dashboard.css"
+              "src/assets/css/material-dashboard.css",
+              "./node_modules/ngx-spinner/animations/line-scale.css"
             ],
             "scripts": [
               "src/assets/js/core/popper.min.js",
               "src/assets/js/core/bootstrap.min.js",
               "src/assets/js/plugins/perfect-scrollbar.min.js",
               "src/assets/js/plugins/smooth-scrollbar.min.js",
-              "src/assets/js/material-dashboard.js"
+              "src/assets/js/material-dashboard.js",
+              "./node_modules/moment/moment.js"
             ]
           },
           "configurations": {

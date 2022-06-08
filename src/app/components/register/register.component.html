@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="/../assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/../assets/img/favicon.png">
+    <title>
+        Material Dashboard 2 by Creative Tim
+    </title>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+</head>
+
+<body class="">
+    <div class="container position-sticky z-index-sticky top-0">
+
+    </div>
+
+    <main class="main-content  mt-0">
+        <section>
+            <div class="page-header min-vh-100">
+                <div class="container">
+                    <div class="row">
+                        <div
+                            class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
+                            <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center"
+                                style="background-image: url('/../assets/img/illustrations/illustration-signup.jpg'); background-size: cover;">
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
+
+                            <div *ngIf="confirmEmail == ''" class="card card-plain">
+                                <div class="card-body">
+
+                                    <form role="form" [formGroup]="registerForm">
+
+                                        <h4 class="font-weight-bolder text-center mb-3">Kullanıcı Bilgileri</h4>
+
+                                        <div class="input-group input-group-outline mb-2">
+                                            <label class="form-label">Ad Soyad</label>
+                                            <input type="text" formControlName='name' class="form-control">
+                                        </div>
+
+                                        <div class="input-group input-group-outline mb-2">
+                                            <label class="form-label">E-mail</label>
+                                            <input type="email" formControlName='email' class="form-control">
+                                        </div>
+
+                                        <div class="input-group input-group-outline mb-4">
+                                            <label class="form-label">Şifre</label>
+                                            <input type="password" formControlName='password' class="form-control">
+                                        </div>
+
+
+
+
+                                        <h4 class="font-weight-bolder text-center mt-2 mb-3">Şirket Bilgileri</h4>
+
+                                        <div class="input-group input-group-outline mb-2">
+                                            <label class="form-label">Şirket Adı</label>
+                                            <input type="text" formControlName='companyName' class="form-control">
+                                        </div>
+
+                                        <div class="input-group input-group-outline mb-2">
+                                            <label class="form-label">Şirket Adresi</label>
+                                            <input type="text" formControlName='companyAddress' class="form-control">
+                                        </div>
+
+                                        <div class="input-group input-group-outline mb-2">
+                                            <label class="form-label">Şirket Vergi Dairesi</label>
+                                            <input type="text" formControlName='companyTaxDepartment'
+                                                class="form-control">
+                                        </div>
+
+                                        <div class="input-group input-group-outline mb-2">
+                                            <label class="form-label">Şirket Vergi Numarası</label>
+                                            <input type="tel" formControlName='companyTaxIdNumber' maxlength="10"
+                                                class="form-control">
+                                        </div>
+
+                                        <div class="input-group input-group-outline mb-2">
+                                            <label class="form-label">TC Kimlik Numarası</label>
+                                            <input type="text" formControlName='identityNumber' maxlength="11"
+                                                class="form-control">
+                                        </div>
+
+
+
+                                        <div class="form-check form-check-info text-start ps-0">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault" [(ngModel)]='checkbox'
+                                                [ngModelOptions]="{standalone: true}">
+
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                I agree the
+                                            </label>
+                                            <a type="button" class="text-dark font-weight-bolder mx-1"
+                                                data-bs-toggle="modal" data-bs-target="#termsAndConditionsModal">
+                                                Terms and Conditions
+                                            </a>
+                                        </div>
+
+
+
+                                        <div class="text-center">
+                                            <button type="button" (click)="register()"
+                                                class="btn btn-lg bg-gradient-primary btn-lg w-50 mt-4 mb-0">
+                                                Gönder
+                                            </button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                                    <p class="mb-2 text-sm mx-auto">
+                                        Hesabınız var mı?
+                                        <a href="/login" class="text-primary text-gradient font-weight-bold">Giriş
+                                            Yap</a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div *ngIf="confirmEmail != ''" class="card z-index-0 fadeIn3 fadeInBottom">
+                                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                    <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                                        <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Onaylama Maili
+                                            Gönderildi</h4>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <form role="form" class="text-start" autocomplete="off">
+                                        <div class="text-center">
+                                            <p>
+                                                <span class="text-dark font-weight-bolder mx-1">
+                                                    {{confirmEmail}}
+                                                </span>
+                                                mail adresine onaylama maili gönderildi.
+                                                Giriş yapabilmek için mailinizi onaylayınız.
+                                            </p>
+                                            <button type="button" (click)="confirmEmailAgain()"
+                                             class="btn bg-gradient-primary w-50 my-4 mb-2">
+                                                Tekrar Gönder
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+    </script>
+
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+</body>
+
+</html>
+
+
+
+
+
+<div id="termsAndConditionsModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <p class="mx-3 my-3 text-justify">
+                <strong>E-MUTABAKAT</strong>
+                <br>BULUT HİZMET SÖZLEŞMESİ
+                <br>UYARI: LÜTFEN E-MUTABAKAT BULUT HİZMET SÖZLEŞMESİNİ (“SÖZLEŞME”) DİKKATLİCE OKUYUNUZ. BU SÖZLEŞME,
+                SİPARİŞ FORMUNDA BELİRTİLEN ABONELİK HİZMETİNDEN FAYDALANABİLMENİZ İÇİN GEREKLİ KOŞULLARI İÇERMEKTEDİR.
+                SÖZLEŞME VE/VEYA SİPARİŞ FORMUNA KONU E-MUTABAKAT YAZILIMINI KULLANARAK; BU SÖZLEŞMEYİ OKUDUĞUNUZU,
+                İÇERİĞİNİ ANLADIĞINIZI VE HÜKÜMLERİNİ KABUL ETTİĞİNİZİ BEYAN ETMİŞ OLUYORSUNUZ. SÖZLEŞME VE/VEYA SİPARİŞ
+                FORMU KONUSU E-MUTABAKAT YAZILIMINI KULLANDIĞINIZ ANDA BU SÖZLEŞME YÜRÜRLÜĞE GİRECEKTİR. BU KOŞULLARI
+                KABUL ETMİYORSANIZ YAZILIMI KULLANMAYIN.
+                <br>1. TANIMLAR
+                <br>1.1. E-MUTABAKAT: Yazılım’ın mali/telif hakları veya ticari tedavüle sunma haklarına sahip GOSB,
+                Şahabettin Bilgisu Caddesi No: 609 Gebze, Kocaeli adresinde mukim Logo Elektronik Ticaret Hizmetleri
+                Anonim Şirketi’ni tanımlar.
+                <br>1.2. MÜŞTERİ: Abonelik Hizmetini yalnızca kendi dahili ihtiyaçları için kullanmak amacıyla satın
+                alan gerçek veya tüzel kişiliği tanımlar. "OSB 10.Cadde No:21 SARIOĞLAN / KAYSERİ" adresinde mukim
+                "Taner Saydam" şirketini temsil eder.
+                <br>1.3. Yazılım/E-MUTABAKAT Yazılımı: E-MUTABAKAT tarafından veya E-MUTABAKAT için geliştirilen;
+                mali/telif hakları veya ticari tedavüle sunma hakları E-MUTABAKAT’ya ait olan insan veya makine
+                tarafından okunabilir formdaki standart Bilgisayar Programını ifade eder. Aksi açıkça belirtilmedikçe
+                ilgili Sipariş Formunda ve/veya bu Sözleşme ekinde belirtilen Yazılımdır.
+                <br>1.4. Hizmete Erişim Hakkı: MÜŞTERİ’nin, kendi dahili amaçları için kullanmak veya görüntülemek üzere
+                E-MUTABAKAT Yazılımına uzaktan erişimi anlamına gelir. Bu hak; MÜŞTERİ’nin E-MUTABAKAT Yazılımı’nı
+                Üçüncü Şahıslara kullandırma veya onları yararlandırma hakkını içermez.
+                <br>1.5. Kullanım Noktası: Sipariş Formunda belirtilen E-MUTABAKAT Yazılımı için uygulanabilir olması
+                halinde MÜŞTERİ’nin merkez, yetkili servis veya çağrı merkezleri ismi altında Hizmet aldığı/alacağı
+                “Yazılım kullanma noktaları”nı ifade eder.
+                <br>1.6. Hizmet/Abonelik Hizmeti: Bu Sözleşme kapsamında ve koşullarına uygun olarak, Sözleşme süresince
+                E-MUTABAKAT Yazılımına uzaktan erişim yoluyla erişmeyi ve kullanmayı ifade eder.
+                <br>1.7. Sipariş Formu: E-MUTABAKAT ile MÜŞTERİ arasında aktedilen ve Abonelik Hizmeti verilen Yazılımın
+                belirtildiği satış sözleşmesini tanımlar.
+                <br>1.8. Etkinleştirme Anahtarı: MÜŞTERİ’nin E-MUTABAKAT Yazılımı’na uzaktan erişebilmek üzere kendi
+                üreteceği “şifre anahtarı”na denir.
+                <br>1.9. Bölge: Türkiye Cumhuriyeti Devleti sınırlarının içinde kalan bölgedir.
+                <br>1.10. Veri Merkezleri: MÜŞTERİ’nin bu Sözleşme ile elde ettiği Abonelik Hizmeti’nden
+                yararlanabilmesi için, E-MUTABAKAT Yazılımının ve MÜŞTERİ verilerinin barındırılacağı E-MUTABAKAT’ya
+                veya üçüncü şahıslara ait ve yer sağlayıcı faaliyet belgesine sahip hosting siteleri/mahalleri anlamına
+                gelir.
+                <br>1.11. Dokümantasyon: E-MUTABAKAT tarafından E-MUTABAKAT Yazılımının kullanılabilmesi için
+                geliştirilen her türlü basılı veya dijital dokümantasyonu ifade eder.
+                <br>1.12. Hizmet Sağlayıcılar: Bu Sözleşme kapsamındaki hizmetlerin bir kısmını profesyonel olarak
+                yerine getiren ve ulusal düzeyde faaliyet gösteren, mevzuat tarafından gerekmesi halinde sertifikaları
+                olan Üçüncü Şahısları ifade eder.
+                <br>1.13. Üçüncü Şahıs: Bu Sözleşmenin tarafları dışında kalan gerçek kişi, şahıs veya sermaye şirketi,
+                kurum, kuruluş, vakıf, dernek ve benzeri hukuki işlem ehliyetine sahip; yerli, yabancı bütün kamu ve
+                özel “kişilerini” kapsamak üzere kullanılmıştır.
+                <br>1.14. Üçüncü Şahıs Yazılımları: Mülkiyet hakları Üçüncü Şahıslara ait olan herhangi bir yazılım
+                ürünü anlamına gelir.
+                <br>2. KONU
+                <br>Bu Sözleşme; Sipariş Formu’nda belirtilen E-MUTABAKAT Yazılımı için Sözleşmenin yürürlük süresi
+                boyunca MÜŞTERİ’ye verilecek Abonelik Hizmetiyle ilgili olarak MÜŞTERİ ve E-MUTABAKAT arasındaki
+                karşılıklı hak ve yükümlülükleri düzenler.
+                <br>3. SÜRE
+                <br>3.1. Bu Sözleşme, Abonelik Hizmetinin kullanılması ile yürürlüğe girecek ve bir (1) yıl boyunca
+                geçerli olacaktır. Taraflardan birisi tarafından, bir yıllık süre sona ermeden en geç 30 (otuz) gün
+                öncesine kadar yazılı olarak Sözleşmenin yenilenmeyeceği diğer tarafa bildirilmediği takdirde; Sözleşme,
+                birer yıllık periyotlarla otomatik olarak yenilenir.
+                <br>4. ABONELİK HİZMETİNİN KAPSAMI
+                <br>4.1. Abonelik Hizmetinin Kapsamı
+                <br>MADDE 1. Bu Sözleşmede belirtilen haklar, sınırlar çerçevesinde ve Sözleşme süresince MÜŞTERİ ve
+                Kullanım Noktaları; Yazılımı, Bölge’de kendi dahili iş ihtiyaçları için internet üzerinden uzaktan
+                erişim yöntemiyle kullanabilir, çalıştırabilir ve görüntüleyebilir. E-MUTABAKAT, Yazılımı, Veri
+                Merkezinde barındırmak suretiyle MÜŞTERİ’nin uzaktan erişimi için erişilir kılacaktır. MÜŞTERİ, hiçbir
+                zaman Sipariş Formunda belirtilen kullanıcı/merkez/şube sayısını aşamaz.
+                <br>MADDE 2.
+                <br>MADDE 3. Bu Sözleşmede veya Sipariş Formu’nda; MÜŞTERİ’nin tüzel kişiliğine dahil olmayan Kullanım
+                Noktaları için Hizmete Erişim hakkının açıkça verilmesi halinde MÜŞTERİ, söz konusu Kullanım
+                Noktalarının bu Sözleşme koşullarını yazılı olarak kabul ve taahhüt etmesini sağlayacaktır.
+                <br>MADDE 4.
+                <br>MADDE 5. Abonelik Hizmeti kapsamında Yazılım için verilen Hizmete erişim/kullanım lisansı/hakkı,
+                Sözleşme süresine tabidir ve münhasır değildir. E-MUTABAKAT aynı ve benzer hizmetleri, lisansları Üçüncü
+                Şahıslara verme ve Yazılım üzerindeki "mali/telif haklarını" dilediği biçimde kullanma hakkını saklı
+                tutar. Bu Sözleşmede MÜŞTERİ’ye tanınan hak, E-MUTABAKAT’nun Fikri Mülkiyet hakları dahil herhangi bir
+                hakkını dilediği gibi kullanması önünde sınırlama getirmez.
+                <br>MADDE 6.
+                <br>MADDE 7. MÜŞTERİ, “E-MUTABAKAT’nun, Sözleşme süresi içinde Abonelik Hizmeti kapsamında piyasaya
+                süreceği Yazılıma ait yeni versiyon ve sürümlerden/güncellemelerden”; Sözleşme kapsamındaki konuları ve
+                modülleri içerecek şekilde abonelik süresince ücretsiz yararlanacaktır. Aksi E-MUTABAKAT tarafından
+                belirtilmediği sürece; Sipariş Formunda belirtilen kullanıcı veya Kullanım Noktası sayısının artırımı
+                gibi kapasite artırımına ilişkin ek hizmet satın alımları, bu Sözleşmenin koşullarına tabi olacaktır.
+                <br>4.2. Ön Koşullar: Varsa, Hizmete erişilebilmesi ve Hizmetin Üçüncü Şahıs Yazılımlarıyla
+                çalışabilmesi için gerekli ön koşullar E-MUTABAKAT’nun web sitesinde duyurulmaktadır. Bu koşulların
+                karşılanmasından; münhasıran MÜŞTERİ sorumludur.
+                <br>4.3. MÜŞTERİ, Yazılımı; yalnızca E-MUTABAKAT’ya Hizmet Bedelini ödediği yazılım fonksiyonlarıyla
+                kullanma hakkına sahiptir. Teknik açıdan erişimi mümkün olsa bile, Yazılımın içindeki üst/farklı
+                fonksiyonların, ilgili hizmet bedelleri ödenmeksizin kullanma hakkı ise bulunmamaktadır.
+                <br>4.4. E-MUTABAKAT’nun Sorumluluğu
+                <br>i. E-MUTABAKAT, Yazılımın Sözleşme süresi boyunca çalışır ve erişilebilir halde olmasını
+                sağlayacaktır.
+                <br>ii. E-MUTABAKAT Yazılımı’nın kullanım için giriş adresi Sipariş Formu’nda belirtilmiştir.
+                E-MUTABAKAT bu adreste veya sitenin içeriğinde istediği değişikliği yapma hakkını saklı tutar.
+                <br>iii. E-MUTABAKAT, Yazılımın Sipariş Formunda ve/veya Dokümantasyonda tanımlanan işlevlere esaslı
+                ölçüde uygun şekilde kullanılabilmesini sağlayacaktır. Bu Hizmetin sağlanması için gerekli yazılım
+                kodları, sunucu ve Yazılımın internete bağlı çalışması için Hizmeti vermenin gerektirdiği altyapı
+                E-MUTABAKAT tarafından sağlanacak veya Hizmet Sağlayıcılardan temin edilecektir. E-MUTABAKAT Yazılımına
+                bağlanmak için gerekli otomasyon sisteminin yazılım-donanım sorumluluğu ise MÜŞTERİ’ye aittir.
+                <br>iv. E-MUTABAKAT, Hizmetin içeriğinde değişiklik yapma, Yazılımı yeni sürüm veya versiyona geçirme
+                hakkını saklı tutar. Şu kadar ki bu değişiklik, Hizmette esaslı bir azalmaya sebep olmayacaktır.
+                <br>v. E-MUTABAKAT tüm müşterilerine E-MUTABAKAT Yazılımının Abonelik Hizmeti kapsamındaki son sürümünü
+                kullanma hakkını sağlar. MÜŞTERİ kendi kullanımı için eski sürümün tutulmasını ve bu sürüm üzerinde
+                devam etme ve eski sürümde yeni özellik geliştirme talebinde bulunamaz.
+                <br>vi. E-MUTABAKAT, Yazılımın güvenliğini sağlayacak veya temin edecektir.
+                <br>4.5. Etkinleştirme Anahtarı: MÜŞTERİ’nin Yazılıma uzaktan erişimi için kendi geliştireceği şifreli
+                anahtar, kod, şifre ve benzeri bilgilerin sorumluluğu yalnızca MÜŞTERİ’ye aittir. Bu şifrelerin,
+                kodların kaybolması, yetkisiz kişilerin eline geçmesi ve benzeri hallerde E-MUTABAKAT’nun hukuki
+                sorumluluğu yoktur.
+                <br>4.6. Hizmeti Kullanımına ilişkin Sınırlamalar: MÜŞTERİ,
+                <br>• Yazılımı ya da Yazılım için gerekli lisans Etkinleştirme Anahtarını, kullanıcı kodunu, şifrelerini
+                ve benzeri bilgileri ödünç veremez, alt lisansını veremez, kiralama gibi bedelli veya bedelsiz hiçbir
+                surette üçüncü kişilerin yararına sunamaz, kullandıramaz, yeniden satamaz;
+                <br>• Bu Sözleşme ve sahip olduğu hakları kısmen ya da tamamen Üçüncü Şahıslara devredemez;
+                <br>• Yazılımı yürürlükte bulunan tüm ulusal ve uluslararası mevzuata, internet kullanımına ilişkin
+                kural ve yasalara aykırı olarak kullanamaz,
+                <br>• Sipariş Formunda belirtilen kullanıcı sayısını aşamaz, kullanıcı kopyası oluşturamaz,
+                <br>• Yazılımı ya da lisans Etkinleştirme Anahtarını hukuka aykırı, amacı dışında kullanamaz veya
+                bunları yapması için herhangi bir üçüncü şahsa izin veremez ve bu yöndeki bir fiile iştirak edemez.
+                <br>4.7. MÜŞTERİ’nin E-MUTABAKAT’dan Yazılıma standart versiyonda olmayan kendisine özel yeni
+                işlevler/özellikler eklenmesini istemesi durumunda bu taleplerin tamamı ek proje olarak
+                değerlendirilecek ve ayrı fiyat ve proje bitiş tarihi verilecektir.
+                <br>4.8. Hizmetin yerine getirilmesi sırasında MÜŞTERİ veya Kullanım Noktalarına ait donanım, program ve
+                sistemlerde oluşabilecek her türlü veri kaybına karşı gerekli önlemlerin alınması MÜŞTERİ’nin
+                sorumluluğundadır. E-MUTABAKAT’nun; MÜŞTERİ ve Kullanım Noktaları verilerinin içeriği veya kalitesiyle
+                ilgili bir taahhüdü bulunmadığı gibi bunlara ilişkin olarak bir garantisi ve sorumluluğu da yoktur.
+                <br>5. KARŞILIKLI YÜKÜMLÜLÜKLER VE ÖZEL HÜKÜMLER
+                <br>5.1. Taraflar, yapacakları işleri özenle yapmayı, işin icrası için sürekli işbirliği içinde
+                bulunmayı kabul ve taahhüt etmişlerdir.
+                <br>5.2. MÜŞTERİ;
+                <br>• Yazılımı kullanacak noktaların Yazılıma erişimi için gerekli “güncel donanım” ve gerekli internet
+                erişimini ile bunların sürekli çalışmasını sağlamak, herhangi bir arıza veya hataya karşı yetkisiz
+                kişilerden destek ve servis almamak
+                <br>• Tüm bilgisayar sistemlerinde güvenlik yazılımları ve ateş duvarı (firewall) ile en güncel anti
+                virüs ve anti trojan programlarını bulundurmak,
+                <br>• Hizmet kapsamında katılan veya Hizmet kapsamından ayrılan noktaların/şubelerin bilgilerini
+                E-MUTABAKAT’ya yazılı olarak bildirmek,
+                <br>• Yazılıma/Hizmete yetkisiz girişleri engellemek,
+                <br>• Yazılıma yükleyeceği MÜŞTERİ verilerinin Yazılıma zarar verecek virüs ve benzeri programlardan ari
+                olmasını sağlamak,
+                <br>• Bu Sözleşmede belirlenen hizmet bedeli ve sair ücretlerin ödemesini düzenli ve süresinde yapmak.
+                <br>6. GARANTİ VE SORUMLULUK SINIRLARI
+                <br>7.1. E-MUTABAKAT, Yazılımın dijital ortamda sağlanan Dokümantasyonuyla esaslı ölçüde uyum içinde
+                olması için azami özeni göstermektedir. E-MUTABAKAT; Yazılımın kusursuz, hatasız, mükemmel olduğu ve
+                MÜŞTERİ’nin özel ihtiyaçlarını ve/veya beklentilerini tamamen karşılayacağı şeklinde bir iddia ve
+                taahhütte bulunmaz. Yazılım, MÜŞTERİ tarafından olduğu gibi kabul edilmelidir. E-MUTABAKAT; performans,
+                belirli bir amaca uygunluk dahil ancak bunlarla sınırlı olmamak üzere açık veya zımni hiçbir bir özel
+                garanti vermemektedir.
+                <br>7.2. Yazılımın içerisinde Üçüncü Şahısların işlettiği web sitelerinden alınan bilgiler, parametreler
+                bulunabilir. E-MUTABAKAT, bu bilgi ve parametrelerin doğruluğunu veya güvenliğini hiçbir koşulda taahhüt
+                veya garanti etmez. İlgili Üçüncü Şahıs içeriklerinin ve söz konusu içerikler uyarınca hazırlanan veri,
+                rapor ve benzeri bilgilerin doğruluğunun MÜŞTERİ tarafından teyit edilmesi gerekmektedir.
+                <br>7.3. E-MUTABAKAT’nun (i) Voltaj dalgalanması ve elektrik kesilmesinden, virüs bulaşmasından,
+                internet hatlarından ve benzeri çevresel faktörlerden kaynaklanan hatalardan; (ii) Yazılım kullanım
+                eğitimi ve yerinde destek hizmetlerinden; (iii) MÜŞTERİ’nin yaptığı Form ve rapor tasarımından; (iv)
+                Yazılımın yanlış, Dokümantasyona veya mevzuata aykırı kullanılmasından; (v) Hizmet Sağlayıcıları ile
+                Veri Merkezlerinin ihmal ve kusurlarından; (vi) Donanım, işletim sistemi, uzaktan erişim ağı ve iletişim
+                ağı (network) tasarımlarından, arızalarından ve bağlantı hatalarından; (vii) E-MUTABAKAT’ya ait olmayan
+                veri tabanı yazılımı ve diğer yazılım hatalarından, Üçüncü Şahıs Yazılımlarından dolayı hiçbir hukuki
+                sorumluluğu bulunmamaktadır. MÜŞTERİ, kendi çalışanlarının ve Kullanım Noktalarının ihmal ve
+                kusurlarından E-MUTABAKAT’ya karşı müştereken ve müteselsilen sorumlu olacaktır.
+                <br>7.4. E-MUTABAKAT’nun ağır kusur hali hariç olmak üzere; Yazılımın kullanımı ve bu Sözleşme nedeniyle
+                ortaya çıkabilecek maddi veya manevi zararlarla, kayıplarla ve/veya taleplerle ilgili sorumluluğu;
+                E-MUTABAKAT’ya ödenen “Yıllık Hizmet Bedeli” ile sınırlıdır. E-MUTABAKAT; mali sonuçlardan ve veri
+                kaybı, kar-kazanç kaybı gibi dolaylı zararlardan, özel zararlardan ve/veya netice zararlarından ise
+                hiçbir halde sorumlu değildir.
+                <br>7. MALİ HÜKÜMLER
+                <br>7.1. Hizmet Bedeli ve Ödeme Şartları: MÜŞTERİ, E-MUTABAKAT Yazılımı’nı uzaktan erişim suretiyle
+                Sipariş Formu’nda belirtilen Kullanım Noktaları’nda kullanabilecektir. Bu Kullanım Noktaları için aylık
+                kullanım Hizmet Bedeli Sipariş Formu’nda gösterilmiştir. Hizmet Bedeli, Sözleşmenin imzasından itibaren
+                o nokta için gerekli şirket, şube ve kullanıcılar için belirlenir ve hesaplanır. Hizmet Bedeli, hizmet
+                verilecek her ayın başında; o tarihteki Kullanım Noktası sayısı ve kullanıcı sayısı üzerinden peşin
+                olarak faturalandırılır.
+                <br>Aksi belirtilmediği müddetçe Sipariş Formunda belirtilen Hizmet Bedelleri KDV hariç fiyatlar olup,
+                KDV veya mevzuatın öngördüğü sair vergiler fiyat üzerine ilave edilir.
+                <br>Bu Sözleşmenin 3. madde uyarınca yenilenmesi halinde, yeni dönem için geçerli olacak Hizmet
+                Bedelleri, E-MUTABAKAT’nun yenileme tarihinde duyurduğu cari fiyat listesi üzerinden hesaplanacaktır.
+                <br>7.2. Ödeme Şekli: Aylık Hizmet Bedelleri, hizmet alınacak her ayın başında peşin fatura edilir.
+                E-MUTABAKAT’nun MÜŞTERİ’ye düzenlemiş olduğu faturaların bedelleri, fatura tarihinden itibaren en geç 30
+                (otuz) gün içerisinde MÜŞTERİ tarafından ödenir.
+                <br>7.3. Temerrüt: Sipariş Formu’nda belirtilen Hizmet Bedelinin yukarıdaki maddelerde belirtilen
+                zamanlarda ve miktarlarda ödenmemesi durumunda; MÜŞTERİ başkaca bir ihbar ve ihtara gerek kalmaksızın
+                kendiliğinden temerrüde düşer. Ödemede temerrüde düşülmesi durumunda E-MUTABAKAT, ödenmesi gereken tutar
+                için; T.C. Merkez Bankası’nın yıllık değişen oranlarda kısa vadeli avans işlemleri için uyguladığı
+                reeskont avansı faizi oranında gecikme faizi talep edebilir. E-MUTABAKAT, vereceği on beş günlük ek süre
+                içinde Hizmet Bedelinin yine de ödenmemesi durumunda, vermiş olduğu Hizmeti keserek, bu Sözleşmeyi
+                tazminatsız bir biçimde tek taraflı olarak sona erdirebilir ve/veya hizmeti askıya alabilir. Üst üste
+                iki ay hizmet bedelinin ödenmemesi durumunda, Hizmet Bedelinin tamamı (Sözleşmede belirtilen yıllık
+                bedel toplamı) muaccel hale gelir. Hizmetin askıya alınması, E-MUTABAKAT’nun hizmet bedelini talep
+                hakkını ortadan kaldırmaz.
+                <br>8. FİKRİ VE SINAİ HAKLAR
+                <br>8.1. Bu Sözleşme konusu Yazılım ve Dokümantasyonun Fikri Mülkiyet ve/veya ticari lisans hakları
+                E-MUTABAKAT’ya aittir. MÜŞTERİ’nin Yazılımı veya Üçüncü Şahıs Yazılımını işleme, değiştirme hakkı
+                yoktur. Yazılımın bu maddeye aykırı olarak işlenmesi, değiştirilmesi halinde değiştirilmiş, işlenmiş
+                Yazılımın fikri mülkiyet hakları dahi tüm hakları E-MUTABAKAT’ya ait olur.
+                <br>8.2. MÜŞTERİ, işbu Sözleşme kapsamındaki Yazılımı herhangi bir şekilde kaynak kodu haline getiremez,
+                tersine mühendislik işlemlerine tâbi tutamaz, sırasını, işleyişini bozamaz, yapısal özelliklerini
+                kopyalayamaz ve/veya bunları herhangi birinin bilgisine açamaz, ifşa edemez, sözleşme konusu amacı
+                dışında kendi nam ve hesabına kullanamaz, üye mağazaları, bayileri ve personeli dışında Üçüncü Şahıslara
+                kullandırtamaz.
+                <br>9. SÖZLEŞMEYE AYKIRILIK, FESİH
+                <br>9.1. Nedensiz Fesih Hakkı: MÜŞTERİ, bu sözleşmeyi, 3 (üç) ay önceden yazılı ihbarda bulunmak
+                koşuluyla istediği zaman tek taraflı yazılı fesih bildirimi ile feshedebilir. Ancak MÜŞTERİ, fesih
+                hakkını sözleşmenin imzalanmasından itibaren ilk 6 (altı) ay için kullanamaz. MÜŞTERİ, fesih
+                bildiriminden itibaren 3 (üç) aylık hizmet bedelini aylık olarak ödemeye devam eder.
+                <br>9.2. Sözleşmeye Aykırılık, Fesih: Taraflardan herhangi birinin bu Sözleşme hükümlerini kısmen veya
+                tamamen ihlal etmesi ve mağdur tarafın keşide edeceği ihtara rağmen 15 (on beş) gün içinde Sözleşme
+                ihlalini ortadan kaldırmaması halinde; Mağdur tarafın Sözleşmeyi haklı nedenle fesih hakkı doğar.
+                <br>Taraflardan herhangi birinin iflası, iflasın ertelenmesi talebinde bulunması, borçlarını ödemede
+                acze düşmesi veya konkordato ilan etmesi durumlarında, diğer taraf Sözleşmeyi keşide edeceği ihtarla tek
+                taraflı feshetmek hakkına sahiptir.
+                <br>• Taraflardan herhangi birinin gizlilik maddesinde yer alan hükme aykırı davranması, diğer tarafa
+                işbu Sözleşmeyi derhal, tek taraflı olarak feshetmek hakkı verir.
+                <br>9.3. Feshin Hukuki Sonuçları: Bu Sözleşmenin MÜŞTERİ’nin yükümlülüklerine uymaması sebebiyle
+                E-MUTABAKAT tarafından feshi halinde; E-MUTABAKAT’nun bu Sözleşme kapsamındaki E-MUTABAKAT Yazılımı’nın
+                yıl hizmet bedelleri baz alınarak 3 (üç) aylık bedele denk Hizmet Bedeli talep hakkı olur ve söz konusu
+                bedel muaccel hale gelir. Ancak, bu durumda da E-MUTABAKAT, fesihten itibaren 4 (dört) ay sonrasına
+                kadar işbu sözleşme gereği yükümlülüklerini tam ve eksiksiz olarak yerine getirir. Bu süre sonunda
+                MÜŞTERİ’nin E-MUTABAKAT Yazılımı’na erişimine son verilir.
+                <br>Haklı Nedenle Sözleşmeyi fesheden tarafın, bu Sözleşmenin feshi ile uğramış olduğu mahkemece hükme
+                bağlanacak yasal zararını ayrıca talep etme hakkı her zaman saklıdır.
+                <br>10. MÜCBİR SEBEPLER
+                <br>Bu Sözleşmede aksi belirtilmedikçe, ne MÜŞTERİ ne de E-MUTABAKAT yükümlülüklerini yerine
+                getirmelerinin mücbir sebep nedeniyle engellenmesi veya alı konması ölçüsünde, sözleşmeden doğan
+                yükümlülüklerini ifada temerrüde düşmüş sayılmayacaklardır. Mücbir Sebep, mücbir sebebe dayanan tarafın
+                hatası, kusuru veya ihmali olmaksızın, öngörülemez ve karşı konulamaz nitelikteki bütün olgular anlamına
+                gelir. Bu Sözleşmede Taraflar, başlıca mücbir sebep hallerini sayılanlarla sınırlı olmamak üzere tespit
+                etmişlerdir: Türk veya ilgili yabancı resmi makamlar tarafından yükümlülüklerin yerine getirilmesini
+                engelleyen, geciktiren veya imkansız kılan yasa ve düzenlemeler, savaş durumları, tarafları direkt
+                etkileyen grev, lokavt, yangın, deprem, sel, diğer doğal afetler ve terör olayları, internet erişimi ve
+                enerji kesintisi ile hizmetin MÜŞTERİ’ye tam ve eksiksiz olarak sunulmasını sağlayan malzeme veya
+                personel için resmi makamlarca verilecek iznin alınamaması veya alınmış olanların iptal edilmesi ve
+                benzer haller. Taraflar bu madde ile kanunun öngördüğü mücbir sebep hallerini genişletmişlerdir. Mücbir
+                sebep halinde mağdur taraf (i) diğer tarafı derhal haberdar edecek, (ii) edimin ifa edilememesinin
+                sebebini ortadan kaldırmak için gereken tüm çabayı sarf edecek, (iii) diğer taraf bu sebep ortadan
+                kalkıncaya kadar akdi yükümlülüklerinden azade tutulmak üzere, bu sebep ortadan kalkar kalkmaz
+                edimlerinin tümünü ifa edecektir. Mücbir sebep süresi 2 (iki) aydan fazla sürdüğü takdirde taraflardan
+                herhangi birisi Sözleşmeyi tazminatsız feshetme hakkına sahip olacaktır. Mücbir sebeplerin nedeniyle
+                Taraflar birbirlerinden zarar ziyan talep hakkına sahip olmayacaklardır.
+                <br>11. GİZLİLİK
+                <br>11.1. Kişisel Veri, Ticari Veri gibi mevzuatın “Gizli Bilgi” olarak kabul ettiği bilgilerle,
+                Taraflardan birine ait olan alenileşmemiş her türlü bilgi Gizli Bilgi olarak telakki edilir. Gizli Bilgi
+                içeren dijital veya basılı her türlü doküman da “Gizli Bilgi” içeren dokümantasyon olarak kabul edilir
+                ve Gizli Bilgi müeyyidelerine tabidir.
+                <br>11.2. Taraflar bu Sözleşmenin ifası esnasında öğrendikleri birbirlerine ait her türlü “Gizli
+                Bilgi’yi, kısmen veya tamamen diğer tarafın rızası olmaksızın kanunen yetkili kılınan merciler dışında
+                üçüncü şahıs veya kurumlara ifşa etmemeyi gayrikabili rücu şartı ile kabul ve taahhüt ederler.
+                <br>11.3. Taraflar birbirlerine ait Gizli Bilgi’yi kendilerine ait Gizli Bilgi’yi nasıl koruyorlarsa
+                aynı şekilde koruyacaktır.
+                <br>11.4. Gizli Bilgi, bilgiyi sağlayan tarafın önceden yazılı izni olmadan kısmen veya tamamen
+                çoğaltılamaz, kopyalanamaz, kullanılamaz. Bu Sözleşme uyarınca sağlanmış bulunan her türlü Gizli Bilgi,
+                bu bilgilerin kopyaları da dahil olmak üzere, Hizmetin sona ermesi ya da bu tür bilgiyi ifşa eden
+                tarafın isteği halinde ifşa eden tarafa iade edilecek veya imha edilecektir.
+                <br>11.5. Tarafların (i) gizliliğe ilişkin herhangi bir yükümlülük bulunmaksızın daha önce bildiği, (ii)
+                bağımsız bir şekilde kendisi tarafından geliştirilmiş, (iii) kendi bilgisi dahilinde bu tür bilgiler
+                açısından gizlilik konusunda herhangi bir yükümlülüğe tabi olmayan üçüncü bir şahıstan sağlanan, ya da
+                (iv) işbu sözleşmede yer alan hiçbir hükmü ihlal etmeden kamu tarafından bilinen bilgiler Gizli Bilgi
+                olarak kabul edilmeyecektir.
+                <br>Yazılımın internet aracılığıyla kullanılması için MÜŞTERİ tarafından girilmesi gerekli olan ve Gizli
+                Bilgi niteliğindeki; her türlü kullanıcı adı, şifre, kullanıcı adı ve benzeri verilerin doğruluğundan,
+                güvenliğinden, saklanmasından ve üçüncü kişilerin bilgisinden uzak tutulmasından MÜŞTERİ sorumludur.
+                MÜŞTERİ bu bilgileri hiçbir gerekçe ile E-MUTABAKAT’ya veya bir personeline vermeyecektir
+                <br>12. ÇEŞİTLİ HÜKÜMLER
+                <br>12.1. Devir: MÜŞTERİ, E-MUTABAKAT’nun önceden yazılı iznini almaksızın Sözleşmeden doğan hak ve
+                yükümlülüklerini Üçüncü Şahıslara kısmen veya tamamen devir ve temlik edemez. Bu türden devirler,
+                E-MUTABAKAT’ya karşı hüküm ifade etmez. E-MUTABAKAT, Sözleşmeden doğan hak ve yükümlülüklerini kendi
+                sermaye iştiraki veya hissedarlarının iştiraki olan Üçüncü Şahıslara devretmek hakkını haizdir.
+                <br>12.2. Kesin Delil Anlaşması: Anlaşmazlık halinde; Tarafların tutmuş olduğu her türlü resmi kayıt ve
+                defterler ile Yazılıma ait Veri Merkezleri tarafından tutulan elektronik kayıtları kesin delil teşkil
+                eder.
+                <br>12.3. Hakların Kullanılması: Bu Sözleşmeden doğan herhangi bir hakkın süresi içinde kullanılmamış
+                olması, o haktan feragat edildiği anlamına gelmez.
+                <br>12.4. Yetki: Bu sözleşmeden doğacak anlaşmazlıklarda İstanbul Merkez Mahkemeleri ve İcra Daireleri
+                yetkilidir. Anlaşmazlıklarda Türk Hukuku uygulanır. Bu Sözleşmede geçen ifadelerin yorumu konusunda
+                Fikir ve Sanat Eserleri Kanunu dikkate alınır.
+                <br>12.5. Tebligat: Bu Sözleşme ile ilgili tüm uyarı ve bildirimler MÜŞTERİ’nin etkinleştirme sırasında
+                girmiş olduğu ya da bir şekilde E-MUTABAKAT’ya bildirmiş olduğu elektronik posta adresine yapılır.
+                MÜŞTERİ, bu adrese yapılan bildirimin yetkisiz kişilerce tebellüğ edildiği iddiasında bulunamaz. Bu
+                elektronik posta adresine yapılan bildirimler hukuken geçerli tebligatın sonuçlarını doğurur. Taraflar,
+                bu adrese yapılan tebligatlar iade edilse bile, hukuken geçerli tebligatla aynı sonucu doğuracağını
+                kabul etmektedir.
+                <br>12.6. Ticari İletişim: E-MUTABAKAT, MÜŞTERİ’nin Yazılıma uzaktan erişim için dijital surette
+                kaydetmiş/kaydettirmiş olduğu iletişim adresine, her zaman elektronik ileti veya ticari elektronik ileti
+                gönderebilir. Ticari nitelikte olsun ya da olmasın MÜŞTERİ’nin her türlü elektronik iletişim
+                aracılığıyla gönderilecek elektronik iletinin gönderimine önceden izin/onay verdiği kabul edilir.
+                MÜŞTERİ, vermiş olduğu izni/onayı iptal etme ve ticari nitelikteki elektronik iletileri ret etme hakkını
+                her zaman kullanabilir. Ret talepleri en kısa sürede işleme alınır.
+                <br>12.7. E-MUTABAKAT, kişisel veri kapsamına giren ticaret unvanı, ad, soyad, telefon numarası, adres,
+                vergi veya T.C kimlik numarası, e-posta adresi gibi kişisel kullanıcı/MÜŞTERİ bilgilerini; kullanıcı
+                güvenliği, kendi yükümlülüklerinin ifası ve bazı istatistikî değerlendirmeler için kayıt altına
+                alabilir, işleyebilir, dilediği biçimde süresiz olarak yararlanabilir, kullanabilir, bunları bir
+                veritabanı üzerinde tasnif edip süresiz olarak veri tabanında tutabilir ve mevzuata uygun olarak yurt
+                içine, yurt dışına ya da iştiraklerine transfer edebilir. MÜŞTERİ, bilgilerinin E-MUTABAKAT tarafından
+                bu maddede belirtildiği şekilde kaydedilmesine, işlenmesine ve kullanmasına izin vermiştir
+                <br>12.8. Damga Vergisi: Bu Sözleşme ve Sipariş Formu dijital iletim suretiyle icap-kabul şeklinde
+                düzenlendiğinden damga vergisinden muaftır. Bu Sözleşme ve/veya Sipariş Formu ıslak olarak imzalandığı
+                veya mevzuat veya idari düzenlemeler sonunda damga vergisi doğması halinde, doğacak damga vergisi
+                MÜŞTERİ'ye aittir.
+                <br>
+                <br>Ek-1: Sipariş Formu
+                <br>
+                <br>EK-1
+                <br>SİPARİŞ FORMU
+                <br>
+                <br>1. ABONELİK HİZMETİ KAPSAMI
+                <br>
+                <br>İlgili Hizmet Sözleşmesi MÜŞTERİ ile E-MUTABAKAT arasında imzalanan gg/aa/yyyy tarihli
+                <br>E-MUTABAKAT Yazılım Bulut Hizmet Sözleşmesi (“Sözleşme”)
+                <br>
+                <br>2. ABONELİK HİZMETİ VERİLEN YAZILIM ve KULLANIM NOKTALARI
+                <br>Bu Sipariş Formuyla verilen Hizmetler, Sözleşme’nin koşullarına tabi olarak verilmektedir. Bu
+                Sipariş Formu kapsamında Abonelik Hizmeti verilecek Yazılım, ilgili kullanıcı sayıları ve Kullanım
+                Noktaları aşağıdaki tabloda belirtilmiştir.
+                <br>Yazılım/Hizmet Adı Kullanıcı/Kullanım Noktası Sayısı Kullanım Noktaları, Türleri ve Bulundukları
+                Adresler
+                <br>E- mutabakat Yazılımı 1 Merkez Nokta (bir merkez nokta) …………
+                <br>
+                <br>2.1. E-mutabakat Yazılımı/Hizmeti: Bu Sipariş Formu kapsamındaki E-MUTABAKAT Yazılımı/Hizmeti
+                konusu, MÜŞTERİ’nin ticari ilişkisi olan üçüncü firmalara (kısaca “Firma” olarak anılacaktır) e-posta
+                yolu ile Elektronik Cari Hesap Mutabakat kayıtlarını (kısaca “E-mutabakat” olarak anılacaktır)
+                göndermesi, Firma tarafından E-mutabakat metnini içeren linklere tıklanması durumunda, Firmanın
+                erişimleri verilen sitelere yönlendirilmesi ve MÜŞTERİ ile cari hesap konusunda mutabık olup olmadığını
+                MÜŞTERİ’ye bildirebilmesi için kolaylaştırıcı dijital iletişim imkanı sağlanmasıdır.
+                <br>
+                <br>2.2. E-MUTABAKAT, MÜŞTERİ’nin elektronik mutabakat e-postalarının, MÜŞTERİ’nin E- mutabakat
+                Yazılımına iletişim/e-posta adres bilgisini girdiği/yüklediği Firmalara, otomatik olarak gönderimini
+                temin edecektir. E-MUTABAKAT’nun, E-mutabakat kapsamında gönderimini temin edeceği e-posta iletilerinin
+                Firmanın Gelen Kutusuna (Inbox) düşeceğiyle ilgili herhangi bir taahhüdü yoktur; E-MUTABAKAT, bahse konu
+                iletilerin alıcı Firmaların Gelen Kutusuna düşmesini temin etmek için elinden gelen çabayı
+                gösterecektir.
+                <br>
+                <br>2.3. E-MUTABAKAT’nun MÜŞTERİ’nin temin ettiği ve/veya Yazılıma girdiği Firma iletişim bilgileri,
+                borç-alacak tutarları, gönderilen e-posta’daki bilgiler ve sair verilere ilişkin herhangi bir
+                sorumluluğu yoktur. E-MUTABAKAT, Firmaların MÜŞTERİ’ye cari hesap mutabakatı konusunda cevap vereceği
+                ve/veya verilen cevabın doğru, tam olacağı konusunda herhangi bir taahhüt vermemektedir. Bu dijital
+                imkanı kullanımının fayda ve zararları MÜŞTERİ’ye aittir.
+                <br>
+                <br>2.4. E-MUTABAKAT’nun kendi taktirine bağlı olarak, E-mutabakat kapsamında Firmalara gönderilen
+                e-posta iletilerine, kendi banner, reklam ve logolarını tanıtım amaçlı yerleştirme hakkı saklıdır.
+                MÜŞTERİ bu hususu peşinen kabul etmiş, bu konuda E-MUTABAKAT’dan herhangi bir nam altında talepte
+                bulunma hakkı olmadığını beyan ve taahhüt etmiştir.
+                <br>
+                <br>3. HİZMETE ERİŞİLECEK WEB ADRESİ
+                <br>Abonelik Hizmetine erişim girilecek sistemin adresi e-mutabakat.logo.com.tr olacaktır. Tarafların
+                mutabık kalması halinde, MÜŞTERİ’nin sisteme giriş adresi, MÜŞTERİ’ye özel bir domain name olarak
+                değiştirilebilir.
+                <br>
+                <br>4. MALİ KOŞULLAR
+                <br>Hizmet Bedeli: Bu Sipariş Formu konusu E-mutabakat Yazılımı/Hizmeti, yalnızca Sözleşme’nin ilk
+                yılına ilişkin olarak, tanıtım kapsamında ücretsiz olarak MÜŞTERİ’ye temin edilecektir.
+                <br>Şu kadar ki, Sözleşmenin 3. madde uyarınca yenilenmesi halinde, yeni dönem için E-mutabakat
+                Yazılımı/Hizmeti ücretlendirilecek ve o tarihte geçerli olacak Hizmet Bedelleri, E-MUTABAKAT’nun
+                yenileme tarihinde duyurduğu cari fiyat listesi üzerinden hesaplanacaktır.
+            </p>
+        </div>
+    </div>
+</div>

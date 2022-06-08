@@ -59,7 +59,7 @@
 
                                 <form role="form" class="text-start" [formGroup]="loginForm" autocomplete="off">
 
-                                    <div class="input-group input-group-outline my-3">
+                                    <div class='input-group input-group-outline my-3'>
                                         <label class="form-label">E-mail</label>
                                         <input type="email" formControlName='email' class="form-control"
                                             autocomplete="off">
@@ -86,9 +86,14 @@
 
                                     <p class="mt-4 text-sm text-center">
                                         Hesabınız yok mu?
-                                        <a href="../pages/sign-up.html"
-                                            class="text-primary text-gradient font-weight-bold">
+                                        <a href="/register" class="text-primary text-gradient font-weight-bold">
                                             Kayıt Ol
+                                        </a>
+                                    </p>
+                                    <p class="text-sm text-center">
+                                        <a type="button" data-bs-toggle="modal" data-bs-target="#mailModal"
+                                            class="text-primary text-gradient font-weight-bold">
+                                            Mail Gelmedi
                                         </a>
                                     </p>
 
@@ -129,3 +134,31 @@
 </body>
 
 </html>
+
+
+<div id="mailModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <p class="display-4 mt-3 text-center" style="color: #DB2165;">Mail Tekrarı</p>
+
+            <form role="form" class="text-start" [formGroup]="mailAgainForm" autocomplete="off">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class='input-group input-group-outline my-3 mx-5'>
+                            <label class="form-label">E-mail</label>
+                            <input type="email" formControlName='emailAgain' class="form-control" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn bg-gradient-primary w-50 my-3 mx-5" (click)="confirmEmailAgain()">Gönder</button>
+                    </div>
+                </div>
+            </form>
+
+
+
+        </div>
+    </div>
+</div>
