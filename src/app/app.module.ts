@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './components/register/register.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MailConfirmComponent } from './components/mail-confirm/mail-confirm.component';
+import { PasswordResetComponent } from './components/password-reset/password-reset.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { MailConfirmComponent } from './components/mail-confirm/mail-confirm.com
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    MailConfirmComponent
+    MailConfirmComponent,
+    PasswordResetComponent
   ],
   imports: [
     BrowserModule,

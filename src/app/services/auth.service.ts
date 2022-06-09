@@ -56,8 +56,39 @@ export class AuthService {
 
 
 
+  /* birinci şifre kısmı */
+  forgotPassword(email : string) {
+    let url = 'https://localhost:7154/api/Auth/forgotPassword?email=' + email
+    return this.httpClient.post(url,'')
+  }
+  
+  passwordReset(value : string, password : string) {
+    let url = 'https://localhost:7154/api/Auth/passwordReset?value=' + value + '&password=' + password
+    return this.httpClient.get(url)
+  }
+  /* birinci şifre kısmı */
+ 
 
 
+
+  /* ikini şifre kısmı */
+
+  forgotPassword2(email : string) {
+    let url = 'https://localhost:7154/api/Auth/forgotPassword?email=' + email
+    return this.httpClient.post(url,'')
+  }
+
+  confirmForgotPasswordValue(value : string) {
+    let url = 'https://localhost:7154/api/Auth/forgotPasswordLinkCheck?value=' + value
+    return this.httpClient.get(url)
+  }
+
+  passwordReset2(value : string, password : string) {
+    let url = 'https://localhost:7154/api/Auth/passwordReset2?value=' + value + '&password=' + password
+    return this.httpClient.get(url)
+  }
+
+  /* ikini şifre kısmı */
 
 
 

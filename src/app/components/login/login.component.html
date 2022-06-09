@@ -91,8 +91,21 @@
                                         </a>
                                     </p>
                                     <p class="text-sm text-center">
+
+                                        <!-- <a type="button" data-bs-toggle="modal" data-bs-target="#passwordModal"
+                                            class="text-primary text-gradient font-weight-bold mx-2">
+                                            Şifremi Unuttum
+                                        </a> -->
+
+                                        <!-- ikinci şifremi unuttum -->
+                                        <a type="button" data-bs-toggle="modal" data-bs-target="#passwordModal2"
+                                            class="text-primary text-gradient font-weight-bold mx-2">
+                                            Şifremi Unuttum
+                                        </a>
+                                        <!-- ikinci şifremi unuttum -->
+
                                         <a type="button" data-bs-toggle="modal" data-bs-target="#mailModal"
-                                            class="text-primary text-gradient font-weight-bold">
+                                            class="text-primary text-gradient font-weight-bold mx-2">
                                             Mail Gelmedi
                                         </a>
                                     </p>
@@ -140,9 +153,7 @@
     aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-
             <p class="display-4 mt-3 text-center" style="color: #DB2165;">Mail Tekrarı</p>
-
             <form role="form" class="text-start" [formGroup]="mailAgainForm" autocomplete="off">
                 <div class="row mb-3">
                     <div class="col-md-6">
@@ -152,13 +163,60 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <button class="btn bg-gradient-primary w-50 my-3 mx-5" (click)="confirmEmailAgain()">Gönder</button>
+                        <button class="btn bg-gradient-primary w-50 my-3 mx-5"
+                            (click)="confirmEmailAgain()">Gönder</button>
                     </div>
                 </div>
             </form>
-
-
-
         </div>
     </div>
 </div>
+
+<div id="passwordModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <p class="display-4 mt-3 text-center" style="color: #DB2165;">Şifremi Unuttum</p>
+            <form role="form" class="text-start" [formGroup]="mailAgainForm" autocomplete="off">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class='input-group input-group-outline my-3 mx-5'>
+                            <label class="form-label">E-mail</label>
+                            <input type="email" formControlName='emailAgain' class="form-control" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn bg-gradient-primary w-50 my-3 mx-5"
+                            (click)="forgotPassword()">Gönder</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ikinci şifremi unuttum -->
+<div id="passwordModal2" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <p class="display-4 mt-3 text-center" style="color: #DB2165;">Şifremi Unuttum</p>
+            <form role="form" class="text-start" [formGroup]="mailAgainForm" autocomplete="off">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class='input-group input-group-outline my-3 mx-5'>
+                            <label class="form-label">E-mail</label>
+                            <input type="email" formControlName='emailAgain' class="form-control" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn bg-gradient-primary w-50 my-3 mx-5"
+                            (click)="forgotPassword2()">Gönder</button>
+                            <button id="modalClose" hidden type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- ikinci şifremi unuttum -->
