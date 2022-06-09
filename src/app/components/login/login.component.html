@@ -1,29 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="/../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="/../assets/img/favicon.png">
-    <title>
-        Material Dashboard 2 by Creative Tim
-    </title>
-    <!--     Fonts and icons     -->
-    <link rel="stylesheet" type="text/css"
-        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-
-    <!-- Font Awesome Icons -->
-    <!-- <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> -->
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <!-- CSS Files -->
-
-</head>
-
-<body class="bg-gray-200">
-
-
+<div class="bg-gray-200">
 
     <main class="main-content  mt-0">
         <div class="page-header align-items-start min-vh-100"
@@ -57,7 +32,7 @@
                             </div>
                             <div class="card-body">
 
-                                <form role="form" class="text-start" [formGroup]="loginForm" autocomplete="off">
+                                <form role="form" class="text-start" [formGroup]="loginForm" (ngSubmit)="login()">
 
                                     <div class='input-group input-group-outline my-3'>
                                         <label class="form-label">E-mail</label>
@@ -78,8 +53,7 @@
                                     </div>
 
                                     <div class="text-center">
-                                        <button type="button" class="btn bg-gradient-primary w-50 my-4 mb-2"
-                                            (click)="login()">
+                                        <button type="submit" class="btn bg-gradient-primary w-50 my-4 mb-2">
                                             Giriş
                                         </button>
                                     </div>
@@ -133,22 +107,13 @@
         </div>
     </main>
 
-    <script>
-        // var win = navigator.platform.indexOf('Win') > -1;
-        if (win && document.querySelector('#sidenav-scrollbar')) {
-            var options = {
-                damping: '0.5'
-            }
-            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-        }
-    </script>
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-</body>
 
-</html>
+</div>
 
 
+
+
+<!-- mail tekrarı -->
 <div id="mailModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
     aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -171,6 +136,8 @@
         </div>
     </div>
 </div>
+<!-- mail tekrarı -->
+
 
 <div id="passwordModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
     aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -195,27 +162,34 @@
     </div>
 </div>
 
+
 <!-- ikinci şifremi unuttum -->
 <div id="passwordModal2" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
     aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <p class="display-4 mt-3 text-center" style="color: #DB2165;">Şifremi Unuttum</p>
+
             <form role="form" class="text-start" [formGroup]="mailAgainForm" autocomplete="off">
                 <div class="row mb-3">
+
                     <div class="col-md-6">
                         <div class='input-group input-group-outline my-3 mx-5'>
                             <label class="form-label">E-mail</label>
                             <input type="email" formControlName='emailAgain' class="form-control" autocomplete="off">
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <button class="btn bg-gradient-primary w-50 my-3 mx-5"
                             (click)="forgotPassword2()">Gönder</button>
-                            <button id="modalClose" hidden type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="modalClose" hidden type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
                     </div>
+
                 </div>
             </form>
+
         </div>
     </div>
 </div>

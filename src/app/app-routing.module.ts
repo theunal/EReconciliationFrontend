@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CurrencyAccountComponent } from './components/currency-account/currency-account.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { MailConfirmComponent } from './components/mail-confirm/mail-confirm.component';
@@ -14,6 +15,9 @@ const routes: Routes = [
   {path: 'mailConfirm/:value', component: MailConfirmComponent},
   {path: 'passwordReset/:value', component: PasswordResetComponent},
   {path: 'forgotPasswordLinkCheck/:value', component: PasswordResetComponent},
+  {path: 'currencyAccount', component: CurrencyAccountComponent},
+
+
   {path: '**', redirectTo: ''}
 ];
 

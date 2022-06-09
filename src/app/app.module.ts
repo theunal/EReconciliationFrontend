@@ -15,6 +15,9 @@ import { MailConfirmComponent } from './components/mail-confirm/mail-confirm.com
 import { PasswordResetComponent } from './components/password-reset/password-reset.component';
 import { NavComponent } from './components/nav/nav.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { CurrencyAccountComponent } from './components/currency-account/currency-account.component';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { CurrencyAccountPipe } from './pipes/currency-account.pipe';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     MailConfirmComponent,
     PasswordResetComponent,
     NavComponent,
-    SidenavComponent
+    SidenavComponent,
+    CurrencyAccountComponent,
+    CurrencyAccountPipe
   ],
   imports: [
     BrowserModule,
@@ -42,7 +47,10 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
       timeOut: 3000
     })
   ],
-  providers: [],
+  providers: [
+    {provide: 'api', useValue: 'https://localhost:7154/api/'},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
