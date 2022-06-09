@@ -38,17 +38,21 @@ export class LoginComponent implements OnInit {
 
 
   login() {
+    this.spinner.show()
     if (this.loginForm.valid) {
       let login = Object.assign({}, this.loginForm.value)
       this.authService.login(login).subscribe(res => {
+        this.spinner.hide()
         console.log(res)
         localStorage.setItem('token', res.data.token)
         this.router.navigate(['/'])
         this.toastr.success('Giriş Yaptınız!', 'Success')
       }, err => {
+        this.spinner.hide()
         this.toastr.error(err.error)
       })
     } else {
+      this.spinner.hide()
       this.toastr.warning("lütfen bilgileri doldurun.")
     }
   }

@@ -13,6 +13,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MailConfirmComponent } from './components/mail-confirm/mail-confirm.component';
 import { PasswordResetComponent } from './components/password-reset/password-reset.component';
+import { NavComponent } from './components/nav/nav.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { PasswordResetComponent } from './components/password-reset/password-res
     LoginComponent,
     RegisterComponent,
     MailConfirmComponent,
-    PasswordResetComponent
+    PasswordResetComponent,
+    NavComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
