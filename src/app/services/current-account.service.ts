@@ -34,9 +34,18 @@ export class CurrentAccountService {
     return this.httpClient.get<SingleResponseModel<CurrentAccountModel>>(url)
   }
 
-  update(currentAccount : CurrentAccountModel) : Observable<ResponseModel> {
+  update(currentAccount: CurrentAccountModel): Observable<ResponseModel> {
     let url = this.api + 'CurrentAccounts/update'
     return this.httpClient.post<ResponseModel>(url, currentAccount)
+  }
+
+  addFromExcel(file: any, companyId: number): Observable<ResponseModel> {
+    let url = this.api + 'CurrentAccounts/addByExcel?companyId=' + companyId
+
+    let formData = new FormData()
+    formData.append('file', file, file.name)
+
+    return this.httpClient.post<ResponseModel>(url, formData)
   }
 
 

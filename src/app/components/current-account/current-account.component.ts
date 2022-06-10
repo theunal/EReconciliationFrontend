@@ -35,6 +35,8 @@ export class CurrentAccountComponent implements OnInit {
   passive: boolean = false
   currentListText: string = 'Cari Listesi'
 
+  file: string = ''
+
   constructor(private currencyAccountService: CurrentAccountService, private authService: AuthService,
     private spinner: NgxSpinnerService, private toastrService: ToastrService, private router: Router) { }
 
@@ -168,7 +170,7 @@ export class CurrentAccountComponent implements OnInit {
       console.log('valide girdi')
       let currentAccount: CurrentAccountModel = this.addCurrencyAccountForm.value
       currentAccount.isActive = this.trueFalseStatus()
-      console.log("status:"+this.trueFalseStatus())
+      console.log("status:" + this.trueFalseStatus())
       this.currencyAccountService.add(currentAccount).subscribe(res => {
         this.spinner.hide()
         this.toastrService.success('Cari Hesap Başarıyla Eklendi', this.addCurrencyAccountForm.value.name)
@@ -234,4 +236,36 @@ export class CurrentAccountComponent implements OnInit {
     }
   }
 
+  fileChange(event: any) {
+    this.file = event.target.files[0]
+  }
+
+  addFromExcel() {
+    if (this.file == '') return
+    if (this.file != null || this.file != undefined || this.file != '') {
+      this.spinner.show()
+      this.currencyAccountService.addFromExcel(this.file, this.companyId).subscribe(res => {
+        this.spinner.hide()
+        this.toastrService.success(res.message)
+        this.getCurrencyAccounts()
+        document.getElementById('addFromExcelCurrencyAccountModal').click()
+        this.file = ''
+      }, err => {
+        this.spinner.hide()
+        if (err.error.includes('Invalid file signature.'))
+          this.toastrService.warning('Lütfen geçerli bir dosya seçiniz.')
+        else if (err.error.includes('The uploaded file exceeds the upload_max_filesize directive in php.ini'))
+          this.toastrService.error('Dosya boyutu çok büyük.')
+        else if (err.error.includes('Exception'))
+          this.toastrService.warning('Dosya boş ya da yanlış bir dosya seçtiniz.')
+        else console.log(err)
+      })
+    } else {
+      this.toastrService.warning('Lütfen Excel Dosyası Seçiniz.')
+    }
+  }
+
 }
+
+
+// excelden veri çektincen sonra update yaptım ama durum udeğiştirince anında gözükmüyor sayfayı yenilemek gerekiyor

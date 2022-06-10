@@ -71,7 +71,8 @@
                                 Cari Listesini Excel'e Aktar
                             </button>
 
-                            <button type="button" class="btn btn-lg bg-gradient-success mx-2" style=" float: right;">
+                            <button type="button" class="btn btn-lg bg-gradient-success mx-2" style=" float: right;"
+                                data-bs-toggle="modal" data-bs-target="#addFromExcelCurrencyAccountModal">
                                 <i class="fa-solid fa-file-excel" style="font-size: 15px; margin-right: 5px;"></i>
                                 Cari Ekle (Excel)
                             </button>
@@ -394,6 +395,37 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
                 <button type="submit" class="btn btn-primary" (click)="add()">Gönder</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cari add -->
+
+<!-- cari add -->
+<div class="modal fade" id="addFromExcelCurrencyAccountModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Excel'den Cari Hesap Ekle</h5>
+            </div>
+            <div class="modal-body">
+
+                <div class="input-group input-group-outline mb-3">
+
+
+
+                    <input type="file" (change)="fileChange($event)" accept=".xlsx">
+
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="submit" class="btn btn-primary" (click)="addFromExcel()">Yükle</button>
             </div>
         </div>
     </div>
