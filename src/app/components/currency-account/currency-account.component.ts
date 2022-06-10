@@ -4,6 +4,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { CurrencyAccountService } from 'src/app/services/currency-account.service';
 import { CurrencyAccountModel } from './../../models/currencyAccountModel';
 import { NgxSpinnerService } from 'ngx-spinner';
+import * as XLSX  from 'xlsx';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-currency-account',
@@ -18,7 +21,7 @@ export class CurrencyAccountComponent implements OnInit {
   searchText : string = ''
 
   constructor(private currencyAccountService : CurrencyAccountService, private authService : AuthService, 
-    private spinner : NgxSpinnerService) { }
+    private spinner : NgxSpinnerService, private toastrService : ToastrService, private router : Router) { }
 
   ngOnInit(): void {
     this.refresh()
@@ -40,8 +43,20 @@ export class CurrencyAccountComponent implements OnInit {
       console.log(res)
     }, err => {
       this.spinner.hide()
+      this.authService.logout()
       console.log(err)
     })
   }
+
+  exportToExcel() {
+    let currencyAccountTable = document.getElementById('currencyAccountTable') 
+    let ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(currencyAccountTable)
+    let wb: XLSX.WorkBook = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, 'Cari Listesi')
+    XLSX.writeFile(wb, 'Cari Listesi.xlsx')
+  }
+
+
+
 
 }

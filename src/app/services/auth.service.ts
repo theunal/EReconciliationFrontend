@@ -6,6 +6,7 @@ import { LoginModel } from '../models/loginModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
 import { TokenModel } from './../models/tokenModel';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,8 @@ export class AuthService {
 
   isAuth : boolean = false
 
-  constructor(@Inject('api') private api : string, private httpClient : HttpClient, private router : Router) { }
+  constructor(@Inject('api') private api : string, private httpClient : HttpClient, private router : Router,
+  private toastrService : ToastrService) { }
 
   isAuthenticated() {
     if (localStorage.getItem('token')) {
@@ -33,7 +35,8 @@ export class AuthService {
  logout() {
     localStorage.removeItem('token')
     this.isAuth = false
-    this.router.navigate(['/'])
+    this.router.navigate(['/login'])
+    this.toastrService.error('Bir Hata oluştu.')
   }
 
 
