@@ -6,7 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CurrentAccountModel } from 'src/app/models/currentAccountModel';
 import { AuthService } from 'src/app/services/auth.service';
-import { CurrencyAccountService } from 'src/app/services/currency-account.service';
+import { CurrentAccountService } from 'src/app/services/current-account.service';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -18,21 +18,24 @@ export class CurrentAccountComponent implements OnInit {
 
   jwtHelper: JwtHelperService = new JwtHelperService()
   currentAccounts: CurrentAccountModel[] = []
+  currentAccount: CurrentAccountModel
   companyId: number
   searchText: string = ''
 
   currentAccountUpdateForm: FormGroup
-  checkboxTrue: boolean = true
-  checkboxFalse: boolean = false
+  checkboxUpdateTrue: boolean = false
+  checkboxUpdateFalse: boolean = false
+  currentAccountId: number
 
   addCurrencyAccountForm: FormGroup
+  checkboxTrue: boolean = true
+  checkboxFalse: boolean = false
 
   active: boolean = false
   passive: boolean = false
   currentListText: string = 'Cari Listesi'
 
-
-  constructor(private currencyAccountService: CurrencyAccountService, private authService: AuthService,
+  constructor(private currencyAccountService: CurrentAccountService, private authService: AuthService,
     private spinner: NgxSpinnerService, private toastrService: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
@@ -54,7 +57,6 @@ export class CurrentAccountComponent implements OnInit {
     this.currencyAccountService.getCurrencyAccounts(this.companyId).subscribe(res => {
       this.spinner.hide()
       this.currentAccounts = res.data
-      console.log(res)
     }, err => {
       this.spinner.hide()
       // this.authService.logout()
@@ -85,17 +87,6 @@ export class CurrentAccountComponent implements OnInit {
   }
 
 
-  createCurrentAccountUpdate() {
-    this.currentAccountUpdateForm = new FormGroup({
-      currentAccountName: new FormControl(''),
-      currentAccountCode: new FormControl(''),
-      currentAccountTaxDepartment: new FormControl(''),
-      currentAccountTaxIdNumber: new FormControl(''),
-      currentAccountEmail: new FormControl(''),
-      currentAccountAuthorized: new FormControl('')
-    })
-  }
-
   createCurrentAccountAdd() {
     this.addCurrencyAccountForm = new FormGroup({
       companyId: new FormControl(this.companyId),
@@ -107,13 +98,29 @@ export class CurrentAccountComponent implements OnInit {
       identityNumber: new FormControl(''),
       email: new FormControl(''),
       authorized: new FormControl(''),
+      addedAt: new FormControl(new Date())
+    })
+  }
+
+  createCurrentAccountUpdate() {
+    this.currentAccountUpdateForm = new FormGroup({
+      id: new FormControl(this.currentAccountId),
+      companyId: new FormControl(this.companyId),
+      name: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      code: new FormControl('', [Validators.required]),
+      address: new FormControl('', [Validators.required, Validators.minLength(10)]),
+      taxDepartment: new FormControl(''),
+      taxIdNumber: new FormControl(''),
+      identityNumber: new FormControl(''),
+      email: new FormControl(''),
+      authorized: new FormControl(''),
       addedAt: new FormControl(new Date()),
-      isActive: new FormControl(this.trueFalseStatus())
+      isActive: new FormControl('')
     })
   }
 
 
-
+  // aktif pasif listesi
   activeCheck() {
     this.active == true ? this.passive = false : this.active = false
     this.active == true ? this.currentListText = 'Aktif Cari Listesi' : this.currentListText = 'Cari Listesi'
@@ -125,7 +132,7 @@ export class CurrentAccountComponent implements OnInit {
   activePassiveStatus() {
     return this.active == true ? 'Aktif' : this.passive == true ? 'Pasif' : ''
   }
-
+  // aktif pasif listesi
 
   // current account add
   trueCheckbox() {
@@ -141,12 +148,28 @@ export class CurrentAccountComponent implements OnInit {
   }
   // current account add
 
+  // current account update
+  trueCheckboxUpdate() {
+    this.checkboxUpdateTrue == true ? this.checkboxUpdateFalse = false : this.checkboxUpdateTrue = false
+    this.checkboxUpdateTrue == false ? this.checkboxUpdateFalse = true : this.checkboxUpdateTrue = true
+  }
+  falseCheckboxUpdate() {
+    this.checkboxUpdateFalse == true ? this.checkboxUpdateTrue = false : this.checkboxUpdateFalse = false
+    this.checkboxUpdateFalse == false ? this.checkboxUpdateTrue = true : this.checkboxUpdateFalse = true
+  }
+  trueFalseStatusUpdate() {
+    return this.checkboxUpdateTrue == true ? true : false
+  }
+  // current account update
+
   add() {
     this.spinner.show()
     if (this.addCurrencyAccountForm.valid) {
       console.log('valide girdi')
-      let currencyAccount: CurrentAccountModel = this.addCurrencyAccountForm.value
-      this.currencyAccountService.add(currencyAccount).subscribe(res => {
+      let currentAccount: CurrentAccountModel = this.addCurrencyAccountForm.value
+      currentAccount.isActive = this.trueFalseStatus()
+      console.log("status:"+this.trueFalseStatus())
+      this.currencyAccountService.add(currentAccount).subscribe(res => {
         this.spinner.hide()
         this.toastrService.success('Cari Hesap Başarıyla Eklendi', this.addCurrencyAccountForm.value.name)
         this.getCurrencyAccounts()
@@ -163,8 +186,52 @@ export class CurrentAccountComponent implements OnInit {
     }
   }
 
+  getById(id: number) {
+    this.currencyAccountService.getById(id).subscribe(res => {
+      this.currentAccountUpdateForm.setValue({
+        id: res.data.id,
+        companyId: res.data.companyId,
+        name: res.data.name,
+        code: res.data.code,
+        address: res.data.address,
+        taxDepartment: res.data.taxDepartment,
+        taxIdNumber: res.data.taxIdNumber,
+        identityNumber: res.data.identityNumber,
+        email: res.data.email,
+        authorized: res.data.authorized,
+        addedAt: res.data.addedAt,
+        isActive: res.data.isActive
+      })
+      if (res.data.isActive) {
+        this.checkboxUpdateTrue = true
+        this.checkboxUpdateFalse = false
+      } else {
+        this.checkboxUpdateTrue = false
+        this.checkboxUpdateFalse = true
+      }
+    })
+  }
 
-
-
+  update() {
+    this.spinner.show()
+    if (this.currentAccountUpdateForm.valid) {
+      let currentAccount: CurrentAccountModel = this.currentAccountUpdateForm.value
+      currentAccount.isActive = this.trueFalseStatusUpdate()
+      this.currencyAccountService.update(currentAccount).subscribe(res => {
+        this.spinner.hide()
+        this.toastrService.success(res.message, this.currentAccountUpdateForm.value.name)
+        this.getCurrencyAccounts()
+        document.getElementById('updateCurrencyAccountModal').click()
+        this.createCurrentAccountUpdate()
+      }, err => {
+        this.spinner.hide()
+        console.log(err)
+      })
+    } else {
+      console.log('else e girdi')
+      this.spinner.hide()
+      this.toastrService.warning('Lütfen gerekli alanları doldurunuz.')
+    }
+  }
 
 }

@@ -58,7 +58,7 @@
                                 <input type="text" class="form-control" onfocus="focused(this)"
                                     onfocusout="defocused(this)"
                                     style="border-style: solid; border-color: red; border-width: 2px;"
-                                    [(ngModel)]='searchText' placeholder="Arama ifadesi giriniz" >
+                                    [(ngModel)]='searchText' placeholder="Arama ifadesi giriniz">
                             </div>
                         </div>
 
@@ -172,7 +172,8 @@
                                         <td class="align-middle">
                                             <div class="row justify-content-center mx-2">
                                                 <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#updateCurrencyAccountModal">
+                                                    data-bs-target="#updateCurrencyAccountModal"
+                                                    (click)="getById(currentAccount.id)">
                                                     Güncelle
                                                 </button>
                                             </div>
@@ -217,35 +218,55 @@
 
                 <form role="form" class="text-start" [formGroup]="currentAccountUpdateForm">
 
-                    <div class='input-group input-group-outline my-3'>
-                        <label class="form-label">Cari Adı</label>
-                        <input type="email" formControlName='currentAccountName' class="form-control"
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class='input-group input-group-outline my-3'>
+                                <input type="text" formControlName='name' placeholder="Cari Adı" class="form-control"
+                                    autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class='input-group input-group-outline my-3'>
+                                <input type="text" formControlName='code' class="form-control" placeholder="Cari Kodu"
+                                    autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group input-group-outline mb-3">
+                        <!-- <label class="form-label">Cari Adresi</label> -->
+                        <input type="text" formControlName='address' class="form-control" placeholder="Cari Adresi"
                             autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <label class="form-label">Cari Adresi</label>
-                        <input type="password" formControlName='currentAccountCode' class="form-control">
+                        <!-- <label class="form-label">Vergi Dairesi</label> -->
+                        <input type="text" formControlName='taxDepartment' class="form-control"
+                            placeholder="Vergi Dairesi" autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <label class="form-label">Vergi Dairesi</label>
-                        <input type="password" formControlName='currentAccountTaxDepartment' class="form-control">
+                        <!-- <label class="form-label">Vergi Numarası</label> -->
+                        <input type="text" formControlName='taxIdNumber' class="form-control" minlength="10"
+                            placeholder="Vergi Numarası" maxlength="10" autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <label class="form-label">Vergi Numarası</label>
-                        <input type="password" formControlName='currentAccountTaxIdNumber' class="form-control">
+                        <!-- <label class="form-label">T.C.K.N</label> -->
+                        <input type="text" formControlName='identityNumber' class="form-control" minlength="11"
+                            maxlength="11" placeholder="T.C.K.N" autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <label class="form-label">Mail Adresi</label>
-                        <input type="password" formControlName='currentAccountEmail' class="form-control">
+                        <!-- <label class="form-label">Mail Adresi</label> -->
+                        <input type="email" formControlName='email' class="form-control" placeholder="Mail Adresi"
+                            autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <label class="form-label">Yetkili Adı Soyadı</label>
-                        <input type="password" formControlName='currentAccountAuthorized' class="form-control">
+                        <!-- <label class="form-label">Yetkili Adı Soyadı</label> -->
+                        <input type="text" formControlName='authorized' class="form-control"
+                            placeholder="Yetkili Adı Soyadı" autocomplete="off">
                     </div>
 
                     <div class="form-check form-check-info text-start ps-0">
@@ -257,22 +278,25 @@
                             <div class="col-md-3">
                                 <label class="form-check-label mx-1" for="checkboxTrue">Aktif</label>
                                 <input class="form-check-input" type="checkbox" value="" id="checkboxTrue"
-                                    [(ngModel)]='checkboxTrue' [ngModelOptions]="{standalone: true}">
+                                    [(ngModel)]='checkboxUpdateTrue' [ngModelOptions]="{standalone: true}"
+                                    (change)="trueCheckboxUpdate()">
                             </div>
 
                             <div class="col-md-3">
                                 <label class="form-check-label mx-1" for="checkboxTrue">Pasif</label>
                                 <input class="form-check-input" type="checkbox" value="" id="checkboxFalse"
-                                    [(ngModel)]='checkboxFalse' [ngModelOptions]="{standalone: true}">
+                                    [(ngModel)]='checkboxUpdateFalse' [ngModelOptions]="{standalone: true}"
+                                    (change)="falseCheckboxUpdate()">
                             </div>
                         </div>
 
                     </div>
+
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" (click)="update()">Gönder</button>
             </div>
         </div>
     </div>
@@ -369,7 +393,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                <button type="button" class="btn btn-primary" (click)="add()">Gönder</button>
+                <button type="submit" class="btn btn-primary" (click)="add()">Gönder</button>
             </div>
         </div>
     </div>
