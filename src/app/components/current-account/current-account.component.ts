@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -15,19 +15,22 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./current-account.component.css']
 })
 export class CurrentAccountComponent implements OnInit {
+
   jwtHelper: JwtHelperService = new JwtHelperService()
   currentAccounts: CurrentAccountModel[] = []
   companyId: number
   searchText: string = ''
 
   currentAccountUpdateForm: FormGroup
-  checkboxTrue: boolean = false
+  checkboxTrue: boolean = true
   checkboxFalse: boolean = false
 
+  addCurrencyAccountForm: FormGroup
 
   active: boolean = false
   passive: boolean = false
   currentListText: string = 'Cari Listesi'
+
 
   constructor(private currencyAccountService: CurrencyAccountService, private authService: AuthService,
     private spinner: NgxSpinnerService, private toastrService: ToastrService, private router: Router) { }
@@ -36,6 +39,7 @@ export class CurrentAccountComponent implements OnInit {
     this.refresh()
     this.getCurrencyAccounts()
     this.createCurrentAccountUpdate()
+    this.createCurrentAccountAdd()
   }
 
   refresh() {
@@ -59,11 +63,15 @@ export class CurrentAccountComponent implements OnInit {
   }
 
   exportToExcel() {
-    let currencyAccountTable = document.getElementById('currencyAccountTable')
-    let ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(currencyAccountTable)
-    let wb: XLSX.WorkBook = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb, ws, 'Cari Listesi')
-    XLSX.writeFile(wb, 'Cari Listesi.xlsx')
+    if (this.currentAccounts.length > 0) {
+      let currencyAccountTable = document.getElementById('currencyAccountTable')
+      let ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(currencyAccountTable)
+      let wb: XLSX.WorkBook = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, ws, 'Cari Listesi')
+      XLSX.writeFile(wb, `${this.currentListText}.xlsx`)
+    } else {
+      this.toastrService.info('Cari Listesi Boş')
+    }
   }
 
 
@@ -88,6 +96,22 @@ export class CurrentAccountComponent implements OnInit {
     })
   }
 
+  createCurrentAccountAdd() {
+    this.addCurrencyAccountForm = new FormGroup({
+      companyId: new FormControl(this.companyId),
+      name: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      code: new FormControl('', [Validators.required]),
+      address: new FormControl('', [Validators.required, Validators.minLength(10)]),
+      taxDepartment: new FormControl(''),
+      taxIdNumber: new FormControl(''),
+      identityNumber: new FormControl(''),
+      email: new FormControl(''),
+      authorized: new FormControl(''),
+      addedAt: new FormControl(new Date()),
+      isActive: new FormControl(this.trueFalseStatus())
+    })
+  }
+
 
 
   activeCheck() {
@@ -101,5 +125,46 @@ export class CurrentAccountComponent implements OnInit {
   activePassiveStatus() {
     return this.active == true ? 'Aktif' : this.passive == true ? 'Pasif' : ''
   }
+
+
+  // current account add
+  trueCheckbox() {
+    this.checkboxTrue == true ? this.checkboxFalse = false : this.checkboxTrue = false
+    this.checkboxTrue == false ? this.checkboxFalse = true : this.checkboxTrue = true
+  }
+  falseCheckbox() {
+    this.checkboxFalse == true ? this.checkboxTrue = false : this.checkboxFalse = false
+    this.checkboxFalse == false ? this.checkboxTrue = true : this.checkboxFalse = true
+  }
+  trueFalseStatus() {
+    return this.checkboxTrue == true ? true : false
+  }
+  // current account add
+
+  add() {
+    this.spinner.show()
+    if (this.addCurrencyAccountForm.valid) {
+      console.log('valide girdi')
+      let currencyAccount: CurrentAccountModel = this.addCurrencyAccountForm.value
+      this.currencyAccountService.add(currencyAccount).subscribe(res => {
+        this.spinner.hide()
+        this.toastrService.success('Cari Hesap Başarıyla Eklendi', this.addCurrencyAccountForm.value.name)
+        this.getCurrencyAccounts()
+        document.getElementById('addCurrencyAccountModal').click()
+        this.createCurrentAccountAdd()
+      }, err => {
+        this.spinner.hide()
+        this.toastrService.error(err.error)
+      })
+    } else {
+      console.log('else e girdi')
+      this.spinner.hide()
+      this.toastrService.warning('Lütfen gerekli alanları doldurunuz.')
+    }
+  }
+
+
+
+
 
 }

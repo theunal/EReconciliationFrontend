@@ -41,7 +41,7 @@ import { CurrentAccountActivePassivePipe } from './pipes/current-account-active-
     HttpClientModule,
     NgxSpinnerModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}), // konsolda ngModel için sarı uyarı vermesin diye
     BrowserAnimationsModule,
     SweetAlert2Module.forRoot(), 
     ToastrModule.forRoot({

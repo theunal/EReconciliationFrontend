@@ -23,6 +23,10 @@ export class CurrencyAccountService {
     return this.httpClient.post<ResponseModel>(url,'')
   }
 
+  add(currentAccount : CurrentAccountModel) : Observable<ResponseModel> {
+    let url = this.api + 'CurrencyAccounts/add'
+    return this.httpClient.post<ResponseModel>(url, currentAccount)
+  }
 
 
 
