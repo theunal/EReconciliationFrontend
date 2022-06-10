@@ -22,6 +22,37 @@
                 <div class="row">
                     <div class="col-md-12">
 
+
+                        <!-- <div class="col-md-1 mt-3" style=" float: left;">
+                            <div class="form-check form-switch d-flex align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="Tümü" [(ngModel)]='all'
+                                    (change)="listCheck()">
+                                <label class="form-check-label mb-0 ms-2" for="Tümü">
+                                    Tümü
+                                </label>
+                            </div>
+                        </div> -->
+
+                        <div class="col-md-1 mt-3" style=" float: left;">
+                            <div class="form-check form-switch d-flex align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="Aktif" [(ngModel)]='active'
+                                    (change)="activeCheck()">
+                                <label class="form-check-label mb-0 ms-2" for="Aktif">
+                                    Aktif
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 mt-3" style=" float: left;">
+                            <div class="form-check form-switch d-flex align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="Pasif" [(ngModel)]='passive'
+                                    (change)="passiveCheck()">
+                                <label class="form-check-label mb-0 ms-2" for="Pasif">
+                                    Pasif
+                                </label>
+                            </div>
+                        </div>
+
                         <div class="col-md-3 mt-2" style=" float: left;">
                             <div class="input-group input-group-outline">
                                 <input type="text" class="form-control" onfocus="focused(this)"
@@ -59,7 +90,7 @@
 
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3">Cari Listesi</h6>
+                            <h6 class="text-white text-capitalize ps-3">{{currentListText}}</h6>
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
@@ -90,50 +121,50 @@
 
                                 <tbody>
                                     <tr
-                                        *ngFor="let currencyAccount of currencyAccounts | currencyAccountPipe : searchText">
+                                        *ngFor="let currentAccount of currentAccounts | currentAccountSearchPipe : searchText">
 
                                         <td>
                                             <div class="px-2 py-1">
                                                 <h6 class="mb-0 text-m text-uppercase">
-                                                    {{currencyAccount.name}}
+                                                    {{currentAccount.name}}
                                                 </h6>
                                                 <p class="text-xm text-secondary mb-0">
-                                                    {{currencyAccount.code}}
+                                                    {{currentAccount.code}}
                                                 </p>
                                                 <p class="text-xm text-secondary mb-0">
-                                                    {{currencyAccount.address}}
+                                                    {{currentAccount.address}}
                                                 </p>
                                             </div>
                                         </td>
 
                                         <td class="text-center">
                                             <h6 class="mb-0 text-m text-uppercase">
-                                                {{currencyAccount.taxDepartment}}
+                                                {{currentAccount.taxDepartment}}
                                             </h6>
                                             <p class="text-xm text-secondary mb-0">
-                                                {{currencyAccount.taxIdNumber}}
+                                                {{currentAccount.taxIdNumber}}
                                             </p>
                                             <p class="text-xm text-secondary mb-0">
-                                                {{currencyAccount.identityNumber}}
+                                                {{currentAccount.identityNumber}}
                                             </p>
                                         </td>
                                         <td>
                                             <h6 class="mb-0 text-s">
-                                                {{currencyAccount.email}}
+                                                {{currentAccount.email}}
                                             </h6>
                                         </td>
                                         <td>
                                             <h6 class="mb-0 text-s">
-                                                {{currencyAccount.authorized}}
+                                                {{currentAccount.authorized}}
                                             </h6>
                                         </td>
                                         <td class="text-center">
                                             <h6 class="mb-0 text-s">
-                                                {{currencyAccount.addedAt | date : 'short'}}
+                                                {{currentAccount.addedAt | date : 'short'}}
                                             </h6>
-                                            <span *ngIf='currencyAccount.isActive'
+                                            <span *ngIf='currentAccount.isActive'
                                                 class="badge badge-sm bg-gradient-success">Aktif</span>
-                                            <span *ngIf='currencyAccount.isActive == false'
+                                            <span *ngIf='currentAccount.isActive == false'
                                                 class="badge badge-sm bg-gradient-danger">Pasif</span>
                                         </td>
                                         <td class="align-middle">
@@ -145,12 +176,10 @@
                                             </div>
                                             <div class="row justify-content-center mx-2">
                                                 <button class="btn btn-sm btn-danger"
-                                                    (confirm)="delete(currencyAccount)" [swal]="deleteCurrencyAccount">
+                                                    (confirm)="delete(currentAccount)" [swal]="deleteCurrencyAccount">
                                                     Sil
                                                 </button>
                                             </div>
-
-
                                         </td>
                                     </tr>
 
@@ -172,3 +201,94 @@
     [showCancelButton]="true" confirmButtonText="Evet" cancelButtonText="Hayır" confirmButtonColor="#ff0000"
     cancelButtonColor="#00ff00" [focusCancel]="true">
 </swal>
+
+
+
+<div class="modal fade" id="updateCurrencyAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cari Hesabı Güncelle</h5>
+            </div>
+            <div class="modal-body">
+
+                <form role="form" class="text-start" [formGroup]="currentAccountUpdateForm">
+
+                    <div class='input-group input-group-outline my-3'>
+                        <label class="form-label">Cari Adı</label>
+                        <input type="email" formControlName='currentAccountName' class="form-control"
+                            autocomplete="off">
+                    </div>
+
+                    <div class="input-group input-group-outline mb-3">
+                        <label class="form-label">Cari Adresi</label>
+                        <input type="password" formControlName='currentAccountCode' class="form-control">
+                    </div>
+
+                    <div class="input-group input-group-outline mb-3">
+                        <label class="form-label">Vergi Dairesi</label>
+                        <input type="password" formControlName='currentAccountTaxDepartment' class="form-control">
+                    </div>
+
+                    <div class="input-group input-group-outline mb-3">
+                        <label class="form-label">Vergi Numarası</label>
+                        <input type="password" formControlName='currentAccountTaxIdNumber' class="form-control">
+                    </div>
+
+                    <div class="input-group input-group-outline mb-3">
+                        <label class="form-label">Mail Adresi</label>
+                        <input type="password" formControlName='currentAccountEmail' class="form-control">
+                    </div>
+
+                    <div class="input-group input-group-outline mb-3">
+                        <label class="form-label">Yetkili Adı Soyadı</label>
+                        <input type="password" formControlName='currentAccountAuthorized' class="form-control">
+                    </div>
+
+
+                    <div class="form-check form-check-info text-start ps-0">
+
+                        <div class="row">
+
+                            <div class="col-md-3">Durumu</div>
+
+                            <div class="col-md-3">
+                                <label class="form-check-label mx-1" for="checkboxTrue">Aktif</label>
+                                <input class="form-check-input" type="checkbox" value="" id="checkboxTrue"
+                                    [(ngModel)]='checkboxTrue' [ngModelOptions]="{standalone: true}">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-check-label mx-1" for="checkboxTrue">Pasif</label>
+                                <input class="form-check-input" type="checkbox" value="" id="checkboxFalse"
+                                    [(ngModel)]='checkboxFalse' [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+                </form>
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

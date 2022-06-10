@@ -16,9 +16,10 @@ import { MailConfirmComponent } from './components/mail-confirm/mail-confirm.com
 import { PasswordResetComponent } from './components/password-reset/password-reset.component';
 import { NavComponent } from './components/nav/nav.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { CurrencyAccountComponent } from './components/currency-account/currency-account.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
-import { CurrencyAccountPipe } from './pipes/currency-account.pipe';
+import { CurrentAccountPipe } from './pipes/current-account.pipe';
+import { CurrentAccountActivePasivePipe } from './pipes/current-account-active-pasive.pipe';
+import { CurrentAccountComponent } from './components/current-account/current-account.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +31,9 @@ import { CurrencyAccountPipe } from './pipes/currency-account.pipe';
     PasswordResetComponent,
     NavComponent,
     SidenavComponent,
-    CurrencyAccountComponent,
-    CurrencyAccountPipe
+    CurrentAccountPipe,
+    CurrentAccountActivePasivePipe,
+    CurrentAccountComponent
   ],
   imports: [
     BrowserModule,

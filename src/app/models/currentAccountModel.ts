@@ -1,6 +1,6 @@
 
 
-export interface CurrencyAccountModel {
+export interface CurrentAccountModel {
 
     id: number;
     companyId: number;

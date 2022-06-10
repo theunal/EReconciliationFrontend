@@ -1,24 +1,33 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { CurrentAccountModel } from 'src/app/models/currentAccountModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { CurrencyAccountService } from 'src/app/services/currency-account.service';
-import { CurrencyAccountModel } from './../../models/currencyAccountModel';
-import { NgxSpinnerService } from 'ngx-spinner';
 import * as XLSX  from 'xlsx';
-import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-currency-account',
-  templateUrl: './currency-account.component.html',
-  styleUrls: ['./currency-account.component.css']
+  selector: 'app-current-account',
+  templateUrl: './current-account.component.html',
+  styleUrls: ['./current-account.component.css']
 })
-export class CurrencyAccountComponent implements OnInit {
-
+export class CurrentAccountComponent implements OnInit {
   jwtHelper : JwtHelperService = new JwtHelperService()
-  currencyAccounts : CurrencyAccountModel[] = []
+  currentAccounts : CurrentAccountModel[] = []
   companyId : number
   searchText : string = ''
+
+  currentAccountUpdateForm : FormGroup
+  checkboxTrue : boolean = false
+  checkboxFalse : boolean = false
+
+  all : boolean = false
+  active : boolean = false
+  passive : boolean = false
+  currentListText : string = 'Cari Listesi'
 
   constructor(private currencyAccountService : CurrencyAccountService, private authService : AuthService, 
     private spinner : NgxSpinnerService, private toastrService : ToastrService, private router : Router) { }
@@ -26,6 +35,7 @@ export class CurrencyAccountComponent implements OnInit {
   ngOnInit(): void {
     this.refresh()
     this.getCurrencyAccounts()
+    this.createCurrentAccountUpdate()
   }
 
   refresh() {
@@ -39,7 +49,7 @@ export class CurrencyAccountComponent implements OnInit {
     this.spinner.show()
     this.currencyAccountService.getCurrencyAccounts(this.companyId).subscribe(res => {
       this.spinner.hide()
-      this.currencyAccounts = res.data
+      this.currentAccounts = res.data
       console.log(res)
     }, err => {
       this.spinner.hide()
@@ -67,5 +77,28 @@ export class CurrencyAccountComponent implements OnInit {
   }
 
 
+  createCurrentAccountUpdate() {
+    this.currentAccountUpdateForm = new FormGroup({
+      currentAccountName: new FormControl(''),
+      currentAccountCode: new FormControl(''),
+      currentAccountTaxDepartment: new FormControl(''),
+      currentAccountTaxIdNumber: new FormControl(''),
+      currentAccountEmail: new FormControl(''),
+      currentAccountAuthorized: new FormControl('')
+    })
+  }
+
+
+
+  activeCheck() {
+    this.active == true ? this.passive = false : this.active = false
+    this.active == true ?  this.currentListText = 'Aktif Cari Listesi' : this.currentListText = 'Cari Listesi'
+   
+  }
+
+  passiveCheck() {
+    this.passive == true ? this.active = false : this.passive = false
+    this.passive == true ?  this.currentListText = 'Pasif Cari Listesi' : this.currentListText = 'Cari Listesi'
+  }
 
 }

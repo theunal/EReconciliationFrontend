@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CurrentAccountModel } from '../models/currentAccountModel';
 import { ListResponseModel } from '../models/listResponseModel';
 import { ResponseModel } from '../models/responseModel';
-import { CurrencyAccountModel } from './../models/currencyAccountModel';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,9 @@ export class CurrencyAccountService {
   constructor(@Inject('api') private api: string, private httpClient: HttpClient) { }
 
 
-  getCurrencyAccounts(companyId : number) : Observable<ListResponseModel<CurrencyAccountModel>>{
+  getCurrencyAccounts(companyId : number) : Observable<ListResponseModel<CurrentAccountModel>>{
     let url = this.api + 'CurrencyAccounts/getAllByCompanyId?companyId=' + companyId
-    return this.httpClient.get<ListResponseModel<CurrencyAccountModel>>(url)
+    return this.httpClient.get<ListResponseModel<CurrentAccountModel>>(url)
   }
 
   delete(currencyAccountId : number) : Observable<ResponseModel> {
