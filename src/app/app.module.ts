@@ -18,8 +18,8 @@ import { NavComponent } from './components/nav/nav.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { CurrentAccountPipe } from './pipes/current-account.pipe';
-import { CurrentAccountActivePasivePipe } from './pipes/current-account-active-pasive.pipe';
 import { CurrentAccountComponent } from './components/current-account/current-account.component';
+import { CurrentAccountActivePassivePipe } from './pipes/current-account-active-passive.pipe';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import { CurrentAccountComponent } from './components/current-account/current-ac
     NavComponent,
     SidenavComponent,
     CurrentAccountPipe,
-    CurrentAccountActivePasivePipe,
+    CurrentAccountActivePassivePipe,
     CurrentAccountComponent
   ],
   imports: [

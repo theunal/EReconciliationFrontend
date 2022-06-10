@@ -121,7 +121,8 @@
 
                                 <tbody>
                                     <tr
-                                        *ngFor="let currentAccount of currentAccounts | currentAccountSearchPipe : searchText">
+                                        *ngFor="let currentAccount of currentAccounts 
+                                        | currentAccountSearchPipe : searchText | currentAccountActivePassive : activePassiveStatus()">
 
                                         <td>
                                             <div class="px-2 py-1">

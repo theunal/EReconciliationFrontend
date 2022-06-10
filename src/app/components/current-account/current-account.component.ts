@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CurrentAccountModel } from 'src/app/models/currentAccountModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { CurrencyAccountService } from 'src/app/services/currency-account.service';
-import * as XLSX  from 'xlsx';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-current-account',
@@ -15,22 +15,22 @@ import * as XLSX  from 'xlsx';
   styleUrls: ['./current-account.component.css']
 })
 export class CurrentAccountComponent implements OnInit {
-  jwtHelper : JwtHelperService = new JwtHelperService()
-  currentAccounts : CurrentAccountModel[] = []
-  companyId : number
-  searchText : string = ''
+  jwtHelper: JwtHelperService = new JwtHelperService()
+  currentAccounts: CurrentAccountModel[] = []
+  companyId: number
+  searchText: string = ''
 
-  currentAccountUpdateForm : FormGroup
-  checkboxTrue : boolean = false
-  checkboxFalse : boolean = false
+  currentAccountUpdateForm: FormGroup
+  checkboxTrue: boolean = false
+  checkboxFalse: boolean = false
 
-  all : boolean = false
-  active : boolean = false
-  passive : boolean = false
-  currentListText : string = 'Cari Listesi'
 
-  constructor(private currencyAccountService : CurrencyAccountService, private authService : AuthService, 
-    private spinner : NgxSpinnerService, private toastrService : ToastrService, private router : Router) { }
+  active: boolean = false
+  passive: boolean = false
+  currentListText: string = 'Cari Listesi'
+
+  constructor(private currencyAccountService: CurrencyAccountService, private authService: AuthService,
+    private spinner: NgxSpinnerService, private toastrService: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
     this.refresh()
@@ -53,13 +53,13 @@ export class CurrentAccountComponent implements OnInit {
       console.log(res)
     }, err => {
       this.spinner.hide()
-     // this.authService.logout()
+      // this.authService.logout()
       console.log(err)
     })
   }
 
   exportToExcel() {
-    let currencyAccountTable = document.getElementById('currencyAccountTable') 
+    let currencyAccountTable = document.getElementById('currencyAccountTable')
     let ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(currencyAccountTable)
     let wb: XLSX.WorkBook = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(wb, ws, 'Cari Listesi')
@@ -67,7 +67,7 @@ export class CurrentAccountComponent implements OnInit {
   }
 
 
-  delete(currencyAccount : any) {
+  delete(currencyAccount: any) {
     this.currencyAccountService.delete(currencyAccount.id).subscribe(res => {
       this.toastrService.success('Cari Hesabı Başarıyla Silindi', 'Başarılı')
       this.getCurrencyAccounts()
@@ -92,13 +92,14 @@ export class CurrentAccountComponent implements OnInit {
 
   activeCheck() {
     this.active == true ? this.passive = false : this.active = false
-    this.active == true ?  this.currentListText = 'Aktif Cari Listesi' : this.currentListText = 'Cari Listesi'
-   
+    this.active == true ? this.currentListText = 'Aktif Cari Listesi' : this.currentListText = 'Cari Listesi'
   }
-
   passiveCheck() {
     this.passive == true ? this.active = false : this.passive = false
-    this.passive == true ?  this.currentListText = 'Pasif Cari Listesi' : this.currentListText = 'Cari Listesi'
+    this.passive == true ? this.currentListText = 'Pasif Cari Listesi' : this.currentListText = 'Cari Listesi'
+  }
+  activePassiveStatus() {
+    return this.active == true ? 'Aktif' : this.passive == true ? 'Pasif' : ''
   }
 
 }
