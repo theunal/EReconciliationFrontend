@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -40,6 +41,7 @@ import { CurrencyAccountPipe } from './pipes/currency-account.pipe';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    SweetAlert2Module.forRoot(), 
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       progressBar: true,

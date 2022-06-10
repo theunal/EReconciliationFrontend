@@ -43,7 +43,7 @@ export class CurrencyAccountComponent implements OnInit {
       console.log(res)
     }, err => {
       this.spinner.hide()
-      this.authService.logout()
+     // this.authService.logout()
       console.log(err)
     })
   }
@@ -56,6 +56,15 @@ export class CurrencyAccountComponent implements OnInit {
     XLSX.writeFile(wb, 'Cari Listesi.xlsx')
   }
 
+
+  delete(currencyAccount : any) {
+    this.currencyAccountService.delete(currencyAccount.id).subscribe(res => {
+      this.toastrService.success('Cari Hesabı Başarıyla Silindi', 'Başarılı')
+      this.getCurrencyAccounts()
+    }, err => {
+      this.toastrService.error(err.error, currencyAccount.name)
+    })
+  }
 
 
 
