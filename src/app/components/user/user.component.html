@@ -1,8 +1,6 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 
         bg-gradient-dark" id="sidenav-main">
-
     <app-sidenav></app-sidenav>
-
 </aside>
 
 
@@ -23,7 +21,7 @@
 
                     <div class="col-md-12">
 
-                        <div *ngIf="currentAccountGetall" class="col-md-1 mt-3" style=" float: left;">
+                        <div *ngIf="userGetAll" class="col-md-1 mt-3" style=" float: left;">
                             <div class="form-check form-switch d-flex align-items-center mb-3">
                                 <input class="form-check-input" type="checkbox" id="Aktif" [(ngModel)]='active'
                                     (change)="activeCheck()">
@@ -33,7 +31,7 @@
                             </div>
                         </div>
 
-                        <div *ngIf="currentAccountGetall" class="col-md-1 mt-3" style=" float: left;">
+                        <div *ngIf="userGetAll" class="col-md-1 mt-3" style=" float: left;">
                             <div class="form-check form-switch d-flex align-items-center mb-3">
                                 <input class="form-check-input" type="checkbox" id="Pasif" [(ngModel)]='passive'
                                     (change)="passiveCheck()">
@@ -43,7 +41,7 @@
                             </div>
                         </div>
 
-                        <div *ngIf="currentAccountGetall" class="col-md-3 mt-2" style=" float: left;">
+                        <div *ngIf="userGetAll" class="col-md-3 mt-2" style=" float: left;">
                             <div class="input-group input-group-outline">
                                 <input type="text" class="form-control" onfocus="focused(this)"
                                     onfocusout="defocused(this)"
@@ -55,23 +53,16 @@
 
                         <div class="col-md-6" style=" float: right;">
 
-                            <button *ngIf="currentAccountGetall" type="button" class="btn btn-lg bg-gradient-danger mx-2"
+                            <button *ngIf="userGetAll" type="button" class="btn btn-lg bg-gradient-success mx-2"
                                 (click)="exportToExcel()" style=" float: right;">
                                 <i class="fa-solid fa-download" style="font-size: 15px; margin-right: 5px;"></i>
-                                Cari Listesini Excel'e Aktar
+                                Kullanıcı Listesini Excel'e Aktar
                             </button>
 
-                            <button *ngIf="currentAccountAdd" type="button" class="btn btn-lg bg-gradient-success mx-2"
-                                style=" float: right;" data-bs-toggle="modal"
-                                data-bs-target="#addFromExcelCurrencyAccountModal">
-                                <i class="fa-solid fa-file-excel" style="font-size: 15px; margin-right: 5px;"></i>
-                                Cari Ekle (Excel)
-                            </button>
-
-                            <button *ngIf="currentAccountAdd" type="button" class="btn btn-lg bg-gradient-info mx-2"
+                            <button *ngIf="userAdd" type="button" class="btn btn-lg bg-gradient-secondary mx-2"
                                 style=" float: right;" data-bs-toggle="modal" data-bs-target="#addCurrencyAccountModal">
                                 <i class="fa-solid fa-user-plus" style="font-size: 14px; margin-right: 5px;"></i>
-                                Cari Ekle
+                                Kullanıcı Ekle
                             </button>
                         </div>
                     </div>
@@ -80,10 +71,10 @@
 
                 </div>
 
-                <div *ngIf="currentAccountGetall" class="card my-4">
+                <div *ngIf="userGetAll" class="card my-4">
 
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <div class="bg-gradient-info shadow-primary border-radius-lg pt-4 pb-3">
                             <h6 class="text-white text-capitalize ps-3">{{currentListText}}</h6>
                         </div>
                     </div>
@@ -107,7 +98,7 @@
                                         <th class=" text-secondary text-xs font-weight-bolder opacity-7">
                                             Kayıt Tarihi / Durumu
                                         </th>
-                                        <th *ngIf="!(!currentAccountDelete && !currentAccountUpdate)"
+                                        <th *ngIf="!(!userDelete && !userUpdate)"
                                             class="text-center text-secondary text-xs font-weight-bolder opacity-7">
                                             İşlemler
                                         </th>
@@ -116,65 +107,65 @@
 
                                 <tbody>
                                     <tr
-                                        *ngFor="let currentAccount of currentAccounts 
+                                        *ngFor="let user of users 
                                         | currentAccountSearchPipe : searchText | currentAccountActivePassive : activePassiveStatus()">
 
                                         <td>
                                             <div class="px-2 py-1">
                                                 <h6 class="mb-0 text-m text-uppercase">
-                                                    {{currentAccount.name}}
+                                                    {{user.name}}
                                                 </h6>
                                                 <p class="text-xm text-secondary mb-0">
-                                                    {{currentAccount.code}}
+                                                    {{user.code}}
                                                 </p>
                                                 <p class="text-xm text-secondary mb-0">
-                                                    {{currentAccount.address}}
+                                                    {{user.address}}
                                                 </p>
                                             </div>
                                         </td>
 
                                         <td class="text-center">
                                             <h6 class="mb-0 text-m text-uppercase">
-                                                {{currentAccount.taxDepartment}}
+                                                {{user.taxDepartment}}
                                             </h6>
                                             <p class="text-xm text-secondary mb-0">
-                                                {{currentAccount.taxIdNumber}}
+                                                {{user.taxIdNumber}}
                                             </p>
                                             <p class="text-xm text-secondary mb-0">
-                                                {{currentAccount.identityNumber}}
+                                                {{user.identityNumber}}
                                             </p>
                                         </td>
                                         <td>
                                             <h6 class="mb-0 text-s">
-                                                {{currentAccount.email}}
+                                                {{user.email}}
                                             </h6>
                                         </td>
                                         <td>
                                             <h6 class="mb-0 text-s">
-                                                {{currentAccount.authorized}}
+                                                {{user.authorized}}
                                             </h6>
                                         </td>
                                         <td class="text-center">
                                             <h6 class="mb-0 text-s">
-                                                {{currentAccount.addedAt | date : 'short'}}
+                                                {{user.addedAt | date : 'short'}}
                                             </h6>
-                                            <span *ngIf='currentAccount.isActive'
+                                            <span *ngIf='user.isActive'
                                                 class="badge badge-sm bg-gradient-success">Aktif</span>
-                                            <span *ngIf='currentAccount.isActive == false'
+                                            <span *ngIf='user.isActive == false'
                                                 class="badge badge-sm bg-gradient-danger">Pasif</span>
                                         </td>
-                                        <td *ngIf="!(!currentAccountDelete && !currentAccountUpdate)" class="align-middle">
+                                        <td *ngIf="!(!userDelete && !userUpdate)" class="align-middle">
                                             <div class="row justify-content-center mx-2">
-                                                <button *ngIf="currentAccountUpdate" type="button"
+                                                <button *ngIf="userUpdate" type="button"
                                                     class="btn btn-info btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#updateCurrencyAccountModal"
-                                                    (click)="getById(currentAccount.id)">
+                                                    (click)="getById(user.id)">
                                                     Güncelle
                                                 </button>
                                             </div>
                                             <div class="row justify-content-center mx-2">
-                                                <button *ngIf="currentAccountDelete" class="btn btn-sm btn-danger"
-                                                    (confirm)="delete(currentAccount)" [swal]="deleteCurrencyAccount">
+                                                <button *ngIf="userDelete" class="btn btn-sm btn-danger"
+                                                    (confirm)="delete(user)" [swal]="deleteCurrencyAccount">
                                                     Sil
                                                 </button>
                                             </div>
@@ -188,7 +179,7 @@
                     </div>
                 </div>
 
-                <p *ngIf="!currentAccountGetall"
+                <p *ngIf="!userGetAll"
                     class="alert alert-danger rounded-pill w-50 text-center mx-auto mt-5 text-white text-bold"
                     role="alert" style="font-size: 18px;">Listeyi görüntülemeye yetkiniz yok.
                 </p>
@@ -200,10 +191,12 @@
 
 </main>
 
-<swal type="question" #deleteCurrencyAccount title="Sil" text="Cari hesabı silmek istiyor musunuz?"
+<swal type="question" #deleteCurrencyAccount title="Sil" text="Kullanıcıyı silmek istiyor musunuz?"
     [showCancelButton]="true" confirmButtonText="Evet" cancelButtonText="Hayır" confirmButtonColor="#ff0000"
     cancelButtonColor="#00ff00" [focusCancel]="true">
 </swal>
+
+
 
 <!-- cari add -->
 <div class="modal fade" id="addCurrencyAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -211,23 +204,21 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Cari Hesap Ekle</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Yeni Kullanıcı Ekle</h5>
             </div>
             <div class="modal-body">
 
-                <form role="form" class="text-start" [formGroup]="addCurrencyAccountForm">
+                <!-- <form role="form" class="text-start" [formGroup]="addUserForm">
 
                     <div class="row">
                         <div class="col-md-6">
                             <div class='input-group input-group-outline my-3'>
-                                <!-- <label class="form-label">Cari Adı</label> -->
                                 <input type="text" formControlName='name' placeholder="Cari Adı" class="form-control"
                                     autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class='input-group input-group-outline my-3'>
-                                <!-- <label class="form-label">Cari Kodu</label> -->
                                 <input type="text" formControlName='code' class="form-control" placeholder="Cari Kodu"
                                     autocomplete="off">
                             </div>
@@ -235,37 +226,31 @@
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Cari Adresi</label> -->
                         <input type="text" formControlName='address' class="form-control" placeholder="Cari Adresi"
                             autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Vergi Dairesi</label> -->
                         <input type="text" formControlName='taxDepartment' class="form-control"
                             placeholder="Vergi Dairesi" autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Vergi Numarası</label> -->
                         <input type="text" formControlName='taxIdNumber' class="form-control" minlength="10"
                             placeholder="Vergi Numarası" maxlength="10" autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">T.C.K.N</label> -->
                         <input type="text" formControlName='identityNumber' class="form-control" minlength="11"
                             maxlength="11" placeholder="T.C.K.N" autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Mail Adresi</label> -->
                         <input type="email" formControlName='email' class="form-control" placeholder="Mail Adresi"
                             autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Yetkili Adı Soyadı</label> -->
                         <input type="text" formControlName='authorized' class="form-control"
                             placeholder="Yetkili Adı Soyadı" autocomplete="off">
                     </div>
@@ -290,7 +275,8 @@
                         </div>
 
                     </div>
-                </form>
+                </form> -->
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
@@ -301,48 +287,17 @@
 </div>
 <!-- cari add -->
 
-<!-- cari excel add -->
-<div class="modal fade" id="addFromExcelCurrencyAccountModal" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Excel'den Cari Hesap Ekle</h5>
-            </div>
-            <div class="modal-body">
-
-                <div class="input-group input-group-outline mb-3">
-
-
-
-                    <input type="file" (change)="fileChange($event)" accept=".xlsx">
-
-                </div>
-
-
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                <button type="submit" class="btn btn-primary" (click)="addFromExcel()">Yükle</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- cari excel add -->
-
 <!-- cari update -->
 <div class="modal fade" id="updateCurrencyAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Cari Hesabı Güncelle</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Kullanıcıyı Güncelle</h5>
             </div>
             <div class="modal-body">
 
-                <form role="form" class="text-start" [formGroup]="currentAccountUpdateForm">
+                <!-- <form role="form" class="text-start" [formGroup]="updateUserForm">
 
                     <div class="row">
                         <div class="col-md-6">
@@ -360,37 +315,31 @@
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Cari Adresi</label> -->
                         <input type="text" formControlName='address' class="form-control" placeholder="Cari Adresi"
                             autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Vergi Dairesi</label> -->
                         <input type="text" formControlName='taxDepartment' class="form-control"
                             placeholder="Vergi Dairesi" autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Vergi Numarası</label> -->
                         <input type="text" formControlName='taxIdNumber' class="form-control" minlength="10"
                             placeholder="Vergi Numarası" maxlength="10" autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">T.C.K.N</label> -->
                         <input type="text" formControlName='identityNumber' class="form-control" minlength="11"
                             maxlength="11" placeholder="T.C.K.N" autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Mail Adresi</label> -->
                         <input type="email" formControlName='email' class="form-control" placeholder="Mail Adresi"
                             autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Yetkili Adı Soyadı</label> -->
                         <input type="text" formControlName='authorized' class="form-control"
                             placeholder="Yetkili Adı Soyadı" autocomplete="off">
                     </div>
@@ -418,7 +367,8 @@
 
                     </div>
 
-                </form>
+                </form> -->
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>

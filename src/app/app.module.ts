@@ -20,6 +20,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { CurrentAccountPipe } from './pipes/current-account.pipe';
 import { CurrentAccountComponent } from './components/current-account/current-account.component';
 import { CurrentAccountActivePassivePipe } from './pipes/current-account-active-passive.pipe';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { CurrentAccountActivePassivePipe } from './pipes/current-account-active-
     SidenavComponent,
     CurrentAccountPipe,
     CurrentAccountActivePassivePipe,
-    CurrentAccountComponent
+    CurrentAccountComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

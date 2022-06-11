@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -41,11 +40,11 @@ export class CurrentAccountComponent implements OnInit {
 
   file: string = ''
 
-  operationAdd: boolean = false
-  operationUpdate: boolean = false
-  operationDelete: boolean = false
-  operationGet: boolean = false
-  operationGetAll: boolean = false
+  currentAccountGetall: boolean = false
+  currentAccountGet: boolean = false
+  currentAccountAdd: boolean = false
+  currentAccountUpdate: boolean = false
+  currentAccountDelete: boolean = false
 
 
   constructor(private currencyAccountService: CurrentAccountService, private authService: AuthService,
@@ -87,17 +86,17 @@ export class CurrentAccountComponent implements OnInit {
       this.userOperationClaims = res.data
 
       if (res.data.find(x => x.operationClaimName == 'admin')) {
-        this.operationGetAll = true
-        this.operationGet = true
-        this.operationAdd = true
-        this.operationUpdate = true
-        this.operationDelete = true
+        this.currentAccountGetall = true
+        this.currentAccountGet = true
+        this.currentAccountAdd = true
+        this.currentAccountUpdate = true
+        this.currentAccountDelete = true
       }
-      if (res.data.find(x => x.operationClaimName == 'currentAccount.getall')) this.operationGetAll = true
-      if (res.data.find(x => x.operationClaimName == 'currentAccount.get')) this.operationGet = true
-      if (res.data.find(x => x.operationClaimName == 'currentAccount.add')) this.operationAdd = true
-      if (res.data.find(x => x.operationClaimName == 'currentAccount.update')) this.operationUpdate = true
-      if (res.data.find(x => x.operationClaimName == 'currentAccount.delete')) this.operationDelete = true
+      if (res.data.find(x => x.operationClaimName == 'currentAccount.getall')) this.currentAccountGetall = true
+      if (res.data.find(x => x.operationClaimName == 'currentAccount.get')) this.currentAccountGet = true
+      if (res.data.find(x => x.operationClaimName == 'currentAccount.add')) this.currentAccountAdd = true
+      if (res.data.find(x => x.operationClaimName == 'currentAccount.update')) this.currentAccountUpdate = true
+      if (res.data.find(x => x.operationClaimName == 'currentAccount.delete')) this.currentAccountDelete = true
 
     }, err => {
       this.spinner.hide()
