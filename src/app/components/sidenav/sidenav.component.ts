@@ -66,7 +66,6 @@ export class SidenavComponent implements OnInit {
   getUserOperationClaims() {
 
     this.userOperationClaimService.getAllDto(this.userId, this.companyId).subscribe(res => {
-      console.log(res)
       if (res.data.find(x => x.operationClaimName == 'currentAccountMenu'))
         this.currentAccountMenu = true
       if (res.data.find(x => x.operationClaimName == 'userMenu'))
@@ -90,7 +89,6 @@ export class SidenavComponent implements OnInit {
         this.accountReconciliationMenu = true
         this.babsReconciliationMenu = true
       } 
-      console.log(this.currentAccountMenu)
     }, err => {
       console.log(err)
     })

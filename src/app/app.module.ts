@@ -21,6 +21,8 @@ import { CurrentAccountPipe } from './pipes/current-account.pipe';
 import { CurrentAccountComponent } from './components/current-account/current-account.component';
 import { CurrentAccountActivePassivePipe } from './pipes/current-account-active-passive.pipe';
 import { UserComponent } from './components/user/user.component';
+import { UserActivePassivePipe } from './pipes/user-active-passive.pipe';
+import { UserSearchPipe } from './pipes/user-search.pipe';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { UserComponent } from './components/user/user.component';
     CurrentAccountPipe,
     CurrentAccountActivePassivePipe,
     CurrentAccountComponent,
-    UserComponent
+    UserComponent,
+    UserActivePassivePipe,
+    UserSearchPipe
   ],
   imports: [
     BrowserModule,

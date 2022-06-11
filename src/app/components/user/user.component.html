@@ -60,14 +60,12 @@
                             </button>
 
                             <button *ngIf="userAdd" type="button" class="btn btn-lg bg-gradient-secondary mx-2"
-                                style=" float: right;" data-bs-toggle="modal" data-bs-target="#addCurrencyAccountModal">
+                                style=" float: right;" data-bs-toggle="modal" data-bs-target="#userAddModal">
                                 <i class="fa-solid fa-user-plus" style="font-size: 14px; margin-right: 5px;"></i>
                                 Kullanıcı Ekle
                             </button>
                         </div>
                     </div>
-
-
 
                 </div>
 
@@ -75,7 +73,7 @@
 
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-info shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3">{{currentListText}}</h6>
+                            <h6 class="text-white text-capitalize ps-3">{{currentListText}} - {{companyName}}</h6>
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
@@ -83,20 +81,21 @@
                             <table id="currencyAccountTable" class="table align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th class=" text-secondary text-xs font-weight-bolder opacity-7">
-                                            Cari Adı / Cari Kodu / Cari Adresi
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">
+                                            Kullanıcı Adı
                                         </th>
-                                        <th class=" text-secondary text-xs font-weight-bolder opacity-7">
-                                            Vergi Dairesi - Numarası / T.C.K.N
-                                        </th>
-                                        <th class="text-secondary text-xs font-weight-bolder opacity-7 px-5">
+                                        <th
+                                            class="text-center text-secondary text-xs font-weight-bolder opacity-7 px-5">
                                             Mail Adresi
                                         </th>
-                                        <th class=" text-secondary text-xs font-weight-bolder opacity-7 px-5">
-                                            Yetkili Kişi
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">
+                                            Kayıt Tarihi
                                         </th>
-                                        <th class=" text-secondary text-xs font-weight-bolder opacity-7">
-                                            Kayıt Tarihi / Durumu
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">
+                                            Durumu
+                                        </th>
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">
+                                            Mail Onayı
                                         </th>
                                         <th *ngIf="!(!userDelete && !userUpdate)"
                                             class="text-center text-secondary text-xs font-weight-bolder opacity-7">
@@ -106,70 +105,60 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr
-                                        *ngFor="let user of users 
-                                        | currentAccountSearchPipe : searchText | currentAccountActivePassive : activePassiveStatus()">
+                                    <tr *ngFor="let user of users | userSearchPipe : searchText
+                                     | currentAccountActivePassivePipe : activePassiveStatus()">
 
                                         <td>
-                                            <div class="px-2 py-1">
+                                            <div class="px-2 py-1 text-center">
                                                 <h6 class="mb-0 text-m text-uppercase">
                                                     {{user.name}}
                                                 </h6>
-                                                <p class="text-xm text-secondary mb-0">
-                                                    {{user.code}}
-                                                </p>
-                                                <p class="text-xm text-secondary mb-0">
-                                                    {{user.address}}
-                                                </p>
                                             </div>
                                         </td>
 
-                                        <td class="text-center">
-                                            <h6 class="mb-0 text-m text-uppercase">
-                                                {{user.taxDepartment}}
-                                            </h6>
-                                            <p class="text-xm text-secondary mb-0">
-                                                {{user.taxIdNumber}}
-                                            </p>
-                                            <p class="text-xm text-secondary mb-0">
-                                                {{user.identityNumber}}
-                                            </p>
-                                        </td>
                                         <td>
-                                            <h6 class="mb-0 text-s">
+                                            <h6 class="mb-0 text-s text-center">
                                                 {{user.email}}
                                             </h6>
                                         </td>
-                                        <td>
-                                            <h6 class="mb-0 text-s">
-                                                {{user.authorized}}
-                                            </h6>
-                                        </td>
+
                                         <td class="text-center">
                                             <h6 class="mb-0 text-s">
-                                                {{user.addedAt | date : 'short'}}
+                                                {{user.userAddedAt | date : 'short' }}
                                             </h6>
-                                            <span *ngIf='user.isActive'
+                                        </td>
+
+                                        <td class="text-center">
+                                            <span *ngIf='user.userIsActive'
                                                 class="badge badge-sm bg-gradient-success">Aktif</span>
-                                            <span *ngIf='user.isActive == false'
+                                            <span *ngIf='user.userIsActive == false'
                                                 class="badge badge-sm bg-gradient-danger">Pasif</span>
                                         </td>
+
+                                        <td class="text-center">
+                                            <span *ngIf='user.mailConfirm'
+                                                class="badge badge-sm bg-gradient-success">Onaylandı</span>
+                                            <span *ngIf='user.mailConfirm == false'
+                                                class="badge badge-sm bg-gradient-danger">Onaylanmadı</span>
+                                        </td>
+
                                         <td *ngIf="!(!userDelete && !userUpdate)" class="align-middle">
                                             <div class="row justify-content-center mx-2">
                                                 <button *ngIf="userUpdate" type="button"
-                                                    class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#updateCurrencyAccountModal"
-                                                    (click)="getById(user.id)">
+                                                    class="btn btn-info btn-sm w-50 my-auto" data-bs-toggle="modal"
+                                                    data-bs-target="#userUpdateModal" (click)="getById(user.userId)">
                                                     Güncelle
                                                 </button>
                                             </div>
                                             <div class="row justify-content-center mx-2">
-                                                <button *ngIf="userDelete" class="btn btn-sm btn-danger"
+                                                <button *ngIf="userDelete"
+                                                    class="btn btn-sm btn-danger w-50 my-auto mt-2"
                                                     (confirm)="delete(user)" [swal]="deleteCurrencyAccount">
                                                     Sil
                                                 </button>
                                             </div>
                                         </td>
+
                                     </tr>
 
                                 </tbody>
@@ -198,8 +187,8 @@
 
 
 
-<!-- cari add -->
-<div class="modal fade" id="addCurrencyAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<!-- user add -->
+<div class="modal fade" id="userAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -208,87 +197,38 @@
             </div>
             <div class="modal-body">
 
-                <!-- <form role="form" class="text-start" [formGroup]="addUserForm">
+                <form role="form" class="text-start" [formGroup]="addUserForm">
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class='input-group input-group-outline my-3'>
-                                <input type="text" formControlName='name' placeholder="Cari Adı" class="form-control"
-                                    autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class='input-group input-group-outline my-3'>
-                                <input type="text" formControlName='code' class="form-control" placeholder="Cari Kodu"
-                                    autocomplete="off">
-                            </div>
-                        </div>
+                    <h4 class="font-weight-bolder text-center mb-3">Kullanıcı Bilgileri</h4>
+
+                    <div class="input-group input-group-outline mb-2">
+                        <input type="text" minlength="3" formControlName='name' class="form-control"
+                            placeholder="Ad Soyad">
                     </div>
 
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='address' class="form-control" placeholder="Cari Adresi"
-                            autocomplete="off">
+                    <div class="input-group input-group-outline mb-2">
+                        <input type="email" formControlName='email' class="form-control" placeholder="E-mail">
                     </div>
 
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='taxDepartment' class="form-control"
-                            placeholder="Vergi Dairesi" autocomplete="off">
+                    <div class="input-group input-group-outline mb-4">
+                        <input type="password" minlength="3" formControlName='password' class="form-control"
+                            placeholder="Şifre">
                     </div>
 
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='taxIdNumber' class="form-control" minlength="10"
-                            placeholder="Vergi Numarası" maxlength="10" autocomplete="off">
-                    </div>
-
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='identityNumber' class="form-control" minlength="11"
-                            maxlength="11" placeholder="T.C.K.N" autocomplete="off">
-                    </div>
-
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="email" formControlName='email' class="form-control" placeholder="Mail Adresi"
-                            autocomplete="off">
-                    </div>
-
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='authorized' class="form-control"
-                            placeholder="Yetkili Adı Soyadı" autocomplete="off">
-                    </div>
-
-                    <div class="form-check form-check-info text-start ps-0">
-
-                        <div class="row">
-
-                            <div class="col-md-3" style="color: black;">Durumu:</div>
-
-                            <div class="col-md-3">
-                                <span class="text-success mx-1">Aktif</span>
-                                <input class="form-check-input" type="checkbox" [(ngModel)]='checkboxTrue'
-                                    [ngModelOptions]="{standalone: true}" (change)="trueCheckbox()">
-                            </div>
-
-                            <div class="col-md-3">
-                                <span class="text-danger mx-1">Pasif</span>
-                                <input class="form-check-input" type="checkbox" [(ngModel)]='checkboxFalse'
-                                    [ngModelOptions]="{standalone: true}" (change)="falseCheckbox()">
-                            </div>
-                        </div>
-
-                    </div>
-                </form> -->
+                </form>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                <button type="submit" class="btn btn-primary" (click)="add()">Gönder</button>
+                <button type="submit" class="btn btn-primary" (click)="register()">Gönder</button>
             </div>
         </div>
     </div>
 </div>
-<!-- cari add -->
+<!-- user add -->
 
-<!-- cari update -->
-<div class="modal fade" id="updateCurrencyAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<!-- user update -->
+<div class="modal fade" id="userUpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -297,51 +237,20 @@
             </div>
             <div class="modal-body">
 
-                <!-- <form role="form" class="text-start" [formGroup]="updateUserForm">
+                <form role="form" class="text-start" [formGroup]="updateUserForm">
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class='input-group input-group-outline my-3'>
-                                <input type="text" formControlName='name' placeholder="Cari Adı" class="form-control"
-                                    autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class='input-group input-group-outline my-3'>
-                                <input type="text" formControlName='code' class="form-control" placeholder="Cari Kodu"
-                                    autocomplete="off">
-                            </div>
-                        </div>
+                    <div class="input-group input-group-outline mb-2">
+                        <input type="text" minlength="3" formControlName='name' class="form-control"
+                            placeholder="Ad Soyad">
                     </div>
 
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='address' class="form-control" placeholder="Cari Adresi"
-                            autocomplete="off">
+                    <div class="input-group input-group-outline mb-2">
+                        <input type="email" formControlName='email' class="form-control" placeholder="E-mail">
                     </div>
 
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='taxDepartment' class="form-control"
-                            placeholder="Vergi Dairesi" autocomplete="off">
-                    </div>
-
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='taxIdNumber' class="form-control" minlength="10"
-                            placeholder="Vergi Numarası" maxlength="10" autocomplete="off">
-                    </div>
-
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='identityNumber' class="form-control" minlength="11"
-                            maxlength="11" placeholder="T.C.K.N" autocomplete="off">
-                    </div>
-
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="email" formControlName='email' class="form-control" placeholder="Mail Adresi"
-                            autocomplete="off">
-                    </div>
-
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='authorized' class="form-control"
-                            placeholder="Yetkili Adı Soyadı" autocomplete="off">
+                    <div class="input-group input-group-outline mb-4">
+                        <input type="password" minlength="3" formControlName='password' class="form-control"
+                            placeholder="Şifre">
                     </div>
 
                     <div class="form-check form-check-info text-start ps-0">
@@ -351,15 +260,15 @@
                             <div class="col-md-3">Durumu</div>
 
                             <div class="col-md-3">
-                                <label class="form-check-label mx-1" for="checkboxTrue">Aktif</label>
-                                <input class="form-check-input" type="checkbox" value="" id="checkboxTrue"
+                                <label class="form-check-label mx-1" for="checkboxTrue2">Aktif</label>
+                                <input class="form-check-input" type="checkbox" value="" id="checkboxTrue2"
                                     [(ngModel)]='checkboxUpdateTrue' [ngModelOptions]="{standalone: true}"
                                     (change)="trueCheckboxUpdate()">
                             </div>
 
                             <div class="col-md-3">
-                                <label class="form-check-label mx-1" for="checkboxTrue">Pasif</label>
-                                <input class="form-check-input" type="checkbox" value="" id="checkboxFalse"
+                                <label class="form-check-label mx-1" for="checkboxTrue2">Pasif</label>
+                                <input class="form-check-input" type="checkbox" value="" id="checkboxFalse2"
                                     [(ngModel)]='checkboxUpdateFalse' [ngModelOptions]="{standalone: true}"
                                     (change)="falseCheckboxUpdate()">
                             </div>
@@ -367,16 +276,15 @@
 
                     </div>
 
-                </form> -->
-
+                </form>
+   
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                <button type="button" class="btn btn-primary" (click)="update()">Gönder</button>
+                <button type="submit" class="btn btn-primary" (click)="update()">Gönder</button>
             </div>
         </div>
     </div>
 </div>
-<!-- cari update -->
-
+<!-- user update -->
 

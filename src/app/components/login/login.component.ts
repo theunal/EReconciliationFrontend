@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
       let login = Object.assign({}, this.loginForm.value)
       this.authService.login(login).subscribe(res => {
         this.spinner.hide()
-        console.log(res)
         localStorage.setItem('token', res.data.token)
         this.router.navigate(['/'])
         this.toastr.success('Giriş Yaptınız!', 'Success')

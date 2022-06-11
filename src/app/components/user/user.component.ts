@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { RegisterSecondDto } from 'src/app/models/DTOs/registerSecondDto';
+import { UserDto } from 'src/app/models/DTOs/userDto';
 import { UserOperationClaimModel } from 'src/app/models/userOperationClaimModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserOperationClaimService } from 'src/app/services/user-operation-claim.service';
+import { UserService } from 'src/app/services/user.service';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -17,13 +20,14 @@ export class UserComponent implements OnInit {
 
   jwtHelper: JwtHelperService = new JwtHelperService()
   userOperationClaims: UserOperationClaimModel[] = []
-  users: any[] = []
+  users: UserDto[] = []
 
   active: boolean = false
   passive: boolean = false
   searchText: string = ''
   currentListText: string = 'Kullanıcı Listesi'
 
+  companyName: string
   companyId: number
   userId: number
 
@@ -41,12 +45,17 @@ export class UserComponent implements OnInit {
   checkboxUpdateTrue: boolean = false
   checkboxUpdateFalse: boolean = false
 
+  updateUserId : number
+
   constructor(private authService: AuthService, private userOperationClaimService: UserOperationClaimService,
-    private spinner: NgxSpinnerService, private toastrService: ToastrService) { }
+    private spinner: NgxSpinnerService, private toastrService: ToastrService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.refresh()
     this.getUserOperationClaims()
+    this.getUsers()
+    this.createUserAddForm()
+    this.createUserUpdateForm()
   }
 
   refresh() {
@@ -54,6 +63,7 @@ export class UserComponent implements OnInit {
       let decode = this.jwtHelper.decodeToken(localStorage.getItem('token'))
       this.companyId = decode[Object.keys(decode).filter(x => x.endsWith('/anonymous'))[0]]
       this.userId = decode[Object.keys(decode).filter(x => x.endsWith('/nameidentifier'))[0]]
+      this.companyName = decode[Object.keys(decode).filter(x => x.endsWith('/ispersistent'))[0]]
     }
   }
 
@@ -88,15 +98,22 @@ export class UserComponent implements OnInit {
       let ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(currencyAccountTable)
       let wb: XLSX.WorkBook = XLSX.utils.book_new()
       XLSX.utils.book_append_sheet(wb, ws, 'Cari Listesi')
-      XLSX.writeFile(wb, `${this.currentListText}.xlsx`)
+      XLSX.writeFile(wb, `${this.currentListText} - ${this.companyName}.xlsx`)
     } else {
       this.toastrService.info('Cari Listesi Boş')
     }
   }
 
-  getById(id: number) { }
+  getUsers() {
+    this.userService.getAllDto(this.companyId).subscribe(res => {
+      this.users = res.data
+    }, err => {
+      console.log(err)
+    })
+  }
+
+
   add() { }
-  update() { }
   delete(user: any) { }
 
   // aktif pasif listesi
@@ -142,10 +159,83 @@ export class UserComponent implements OnInit {
   // user update
 
 
+  createUserAddForm() {
+    this.addUserForm = new FormGroup({
+      name: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      companyId: new FormControl(this.companyId),
+    })
+  }
+  register() {
+    this.spinner.show()
+    if (this.addUserForm.valid) {
+      let registerSecond = Object.assign({}, this.addUserForm.value)
+      let registerSecondDto: RegisterSecondDto = {
+        name: registerSecond.name,
+        email: registerSecond.email,
+        password: registerSecond.password,
+        companyId: registerSecond.companyId,
+      }
+      this.userService.registerSecond(registerSecondDto).subscribe(res => {
+        this.spinner.hide()
+        this.toastrService.success('Kayıt Başarılı!', 'Success')
+        this.getUsers()
+        this.createUserAddForm()
+        document.getElementById('userAddModal').click()
+      }, err => {
+        this.spinner.hide()
+        this.toastrService.error(err.error)
+      })
+    } else {
+      this.spinner.hide()
+      this.toastrService.warning("lütfen bilgileri doldurun.")
+    }
+  }
 
+  createUserUpdateForm() {
+    this.updateUserForm = new FormGroup({
+      name: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl(''),
+      isActive: new FormControl(this.trueFalseStatusUpdate())
+    })
+  }
 
+  getById(id: number) {
+    this.userService.getById(id).subscribe((res: any) => {
+      this.updateUserId = id
+      this.updateUserForm.setValue({
+        name: res.name,
+        email: res.email,
+        password: '',
+        isActive: res.isActive
+      })
+      if (res.isActive) {
+        this.checkboxUpdateTrue = true
+        this.checkboxUpdateFalse = false
+      } else {
+        this.checkboxUpdateTrue = false
+        this.checkboxUpdateFalse = true
+      }
+    })
+  }
 
-
-
+  update() {
+    if (this.updateUserForm.valid) {
+      let user = Object.assign({}, this.updateUserForm.value)
+      user.isActive = this.trueFalseStatusUpdate()
+      user.userId = this.updateUserId
+      this.userService.update(user).subscribe((res : any) => {
+        this.getUsers()
+        this.toastrService.success(res.message, user.name.toUpperCase())
+        document.getElementById('userUpdateModal').click()
+      }, err => {
+        this.toastrService.warning(err.error.message, 'Uyarı')
+      })
+    } else {
+      this.toastrService.warning("Gerekli yerleri boş bırakamazsınız.")
+    }
+  }
 
 }
