@@ -7,7 +7,9 @@ import { ToastrService } from 'ngx-toastr';
 import { CurrentAccountModel } from 'src/app/models/currentAccountModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { CurrentAccountService } from 'src/app/services/current-account.service';
+import { UserOperationClaimService } from 'src/app/services/user-operation-claim.service';
 import * as XLSX from 'xlsx';
+import { UserOperationClaimModel } from './../../models/userOperationClaimModel';
 
 @Component({
   selector: 'app-current-account',
@@ -19,7 +21,9 @@ export class CurrentAccountComponent implements OnInit {
   jwtHelper: JwtHelperService = new JwtHelperService()
   currentAccounts: CurrentAccountModel[] = []
   currentAccount: CurrentAccountModel
+  userOperationClaims: UserOperationClaimModel[] = []
   companyId: number
+  userId: number
   searchText: string = ''
 
   currentAccountUpdateForm: FormGroup
@@ -37,11 +41,20 @@ export class CurrentAccountComponent implements OnInit {
 
   file: string = ''
 
+  operationAdd: boolean = false
+  operationUpdate: boolean = false
+  operationDelete: boolean = false
+  operationGet: boolean = false
+  operationGetAll: boolean = false
+
+
   constructor(private currencyAccountService: CurrentAccountService, private authService: AuthService,
-    private spinner: NgxSpinnerService, private toastrService: ToastrService, private router: Router) { }
+    private spinner: NgxSpinnerService, private toastrService: ToastrService,
+    private userOperationClaimService: UserOperationClaimService) { }
 
   ngOnInit(): void {
     this.refresh()
+    this.getUserOperationClaims()
     this.getCurrencyAccounts()
     this.createCurrentAccountUpdate()
     this.createCurrentAccountAdd()
@@ -51,6 +64,7 @@ export class CurrentAccountComponent implements OnInit {
     if (this.authService.isAuthenticated()) {
       let decode = this.jwtHelper.decodeToken(localStorage.getItem('token'))
       this.companyId = decode[Object.keys(decode).filter(x => x.endsWith('/anonymous'))[0]]
+      this.userId = decode[Object.keys(decode).filter(x => x.endsWith('/nameidentifier'))[0]]
     }
   }
 
@@ -62,6 +76,31 @@ export class CurrentAccountComponent implements OnInit {
     }, err => {
       this.spinner.hide()
       // this.authService.logout()
+      console.log(err)
+    })
+  }
+
+  getUserOperationClaims() {
+    this.spinner.show()
+    this.userOperationClaimService.getAllDto(this.userId, this.companyId).subscribe(res => {
+      this.spinner.hide()
+      this.userOperationClaims = res.data
+
+      if (res.data.find(x => x.operationClaimName == 'admin')) {
+        this.operationGetAll = true
+        this.operationGet = true
+        this.operationAdd = true
+        this.operationUpdate = true
+        this.operationDelete = true
+      }
+      if (res.data.find(x => x.operationClaimName == 'currentAccount.getall')) this.operationGetAll = true
+      if (res.data.find(x => x.operationClaimName == 'currentAccount.get')) this.operationGet = true
+      if (res.data.find(x => x.operationClaimName == 'currentAccount.add')) this.operationAdd = true
+      if (res.data.find(x => x.operationClaimName == 'currentAccount.update')) this.operationUpdate = true
+      if (res.data.find(x => x.operationClaimName == 'currentAccount.delete')) this.operationDelete = true
+
+    }, err => {
+      this.spinner.hide()
       console.log(err)
     })
   }

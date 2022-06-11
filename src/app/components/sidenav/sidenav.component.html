@@ -22,7 +22,7 @@
             </a>
         </li>
 
-        <li class="nav-item">
+        <li *ngIf="accountReconciliationMenu" class="nav-item">
             <a class="nav-link text-white " href="#">
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="material-icons opacity-10">assignment_turned_in</i>
@@ -31,7 +31,7 @@
             </a>
         </li>
 
-        <li class="nav-item">
+        <li *ngIf="babsReconciliationMenu" class="nav-item">
             <a class="nav-link text-white " href="#">
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="material-icons opacity-10">description</i>
@@ -40,11 +40,12 @@
             </a>
         </li>
 
-        <li class="nav-item mt-3">
+        <li *ngIf="!(!currentAccountMenu && !userMenu && !companyMenu && !mailParameterMenu && !mailTemplateMenu)"
+            class="nav-item mt-3">
             <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Kayıt İşlemleri</h6>
         </li>
 
-        <li class="nav-item">
+        <li *ngIf="currentAccountMenu"class="nav-item">
             <a [class]="sidenavButtonClass('currentAccount')" routerLink="/currentAccount">
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="material-icons opacity-10">receipt_long</i>
@@ -53,7 +54,7 @@
             </a>
         </li>
 
-        <li class="nav-item">
+        <li *ngIf="userMenu" class="nav-item">
             <a class="nav-link text-white " href="./pages/sign-in.html">
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="material-icons opacity-10">person</i>
@@ -62,7 +63,7 @@
             </a>
         </li>
 
-        <li class="nav-item">
+        <li *ngIf="companyMenu" class="nav-item">
             <a class="nav-link text-white " href="./pages/sign-in.html">
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="material-icons opacity-10">domain</i>
@@ -71,7 +72,7 @@
             </a>
         </li>
 
-        <li class="nav-item">
+        <li *ngIf="mailParameterMenu" class="nav-item">
             <a class="nav-link text-white " href="./pages/sign-up.html">
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="material-icons opacity-10">mail</i>
@@ -80,7 +81,7 @@
             </a>
         </li>
 
-        <li class="nav-item">
+        <li *ngIf="mailTemplateMenu" class="nav-item">
             <a class="nav-link text-white" href="#">
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="material-icons opacity-10">web</i>
@@ -91,7 +92,7 @@
 
     </ul>
 
-   
+
 
 </div>
 
@@ -102,5 +103,3 @@
         </a>
     </div>
 </div>
-
-
