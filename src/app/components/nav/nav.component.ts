@@ -15,7 +15,7 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     let decode = this.jwtHelper.decodeToken(localStorage.getItem('token'))
-    this.companyName = decode[Object.keys(decode).filter(x => x.endsWith('/ispersistent'))[0]]
+    this.companyName = decode[Object.keys(decode).filter(x => x.endsWith('ispersistent'))[0]]
   }
 
 }

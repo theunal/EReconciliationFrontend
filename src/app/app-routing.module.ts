@@ -8,6 +8,7 @@ import { PasswordResetComponent } from './components/password-reset/password-res
 import { RegisterComponent } from './components/register/register.component';
 import { UserOperationClaimComponent } from './components/user-operation-claim/user-operation-claim.component';
 import { UserComponent } from './components/user/user.component';
+import { User2Component } from './components/user2/user2.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path: 'forgotPasswordLinkCheck/:value', component: PasswordResetComponent},
   {path: 'currentAccount', component: CurrentAccountComponent},
   {path: 'user', component: UserComponent},
+  {path: 'user2', component: User2Component},
   {path: 'userOperationClaim/:value', component: UserOperationClaimComponent},
 
 

@@ -39,7 +39,7 @@ export class SidenavComponent implements OnInit {
     if (this.authService.isAuthenticated()) {
       let token = localStorage.getItem('token')
       let decode = this.jwtHelper.decodeToken(token)
-      this.name = decode['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
+      //this.name = decode['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
       this.name = decode[Object.keys(decode).filter(x => x.endsWith('/name'))[0]] // iki türlü de yapılabilir
       this.companyId = decode[Object.keys(decode).filter(x => x.endsWith('/anonymous'))[0]]
       this.userId = decode[Object.keys(decode).filter(x => x.endsWith('/nameidentifier'))[0]]

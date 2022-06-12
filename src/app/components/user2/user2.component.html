@@ -4,11 +4,6 @@
 </aside>
 
 
-
-
-
-
-
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
 
     <app-nav></app-nav>
@@ -97,6 +92,12 @@
                                         <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">
                                             Mail Onayı
                                         </th>
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">
+                                            Şirketler
+                                        </th>
+                                        <!-- <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">
+                                            Mail Onayı
+                                        </th> -->
                                         <th *ngIf="!(!userDelete && !userUpdate)"
                                             class="text-center text-secondary text-xs font-weight-bolder opacity-7">
                                             İşlemler
@@ -105,20 +106,20 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr *ngFor="let user of users | userSearchPipe : searchText
-                                     | currentAccountActivePassivePipe : activePassiveStatus()">
+                                    <tr *ngFor="let user of userRelationships | userSearchPipe : searchText
+                                     | userActivePassivePipe : activePassiveStatus()">
 
                                         <td>
                                             <div class="px-2 py-1 text-center">
                                                 <h6 class="mb-0 text-m text-uppercase">
-                                                    {{user.name}}
+                                                    {{user.userUserName}}
                                                 </h6>
                                             </div>
                                         </td>
 
                                         <td>
                                             <h6 class="mb-0 text-s text-center">
-                                                {{user.email}}
+                                                {{user.userEmail}}
                                             </h6>
                                         </td>
 
@@ -136,25 +137,38 @@
                                         </td>
 
                                         <td class="text-center">
-                                            <span *ngIf='user.mailConfirm'
+                                            <span *ngIf='user.userMailConfirm'
                                                 class="badge badge-sm bg-gradient-success">Onaylandı</span>
-                                            <span *ngIf='user.mailConfirm == false'
+                                            <span *ngIf='user.userMailConfirm == false'
                                                 class="badge badge-sm bg-gradient-danger">Onaylanmadı</span>
                                         </td>
 
+                                        <td>şirket[] = [] </td> 
+
                                         <td *ngIf="!(!userDelete && !userUpdate)" class="align-middle">
 
-                                            <div class="row justify-content-center mx-2">
-                                                <button type="button" class="btn btn-primary btn-sm w-75 my-auto"
-                                                routerLink="/userOperationClaim/{{user.userMailValue}}">
+                                            <div *ngIf="companyListButtonStatus" class="row justify-content-center mx-2">
+                                                <button type="button" class="btn btn-sm w-50 my-auto"
+                                                    style="background-color: yellowgreen; color: black;"
+                                                    data-bs-toggle="modal" data-bs-target="#companyListModal"
+                                                    (click)="userRelationCompanies(user.companies, user.userUserId)">
+                                                    Şirketler
+                                                </button>
+                                            </div>
+
+                                            <div class="row mx-2">
+                                                <button type="button"
+                                                    class="btn btn-primary btn-sm w-50 my-auto mt-2 mx-auto"
+                                                    routerLink="/userOperationClaim/{{user.userMailValue}}">
                                                     Yetkiler
                                                 </button>
                                             </div>
 
                                             <div class="row justify-content-center mx-2">
                                                 <button *ngIf="userUpdate" type="button"
-                                                    class="btn btn-info btn-sm w-75 my-auto mt-2" data-bs-toggle="modal"
-                                                    data-bs-target="#userUpdateModal" (click)="getById(user.userId)">
+                                                    class="btn btn-info btn-sm w-50 my-auto mt-2" data-bs-toggle="modal"
+                                                    data-bs-target="#userUpdateModal"
+                                                    (click)="getById(user.userUserId)">
                                                     Güncelle
                                                 </button>
                                             </div>
@@ -296,3 +310,49 @@
     </div>
 </div>
 <!-- user update -->
+
+<!-- company list -->
+<div id="companyListModal" class="modal fade bd-example-modal-lg mb-5" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <p class="display-4 mt-3 text-center" style="color: #DB2165;">Şirketler</p>
+
+            <table class="table table-striped table-curved w-75  mt-3 mx-auto mb-5">
+                <thead>
+                    <tr>
+                        <th scope="col">şirket</th>
+                        <th scope="col">Adres</th>
+                        <th scope="col">İşlemler</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let userRelationshipCompany of userRelationshipCompanies">
+                        <td>
+                            {{userRelationshipCompany.name}}
+                        </td>
+                        <td>
+                            {{userRelationshipCompany.address}}
+                        </td>
+                        <td>
+                            <button class="btn btn-primary my-auto" [swal]="companyListSwal"
+                             (confirm)="deleteByUserIdAndCompanyId(userRelationshipCompany.id)">
+                                Şirketi Sil
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+<!-- company list -->
+
+<swal type="question" #companyListSwal title="Şirketi Sil"
+    text="Kullanıcıyı ile şirket arasındaki bağlantıyı koparmak üzeresin. Şirket silinsin mi?" [showCancelButton]="true"
+    confirmButtonText="Evet" cancelButtonText="Hayır" confirmButtonColor="#ff0000" cancelButtonColor="#00ff00"
+    [focusCancel]="true">
+</swal>

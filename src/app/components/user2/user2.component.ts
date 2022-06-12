@@ -3,8 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { CompanyModel } from 'src/app/models/companyModel';
 import { RegisterSecondDto } from 'src/app/models/DTOs/registerSecondDto';
-import { UsersByCompanyDto } from 'src/app/models/DTOs/usersByCompanyDto';
+import { UserOperationClaimUpdateDto } from 'src/app/models/DTOs/userOperationClaimUpdateDto';
+import { UserRelationshipDto } from 'src/app/models/DTOs/userRelationshipDto';
 import { UserOperationClaimModel } from 'src/app/models/userOperationClaimModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserOperationClaimService } from 'src/app/services/user-operation-claim.service';
@@ -12,15 +14,17 @@ import { UserService } from 'src/app/services/user.service';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  selector: 'app-user2',
+  templateUrl: './user2.component.html',
+  styleUrls: ['./user2.component.css']
 })
-export class UserComponent implements OnInit {
+export class User2Component implements OnInit {
+
 
   jwtHelper: JwtHelperService = new JwtHelperService()
   userOperationClaims: UserOperationClaimModel[] = []
-  users: UsersByCompanyDto[] = []
+  userRelationships: UserRelationshipDto[] = []
+  userRelationshipCompanies: CompanyModel[] = []
 
   active: boolean = false
   passive: boolean = false
@@ -47,16 +51,19 @@ export class UserComponent implements OnInit {
 
   updateUserId: number
 
+  userUserId: number
+  userCompanyId: number
+  companyListButtonStatus: boolean
+
   constructor(private authService: AuthService, private userOperationClaimService: UserOperationClaimService,
     private spinner: NgxSpinnerService, private toastrService: ToastrService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.refresh()
     this.getUserOperationClaims()
-    this.getUsers()
+    this.GetAllUserRelationshipByAdminUserId()
     this.createUserAddForm()
     this.createUserUpdateForm()
-    this.GetAllUserRelationshipByAdminUserId()
   }
 
   refresh() {
@@ -94,7 +101,7 @@ export class UserComponent implements OnInit {
   }
 
   exportToExcel() {
-    if (this.users.length > 0) {
+    if (this.userRelationships.length > 0) {
       let currencyAccountTable = document.getElementById('currencyAccountTable')
       let ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(currencyAccountTable)
       let wb: XLSX.WorkBook = XLSX.utils.book_new()
@@ -103,14 +110,6 @@ export class UserComponent implements OnInit {
     } else {
       this.toastrService.info('Cari Listesi Boş')
     }
-  }
-
-  getUsers() {
-    this.userService.getAllDto(this.companyId).subscribe(res => {
-      this.users = res.data
-    }, err => {
-      console.log(err)
-    })
   }
 
 
@@ -181,9 +180,8 @@ export class UserComponent implements OnInit {
       this.userService.registerSecond(registerSecondDto).subscribe(res => {
         this.spinner.hide()
         this.toastrService.success('Kayıt Başarılı!', 'Success')
-        this.getUsers()
+        this.GetAllUserRelationshipByAdminUserId()
         this.createUserAddForm()
-        document.getElementById('userAddModal').click()
       }, err => {
         this.spinner.hide()
         this.toastrService.error(err.error)
@@ -228,9 +226,8 @@ export class UserComponent implements OnInit {
       user.isActive = this.trueFalseStatusUpdate()
       user.userId = this.updateUserId
       this.userService.update(user).subscribe((res: any) => {
-        this.getUsers()
+        this.GetAllUserRelationshipByAdminUserId()
         this.toastrService.success(res.message, user.name.toUpperCase())
-        document.getElementById('userUpdateModal').click()
       }, err => {
         this.toastrService.warning(err.error.message, 'Uyarı')
       })
@@ -241,8 +238,34 @@ export class UserComponent implements OnInit {
 
   GetAllUserRelationshipByAdminUserId() {
     this.userService.GetAllUserRelationshipByAdminUserId(this.userId).subscribe(res => {
+      this.userRelationships = res.data
       console.log(res.data)
+      res.data.forEach(element => {
+        element.companies.length > 0 ? this.userRelationshipCompanies = element.companies : document.getElementById('companyListModal').click()
+        element.companies.length > 0 ? this.companyListButtonStatus = true : this.companyListButtonStatus = false
+      });
     })
   }
+
+  userRelationCompanies(companies: CompanyModel[], userUserId: number) {
+    this.userRelationshipCompanies = companies
+    this.userUserId = userUserId
+  }
+
+  deleteByUserIdAndCompanyId(companyId: number) {
+    let dto: UserOperationClaimUpdateDto = {
+      userId: this.userUserId,
+      companyId: companyId,
+      operationClaimId: 0
+    }
+    this.userService.deleteByUserIdAndCompanyId(dto).subscribe(res => {
+      this.GetAllUserRelationshipByAdminUserId()
+    }, err => {
+    })
+  }
+
+
+
+
 
 }

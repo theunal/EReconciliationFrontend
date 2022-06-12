@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'currentAccountActivePassivePipe'
+  name: 'userActivePassivePipe'
 })
 export class UserActivePassivePipe implements PipeTransform {
 
