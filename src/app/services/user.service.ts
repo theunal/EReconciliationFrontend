@@ -36,6 +36,11 @@ export class UserService {
     return this.httpClient.post<ResponseModel>(url, user)
   }
 
+  getUserIdByValue(value: string) : Observable<number> {
+    let url = this.api + 'Users/getByValue?value=' + value
+    return this.httpClient.get<number>(url)
+  }
+
 
 
 }

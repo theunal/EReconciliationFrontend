@@ -7,4 +7,5 @@ export interface UserOperationClaimModel {
     operationClaimId: number
     operationClaimName: string
     operationClaimDescription: string
+    isActive : number
 }

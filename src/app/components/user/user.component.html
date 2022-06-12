@@ -143,13 +143,22 @@
                                         </td>
 
                                         <td *ngIf="!(!userDelete && !userUpdate)" class="align-middle">
+
+                                            <div class="row justify-content-center mx-2">
+                                                <button type="button" class="btn btn-primary btn-sm w-50 my-auto"
+                                                routerLink="/userOperationClaim/{{user.userMailValue}}">
+                                                    Yetkiler
+                                                </button>
+                                            </div>
+
                                             <div class="row justify-content-center mx-2">
                                                 <button *ngIf="userUpdate" type="button"
-                                                    class="btn btn-info btn-sm w-50 my-auto" data-bs-toggle="modal"
+                                                    class="btn btn-info btn-sm w-50 my-auto mt-2" data-bs-toggle="modal"
                                                     data-bs-target="#userUpdateModal" (click)="getById(user.userId)">
                                                     Güncelle
                                                 </button>
                                             </div>
+
                                             <div class="row justify-content-center mx-2">
                                                 <button *ngIf="userDelete"
                                                     class="btn btn-sm btn-danger w-50 my-auto mt-2"
@@ -277,7 +286,7 @@
                     </div>
 
                 </form>
-   
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
@@ -287,4 +296,3 @@
     </div>
 </div>
 <!-- user update -->
-

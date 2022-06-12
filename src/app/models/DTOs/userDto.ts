@@ -7,7 +7,8 @@ export interface UserDto {
     name: string
     email: string
     mailConfirm : boolean
-    // companyName: string
+    userMailValue : string
+    //companyName: string
     userAddedAt: string
     userIsActive: boolean
 }
