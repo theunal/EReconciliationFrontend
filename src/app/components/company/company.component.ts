@@ -130,7 +130,7 @@ export class CompanyComponent implements OnInit {
   // company update
 
   getAllCompanyAdminUserId() {
-    this.userService.getAllCompanyAdminUserId(this.userId).subscribe(res => {
+    this.companyService.getAllCompanyAdminUserId(this.userId).subscribe(res => {
       this.companies = res.data
     })
   }

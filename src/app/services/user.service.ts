@@ -65,10 +65,7 @@ export class UserService {
     return this.httpClient.get<ListResponseModel<AdminCompaniesDto[]>>(url)
   }
 
-  getAllCompanyAdminUserId(adminUserId: number): Observable<ListResponseModel<CompanyModel>> {
-    let url = this.api + 'Users/getAllCompanyAdminUserId?adminUserId=' + adminUserId
-    return this.httpClient.get<ListResponseModel<CompanyModel>>(url)
-  }
+
 
  
 }
