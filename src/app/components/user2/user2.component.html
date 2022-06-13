@@ -143,11 +143,23 @@
                                                 class="badge badge-sm bg-gradient-danger">Onaylanmadı</span>
                                         </td>
 
-                                        <td>şirket[] = [] </td> 
+                                        <td></td>
 
                                         <td *ngIf="!(!userDelete && !userUpdate)" class="align-middle">
 
-                                            <div *ngIf="companyListButtonStatus" class="row justify-content-center mx-2">
+                                            <div class="dropdown z-index-3">
+                                                <button class="btn btn-sm bg-gradient-success dropdown-toggle" type="button"
+                                                    id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                    aria-expanded="false" (click)="getAdminCompanies(user.userUserId)">
+                                                    Şirket Değiştir
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                                </ul>
+                                            </div>
+
+                                            <div *ngIf="companyListButtonStatus"
+                                                class="row justify-content-center mx-2">
                                                 <button type="button" class="btn btn-sm w-50 my-auto"
                                                     style="background-color: yellowgreen; color: black;"
                                                     data-bs-toggle="modal" data-bs-target="#companyListModal"
@@ -176,7 +188,7 @@
                                             <div class="row justify-content-center mx-2">
                                                 <button *ngIf="userDelete"
                                                     class="btn btn-sm btn-danger w-50 my-auto mt-2"
-                                                    (confirm)="delete(user)" [swal]="deleteCurrencyAccount">
+                                                    (click)="getAdminCompanies(user.userUserId)">
                                                     Sil
                                                 </button>
                                             </div>
@@ -337,7 +349,7 @@
                         </td>
                         <td>
                             <button class="btn btn-primary my-auto" [swal]="companyListSwal"
-                             (confirm)="deleteByUserIdAndCompanyId(userRelationshipCompany.id)">
+                                (confirm)="deleteByUserIdAndCompanyId(userRelationshipCompany.id)">
                                 Şirketi Sil
                             </button>
                         </td>

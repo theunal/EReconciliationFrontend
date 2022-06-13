@@ -166,14 +166,14 @@
                                             class="align-middle">
                                             <div class="row justify-content-center mx-2">
                                                 <button *ngIf="currentAccountUpdate" type="button"
-                                                    class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                                    class="btn btn-info btn-sm " data-bs-toggle="modal"
                                                     data-bs-target="#updateCurrencyAccountModal"
                                                     (click)="getById(currentAccount.id)">
                                                     Güncelle
                                                 </button>
                                             </div>
                                             <div class="row justify-content-center mx-2">
-                                                <button *ngIf="currentAccountDelete" class="btn btn-sm btn-danger"
+                                                <button *ngIf="currentAccountDelete" class="btn btn-sm btn-danger w-75"
                                                     (confirm)="delete(currentAccount)" [swal]="deleteCurrencyAccount">
                                                     Sil
                                                 </button>
@@ -360,37 +360,31 @@
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Cari Adresi</label> -->
                         <input type="text" formControlName='address' class="form-control" placeholder="Cari Adresi"
                             autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Vergi Dairesi</label> -->
                         <input type="text" formControlName='taxDepartment' class="form-control"
                             placeholder="Vergi Dairesi" autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Vergi Numarası</label> -->
                         <input type="text" formControlName='taxIdNumber' class="form-control" minlength="10"
                             placeholder="Vergi Numarası" maxlength="10" autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">T.C.K.N</label> -->
                         <input type="text" formControlName='identityNumber' class="form-control" minlength="11"
                             maxlength="11" placeholder="T.C.K.N" autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Mail Adresi</label> -->
                         <input type="email" formControlName='email' class="form-control" placeholder="Mail Adresi"
                             autocomplete="off">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <!-- <label class="form-label">Yetkili Adı Soyadı</label> -->
                         <input type="text" formControlName='authorized' class="form-control"
                             placeholder="Yetkili Adı Soyadı" autocomplete="off">
                     </div>

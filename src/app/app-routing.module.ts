@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CompanyComponent } from './components/company/company.component';
 import { CurrentAccountComponent } from './components/current-account/current-account.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path: 'user', component: UserComponent},
   {path: 'user2', component: User2Component},
   {path: 'userOperationClaim/:value', component: UserOperationClaimComponent},
+  {path: 'company', component: CompanyComponent},
 
 
   {path: '**', redirectTo: ''}

@@ -26,6 +26,8 @@ import { UserSearchPipe } from './pipes/user-search.pipe';
 import { UserOperationClaimComponent } from './components/user-operation-claim/user-operation-claim.component';
 import { OperationClaimPipe } from './pipes/operation-claim.pipe';
 import { User2Component } from './components/user2/user2.component';
+import { CompanyComponent } from './components/company/company.component';
+import { CompanySearchPipe } from './pipes/company-search.pipe';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { User2Component } from './components/user2/user2.component';
     UserSearchPipe,
     UserOperationClaimComponent,
     OperationClaimPipe,
-    User2Component
+    User2Component,
+    CompanyComponent,
+    CompanySearchPipe
   ],
   imports: [
     BrowserModule,

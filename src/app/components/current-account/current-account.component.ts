@@ -84,7 +84,6 @@ export class CurrentAccountComponent implements OnInit {
     this.userOperationClaimService.getAllDto(this.userId, this.companyId).subscribe(res => {
       this.spinner.hide()
       this.userOperationClaims = res.data
-   
 
       if (res.data.find(x => x.operationClaimName == 'currentAccount.getall')) this.currentAccountGetall = true
       if (res.data.find(x => x.operationClaimName == 'currentAccount.get')) this.currentAccountGet = true
@@ -99,9 +98,6 @@ export class CurrentAccountComponent implements OnInit {
         this.currentAccountUpdate = true
         this.currentAccountDelete = true
       }
-
-      //console.log("get all: "+this.currentAccountGetall)
-
     }, err => {
       this.spinner.hide()
       console.log(err)
@@ -209,7 +205,7 @@ export class CurrentAccountComponent implements OnInit {
   add() {
     this.spinner.show()
     if (this.addCurrencyAccountForm.valid) {
-     // console.log('valide girdi')
+      // console.log('valide girdi')
       let currentAccount: CurrentAccountModel = this.addCurrencyAccountForm.value
       currentAccount.isActive = this.trueFalseStatus()
       //console.log("status:" + this.trueFalseStatus())
@@ -224,7 +220,7 @@ export class CurrentAccountComponent implements OnInit {
         this.toastrService.error(err.error)
       })
     } else {
-     // console.log('else e girdi')
+      // console.log('else e girdi')
       this.spinner.hide()
       this.toastrService.warning('Lütfen gerekli alanları doldurunuz.')
     }

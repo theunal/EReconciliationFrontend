@@ -4,6 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CompanyModel } from 'src/app/models/companyModel';
+import { AdminCompaniesDto } from 'src/app/models/DTOs/adminCompaniesDto';
 import { RegisterSecondDto } from 'src/app/models/DTOs/registerSecondDto';
 import { UserOperationClaimUpdateDto } from 'src/app/models/DTOs/userOperationClaimUpdateDto';
 import { UserRelationshipDto } from 'src/app/models/DTOs/userRelationshipDto';
@@ -54,6 +55,8 @@ export class User2Component implements OnInit {
   userUserId: number
   userCompanyId: number
   companyListButtonStatus: boolean
+
+  adminCompanies: AdminCompaniesDto[] = []
 
   constructor(private authService: AuthService, private userOperationClaimService: UserOperationClaimService,
     private spinner: NgxSpinnerService, private toastrService: ToastrService, private userService: UserService) { }
@@ -237,13 +240,16 @@ export class User2Component implements OnInit {
   }
 
   GetAllUserRelationshipByAdminUserId() {
+    this.spinner.show()
     this.userService.GetAllUserRelationshipByAdminUserId(this.userId).subscribe(res => {
+      this.spinner.hide()
       this.userRelationships = res.data
-      console.log(res.data)
       res.data.forEach(element => {
         element.companies.length > 0 ? this.userRelationshipCompanies = element.companies : document.getElementById('companyListModal').click()
         element.companies.length > 0 ? this.companyListButtonStatus = true : this.companyListButtonStatus = false
-      });
+      })
+    }, err => {
+      this.spinner.hide()
     })
   }
 
@@ -265,7 +271,17 @@ export class User2Component implements OnInit {
   }
 
 
-
+  getAdminCompanies(userUserId: number) {
+     console.log(userUserId)
+    this.spinner.show()
+    this.userService.getAdminCompanies(this.userId, userUserId).subscribe((res: any) => {
+      this.spinner.hide()
+      this.adminCompanies = res.data
+      console.log(this.adminCompanies)
+    }, err => {
+      this.spinner.hide()
+    })
+  }
 
 
 }

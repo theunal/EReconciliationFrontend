@@ -1,0 +1,307 @@
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 
+        bg-gradient-dark" id="sidenav-main">
+
+    <app-sidenav></app-sidenav>
+
+</aside>
+
+
+
+
+
+
+
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+
+    <app-nav></app-nav>
+
+    <div class="container-fluid py-4">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        <div *ngIf="companyGetall" class="col-md-1 mt-3" style=" float: left;">
+                            <div class="form-check form-switch d-flex align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="Aktif" [(ngModel)]='active'
+                                    (change)="activeCheck()">
+                                <label class="form-check-label mb-0 ms-2" for="Aktif">
+                                    Aktif
+                                </label>
+                            </div>
+                        </div>
+
+                        <div *ngIf="companyGetall" class="col-md-1 mt-3" style=" float: left;">
+                            <div class="form-check form-switch d-flex align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="Pasif" [(ngModel)]='passive'
+                                    (change)="passiveCheck()">
+                                <label class="form-check-label mb-0 ms-2" for="Pasif">
+                                    Pasif
+                                </label>
+                            </div>
+                        </div>
+
+                        <div *ngIf="companyGetall" class="col-md-3 mt-2" style=" float: left;">
+                            <div class="input-group input-group-outline">
+                                <input type="text" class="form-control" onfocus="focused(this)"
+                                    onfocusout="defocused(this)"
+                                    style="border-style: solid; border-color: red; border-width: 2px;"
+                                    [(ngModel)]='searchText' placeholder="Arama ifadesi giriniz">
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6" style=" float: right;">
+
+                            <button *ngIf="companyGetall" type="button" class="btn btn-lg bg-gradient-success mx-2"
+                                (click)="exportToExcel()" style=" float: right;">
+                                <i class="fa-solid fa-download" style="font-size: 15px; margin-right: 5px;"></i>
+                                Şirket Listesini Excel'e Aktar
+                            </button>
+
+                            <button *ngIf="companyAdd" type="button" class="btn btn-lg bg-gradient-info mx-2"
+                                style=" float: right;" data-bs-toggle="modal" data-bs-target="#companyAddModal">
+                                <i class="fa-solid fa-user-plus" style="font-size: 14px; margin-right: 5px;"></i>
+                                Şirket Ekle
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div *ngIf="companyGetall" class="card my-4">
+
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">{{currentListText}}</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table id="currencyAccountTable" class="table align-items-center mb-0">
+
+                                <thead>
+                                    <tr>
+                                        <th class=" text-secondary text-xs font-weight-bolder opacity-7">
+                                            Şirket Adı
+                                        </th>
+                                        <th class=" text-secondary text-xs font-weight-bolder opacity-7">
+                                            Adres
+                                        </th>
+                                        <th class="text-secondary text-xs font-weight-bolder opacity-7 px-5">
+                                            Vergi Dairesi
+                                        </th>
+                                        <th class=" text-secondary text-xs font-weight-bolder opacity-7 px-5">
+                                            Vergi Numarası
+                                        </th>
+                                        <th class=" text-secondary text-xs font-weight-bolder opacity-7">
+                                            Kayıt Tarihi
+                                        </th>
+                                        <th class=" text-secondary text-xs font-weight-bolder opacity-7">
+                                            Durumu
+                                        </th>
+                                        <th *ngIf="!(!companyDelete && !companyUpdate)"
+                                            class="text-center text-secondary text-xs font-weight-bolder opacity-7">
+                                            İşlemler
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let company of companies | companySearchPipe : searchText 
+                                    | currentAccountActivePassivePipe : activePassiveStatus()">
+
+                                        <td>
+                                            <div class="px-2 py-1">
+                                                <h6 class="mb-0 text-m text-uppercase">
+                                                    {{company.name}}
+                                                </h6>
+                                            </div>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <h6 class="mb-0 text-m">
+                                                {{company.address}}
+                                            </h6>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <h6 class="mb-0 text-m">
+                                                {{company.taxDepartment}}
+                                            </h6>
+                                        </td>
+
+                                        <td>
+                                            <h6 class="mb-0 text-s">
+                                                {{company.taxIdNumber}}
+                                            </h6>
+                                        </td>
+
+                                        <td>
+                                            <h6 class="mb-0 text-s">
+                                                {{company.addedAt | date : 'short'}}
+                                            </h6>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <span *ngIf='company.isActive'
+                                                class="badge badge-sm bg-gradient-success">Aktif</span>
+                                            <span *ngIf='company.isActive == false'
+                                                class="badge badge-sm bg-gradient-danger">Pasif</span>
+                                        </td>
+
+                                        <td *ngIf="!(!companyDelete && !companyUpdate)" class="align-middle">
+                                            <div class="row justify-content-center mx-2">
+                                                <button *ngIf="companyUpdate" type="button"
+                                                    class="btn btn-info btn-sm w-75 my-auto" data-bs-toggle="modal"
+                                                    data-bs-target="#companyUpdateModal" (click)="getById(company.id)">
+                                                    Güncelle
+                                                </button>
+                                            </div>
+                                            <!-- <div class="row justify-content-center mx-2">
+                                                <button *ngIf="companyDelete" class="btn btn-sm btn-danger w-75"
+                                                    (confirm)="delete(company.id)" [swal]="deleteCurrencyAccount">
+                                                    Sil
+                                                </button>
+                                            </div> -->
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <p *ngIf="!companyGetall"
+                    class="alert alert-danger rounded-pill w-50 text-center mx-auto mt-5 text-white text-bold"
+                    role="alert" style="font-size: 18px;">Listeyi görüntülemeye yetkiniz yok.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<swal type="question" #deleteCurrencyAccount title="Sil" text="Cari hesabı silmek istiyor musunuz?"
+    [showCancelButton]="true" confirmButtonText="Evet" cancelButtonText="Hayır" confirmButtonColor="#ff0000"
+    cancelButtonColor="#00ff00" [focusCancel]="true">
+</swal>
+
+<!-- cari add -->
+<div class="modal fade" id="companyAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Şirket Ekle</h5>
+            </div>
+            <div class="modal-body">
+
+                <form role="form" class="text-start" [formGroup]="companyAddForm">
+
+                    <div class="input-group input-group-outline mb-2">
+                        <input type="text" formControlName='name' class="form-control"
+                        placeholder="Şirket Adı">
+                    </div>
+
+                    <div class="input-group input-group-outline mb-2">
+                        <input type="text" formControlName='address' class="form-control"
+                        placeholder="Adres">
+                    </div>
+
+                    <div class="input-group input-group-outline mb-2">
+                        <input type="text" formControlName='taxDepartment' class="form-control"
+                        placeholder="Vergi Dairesi">
+                    </div>
+
+                    <div class="input-group input-group-outline mb-2">
+                        <input type="tel" formControlName='taxIdNumber' maxlength="10" class="form-control"
+                        placeholder="Vergi Numarası" max="10">
+                    </div>
+
+                    <div class="input-group input-group-outline mb-2">
+                        <input type="text" formControlName='identityNumber' maxlength="11" class="form-control"
+                        placeholder="T.C.K.N" maxlength="11">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" (click)="addCompany()">Gönder</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cari add -->
+
+<!-- cari update -->
+<div class="modal fade" id="companyUpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cari Hesabı Güncelle</h5>
+            </div>
+            <div class="modal-body">
+
+                <form role="form" class="text-start" [formGroup]="companyUpdateForm">
+
+
+                    <div class='input-group input-group-outline my-3'>
+                        <input type="text" formControlName='name' placeholder="Şirket Adı" class="form-control"
+                            autocomplete="off" minlength="1">
+                    </div>
+
+                    <div class='input-group input-group-outline my-3'>
+                        <input type="text" formControlName='address' class="form-control" placeholder="Şirket Adresi"
+                            autocomplete="off" minlength="1">
+                    </div>
+
+                    <div class="input-group input-group-outline mb-3">
+                        <input type="text" formControlName='taxDepartment' class="form-control"
+                            placeholder="Vergi Dairesi" autocomplete="off" minlength="1">
+                    </div>
+
+                    <div class="input-group input-group-outline mb-3">
+                        <input type="text" formControlName='taxIdNumber' class="form-control"
+                            placeholder="Vergi Numarası" autocomplete="off" maxlength="10">
+                    </div>
+
+                    <div class="form-check form-check-info text-start ps-0">
+                        <div class="row">
+                            <div class="col-md-3">Durumu</div>
+
+                            <div class="col-md-3">
+                                <label class="form-check-label mx-1" for="checkboxTrue">Aktif</label>
+                                <input class="form-check-input" type="checkbox" value="" id="checkboxTrue"
+                                    [(ngModel)]='checkboxUpdateTrue' [ngModelOptions]="{standalone: true}"
+                                    (change)="trueCheckboxUpdate()">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-check-label mx-1" for="checkboxTrue">Pasif</label>
+                                <input class="form-check-input" type="checkbox" value="" id="checkboxFalse"
+                                    [(ngModel)]='checkboxUpdateFalse' [ngModelOptions]="{standalone: true}"
+                                    (change)="falseCheckboxUpdate()">
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" (click)="update()">Gönder</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cari update -->
