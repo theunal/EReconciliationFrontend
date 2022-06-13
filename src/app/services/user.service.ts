@@ -11,6 +11,7 @@ import { ListResponseModel } from '../models/listResponseModel';
 import { ResponseModel } from '../models/responseModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
 import { TokenModel } from '../models/tokenModel';
+import { UserThemeModel } from '../models/userThemeModel';
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +67,14 @@ export class UserService {
   }
 
 
+  getUserTheme(userId: number): Observable<SingleResponseModel<UserThemeModel>> {
+    let url = this.api + 'Users/getUserTheme?userId=' + userId
+    return this.httpClient.get<SingleResponseModel<UserThemeModel>>(url)
+  }
 
- 
+  changeUserTheme(userTheme: UserThemeModel): Observable<ResponseModel> {
+    let url = this.api + 'Users/changeUserTheme'
+    return this.httpClient.post<ResponseModel>(url, userTheme)
+  }
+
 }

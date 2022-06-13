@@ -13,6 +13,8 @@ import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  
+  buttonClass : string = 'fixed-plugin ps'
 
   jwtHelper: JwtHelperService = new JwtHelperService()
 
@@ -32,6 +34,10 @@ export class NavComponent implements OnInit {
     let decode = this.jwtHelper.decodeToken(localStorage.getItem('token'))
     this.companyName = decode[Object.keys(decode).filter(x => x.endsWith('ispersistent'))[0]]
     this.userId = decode[Object.keys(decode).filter(x => x.endsWith('/nameidentifier'))[0]]
+  }
+
+  changeButton() { // sağ alttaki ayar butonu
+    return this.buttonClass
   }
 
 

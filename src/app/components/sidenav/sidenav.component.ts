@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserOperationClaimService } from 'src/app/services/user-operation-claim.service';
+import { UserService } from 'src/app/services/user.service';
+import { UserThemeModel } from './../../models/userThemeModel';
 
 @Component({
   selector: 'app-sidenav',
@@ -12,6 +14,8 @@ import { UserOperationClaimService } from 'src/app/services/user-operation-claim
 export class SidenavComponent implements OnInit {
 
   jwtHelper: JwtHelperService = new JwtHelperService()
+  userTheme : UserThemeModel
+
   name: string
   companyName: string
   companyId: number
@@ -26,13 +30,15 @@ export class SidenavComponent implements OnInit {
   accountReconciliationMenu: boolean = false
   babsReconciliationMenu: boolean = false
 
+
   constructor(private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute,
-    private userOperationClaimService: UserOperationClaimService) { }
+    private userOperationClaimService: UserOperationClaimService, private userService : UserService) { }
 
   ngOnInit(): void {
     this.refresh()
     this.currentUrl = this.activatedRoute.snapshot.routeConfig.path
     this.getUserOperationClaims()
+    this.getUserTheme()
   }
 
   refresh() {
@@ -48,6 +54,15 @@ export class SidenavComponent implements OnInit {
     }
   }
 
+  getUserTheme() {
+    this.userService.getUserTheme(this.userId).subscribe(res => {
+      this.userTheme = res.data
+    }, err => {
+      console.log(err)
+    })
+  }
+
+
 
   logout() {
     localStorage.removeItem('token')
@@ -58,7 +73,7 @@ export class SidenavComponent implements OnInit {
 
   sidenavButtonClass(url: string) {
     if (this.currentUrl == url) {
-      return 'nav-link text-white active bg-gradient-danger'
+      return 'nav-link text-white active bg-gradient-' + this.userTheme?.sidebarButtonColor
     }
     return 'nav-link text-white'
   }
