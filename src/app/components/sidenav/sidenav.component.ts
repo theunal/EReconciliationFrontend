@@ -5,6 +5,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserOperationClaimService } from 'src/app/services/user-operation-claim.service';
 import { UserService } from 'src/app/services/user.service';
 import { UserThemeModel } from './../../models/userThemeModel';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MailParameterModel } from './../../models/mailParameterModel';
+import { MailParameterService } from './../../services/mail-parameter.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sidenav',
@@ -30,15 +34,24 @@ export class SidenavComponent implements OnInit {
   accountReconciliationMenu: boolean = false
   babsReconciliationMenu: boolean = false
 
+  mailParameterForm: FormGroup
+  checkboxUpdateTrue: boolean = false
+  checkboxUpdateFalse: boolean = false
+
+  mailTemplateForm: FormGroup
+
 
   constructor(private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute,
-    private userOperationClaimService: UserOperationClaimService, private userService: UserService) { }
+    private userOperationClaimService: UserOperationClaimService, private userService: UserService,
+    private mailParameterService: MailParameterService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.refresh()
     this.currentUrl = this.activatedRoute.snapshot.routeConfig.path
     this.getUserOperationClaims()
     this.getUserTheme()
+    this.createMailParameter()
+    this.createMailTemplateForm()
   }
 
   refresh() {
@@ -114,10 +127,6 @@ export class SidenavComponent implements OnInit {
     }
   }
 
-
-
-
-
   getUserOperationClaims() {
 
     this.userOperationClaimService.getAllDto(this.userId, this.companyId).subscribe(res => {
@@ -148,6 +157,100 @@ export class SidenavComponent implements OnInit {
       console.log(err)
     })
   }
+
+
+  createMailParameter() {
+    this.mailParameterForm = new FormGroup({
+      id: new FormControl('', [Validators.required]),
+      companyId: new FormControl(this.companyId, [Validators.required]),
+      email: new FormControl('', [Validators.required]),
+      password: new FormControl(''),
+      smtp: new FormControl('', [Validators.required]),
+      port: new FormControl('', [Validators.required]),
+      ssl: new FormControl('')
+    })
+  }
+
+  // mail parameter 
+  trueCheckboxUpdate() {
+    this.checkboxUpdateTrue == true ? this.checkboxUpdateFalse = false : this.checkboxUpdateTrue = false
+    this.checkboxUpdateTrue == false ? this.checkboxUpdateFalse = true : this.checkboxUpdateTrue = true
+  }
+  falseCheckboxUpdate() {
+    this.checkboxUpdateFalse == true ? this.checkboxUpdateTrue = false : this.checkboxUpdateFalse = false
+    this.checkboxUpdateFalse == false ? this.checkboxUpdateTrue = true : this.checkboxUpdateFalse = true
+  }
+  trueFalseStatusUpdate() {
+    return this.checkboxUpdateTrue == true ? true : false
+  }
+  // mail parameter 
+
+  getMailParameters() {
+    this.mailParameterService.getMailParameters(this.companyId).subscribe(res => {
+      this.mailParameterForm.setValue({
+        id: res.data.id,
+        companyId: res.data.companyId,
+        email: res.data.email,
+        password: '',
+        smtp: res.data.smtp,
+        port: res.data.port,
+        ssl: res.data.ssl
+      })
+      if (res.data.ssl) {
+        this.checkboxUpdateTrue = true
+        this.checkboxUpdateFalse = false
+      } else {
+        this.checkboxUpdateTrue = false
+        this.checkboxUpdateFalse = true
+      }
+    }, err => {
+      this.mailParameterForm.setValue({
+        id: '',
+        companyId: '',
+        email: '',
+        password: '',
+        smtp: '',
+        port: '',
+        ssl: '',
+      })
+      console.log(err)
+    })
+  }
+
+  mailParameterUpdate() {
+    if (this.mailParameterForm.valid) {
+      let mailParameter: MailParameterModel = Object.assign({}, this.mailParameterForm.value)
+      mailParameter.ssl = this.trueFalseStatusUpdate()
+      this.mailParameterService.updateMailParameter(mailParameter).subscribe(res => {
+        this.toastr.success(res.message)
+        document.getElementById('mailParameterModal').click()
+      }, err => {
+        console.log(err)
+      })
+    } else {
+      this.toastr.warning('Lütfen gerekli alanları doldurunuz.')
+    }
+
+  }
+
+
+
+  createMailTemplateForm() {
+    this.mailTemplateForm = new FormGroup({
+      companyId: new FormControl(this.companyId),
+      type: new FormControl('', [Validators.required]),
+      value: new FormControl('', [Validators.required]),
+    })
+  }
+
+
+
+
+
+
+
+
+
 
 
 }

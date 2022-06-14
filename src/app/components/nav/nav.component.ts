@@ -70,7 +70,6 @@ export class NavComponent implements OnInit {
   getUserTheme() {
     this.userService.getUserTheme(this.userId).subscribe(res => {
       this.userTheme = res.data
-      console.log(res.data)
     }, err => {
       console.log(err)
     })
