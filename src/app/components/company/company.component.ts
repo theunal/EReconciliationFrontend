@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CompanyService } from 'src/app/services/company.service';
 import { AddCompanyDto } from 'src/app/models/DTOs/addCompanyDto';
+import { UserThemeModel } from './../../models/userThemeModel';
 
 @Component({
   selector: 'app-company',
@@ -22,6 +23,7 @@ export class CompanyComponent implements OnInit {
   jwtHelper: JwtHelperService = new JwtHelperService()
   userOperationClaims: UserOperationClaimModel[] = []
   companies: CompanyModel[] = []
+  userTheme: UserThemeModel
 
   searchText: string = ''
 
@@ -54,6 +56,7 @@ export class CompanyComponent implements OnInit {
     this.getAllCompanyAdminUserId()
     this.createCompanyUpdate()
     this.createcompanyAdd()
+    this.getUserTheme()
   }
 
   refresh() {
@@ -62,6 +65,19 @@ export class CompanyComponent implements OnInit {
       this.companyId = decode[Object.keys(decode).filter(x => x.endsWith('/anonymous'))[0]]
       this.userId = decode[Object.keys(decode).filter(x => x.endsWith('/nameidentifier'))[0]]
     }
+  }
+
+  getUserTheme() {
+    this.userService.getUserTheme(this.userId).subscribe(res => {
+      this.userTheme = res.data
+    }, err => {
+      console.log(err)
+    })
+  }
+
+  sidebarModeClass() {
+    return 'sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-' +
+      this.userTheme?.sidebarMode
   }
 
   getUserOperationClaims() {
@@ -207,11 +223,11 @@ export class CompanyComponent implements OnInit {
     if (this.companyAddForm.valid) {
       let company = Object.assign({}, this.companyAddForm.value)
       company.id = 0
-      company.addedAt =  new Date().toISOString(),
-      company.isActive = true
+      company.addedAt = new Date().toISOString(),
+        company.isActive = true
 
 
-      let dto : AddCompanyDto = {
+      let dto: AddCompanyDto = {
         company: company,
         userId: this.userId
       }

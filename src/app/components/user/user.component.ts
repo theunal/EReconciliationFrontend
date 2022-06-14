@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserOperationClaimService } from 'src/app/services/user-operation-claim.service';
 import { UserService } from 'src/app/services/user.service';
 import * as XLSX from 'xlsx';
+import { UserThemeModel } from './../../models/userThemeModel';
 
 @Component({
   selector: 'app-user',
@@ -21,6 +22,7 @@ export class UserComponent implements OnInit {
   jwtHelper: JwtHelperService = new JwtHelperService()
   userOperationClaims: UserOperationClaimModel[] = []
   users: UsersByCompanyDto[] = []
+  userTheme: UserThemeModel
 
   active: boolean = false
   passive: boolean = false
@@ -56,7 +58,7 @@ export class UserComponent implements OnInit {
     this.getUsers()
     this.createUserAddForm()
     this.createUserUpdateForm()
-    this.GetAllUserRelationshipByAdminUserId()
+    this.getUserTheme()
   }
 
   refresh() {
@@ -66,6 +68,19 @@ export class UserComponent implements OnInit {
       this.userId = decode[Object.keys(decode).filter(x => x.endsWith('/nameidentifier'))[0]]
       this.companyName = decode[Object.keys(decode).filter(x => x.endsWith('/ispersistent'))[0]]
     }
+  }
+
+  getUserTheme() {
+    this.userService.getUserTheme(this.userId).subscribe(res => {
+      this.userTheme = res.data
+    }, err => {
+      console.log(err)
+    })
+  }
+
+  sidebarModeClass() {
+    return 'sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-' +
+      this.userTheme?.sidebarMode
   }
 
   getUserOperationClaims() {
@@ -237,12 +252,6 @@ export class UserComponent implements OnInit {
     } else {
       this.toastrService.warning("Gerekli yerleri boş bırakamazsınız.")
     }
-  }
-
-  GetAllUserRelationshipByAdminUserId() {
-    this.userService.GetAllUserRelationshipByAdminUserId(this.userId).subscribe(res => {
-      console.log(res.data)
-    })
   }
 
 }

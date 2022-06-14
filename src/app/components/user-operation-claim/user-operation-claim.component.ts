@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { OperationClaimService } from 'src/app/services/operation-claim.service';
 import { UserOperationClaimService } from 'src/app/services/user-operation-claim.service';
 import { UserService } from 'src/app/services/user.service';
+import { UserThemeModel } from './../../models/userThemeModel';
 
 @Component({
   selector: 'app-user-operation-claim',
@@ -20,6 +21,7 @@ export class UserOperationClaimComponent implements OnInit {
   jwtHelper: JwtHelperService = new JwtHelperService()
   allOperationClaims: OperationClaimModel[] = []
   userOperationClaims: UserOperationClaimModel[] = []
+  userTheme: UserThemeModel
 
   searchText: string = ''
   currentListText: string = 'Kullanıcı Yetkileri'
@@ -43,6 +45,7 @@ export class UserOperationClaimComponent implements OnInit {
       this.userValue = res['value']
     })
     this.getUserIdByValue()
+    this.getUserTheme()
   }
 
   refresh() {
@@ -50,6 +53,19 @@ export class UserOperationClaimComponent implements OnInit {
       let decode = this.jwtHelper.decodeToken(localStorage.getItem('token'))
       this.companyId = decode[Object.keys(decode).filter(x => x.endsWith('/anonymous'))[0]]
     }
+  }
+
+  getUserTheme() {
+    this.userService.getUserTheme(this.userId).subscribe(res => {
+      this.userTheme = res.data
+    }, err => {
+      console.log(err)
+    })
+  }
+
+  sidebarModeClass() {
+    return 'sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-' +
+      this.userTheme?.sidebarMode
   }
 
   getAllOperationClaims() {

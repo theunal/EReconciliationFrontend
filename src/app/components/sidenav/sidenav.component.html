@@ -1,10 +1,9 @@
 <div class="sidenav-header">
-    <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
-        aria-hidden="true" id="iconSidenav"></i>
+    <i [class]='sidebarTextClass()' aria-hidden="true" id="iconSidenav"></i>
     <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
         target="_blank">
         <img src="/../assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold text-white">{{name}}</span>
+        <span [class]='sidebarUserNameTextClass()'>{{name}}</span>
     </a>
 </div>
 
@@ -15,16 +14,16 @@
 
         <li class="nav-item">
             <a [class]="sidenavButtonClass('')" routerLink=''>
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <div [class]="sidebarIconClass()">
                     <i class="material-icons opacity-10">home</i>
                 </div>
-                <span class="nav-link-text ms-1">Ana Sayfa</span>
+                <span [class]='sidebarButtonTextClass("")'>Ana Sayfa</span>
             </a>
         </li>
 
         <li *ngIf="accountReconciliationMenu" class="nav-item">
-            <a class="nav-link text-white " href="#">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <a class="nav-link text-white" href="#">
+                <div [class]="sidebarIconClass()">
                     <i class="material-icons opacity-10">assignment_turned_in</i>
                 </div>
                 <span class="nav-link-text ms-1">Cari Mutabakatlar</span>
@@ -33,7 +32,7 @@
 
         <li *ngIf="babsReconciliationMenu" class="nav-item">
             <a class="nav-link text-white " href="#">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <div [class]="sidebarIconClass()">
                     <i class="material-icons opacity-10">description</i>
                 </div>
                 <span class="nav-link-text ms-1">BaBs Mutabakatlar</span>
@@ -42,48 +41,48 @@
 
         <li *ngIf="!(!currentAccountMenu && !userMenu && !companyMenu && !mailParameterMenu && !mailTemplateMenu)"
             class="nav-item mt-3">
-            <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Kayıtlar</h6>
+            <h6 [class]='sidebarHeaderClass()'>Kayıtlar</h6>
         </li>
 
-        <li *ngIf="currentAccountMenu"class="nav-item">
+        <li *ngIf="currentAccountMenu" class="nav-item">
             <a [class]="sidenavButtonClass('currentAccount')" routerLink="/currentAccount">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <div [class]="sidebarIconClass()">
                     <i class="material-icons opacity-10">receipt_long</i>
                 </div>
-                <span class="nav-link-text ms-1">Cariler</span>
+                <span [class]='sidebarButtonTextClass("currentAccount")'>Cariler</span>
             </a>
         </li>
 
         <li *ngIf="userMenu" class="nav-item">
-            <a [class]="sidenavButtonClass('user')"  routerLink="/user">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <a [class]="sidenavButtonClass('user')" routerLink="/user">
+                <div [class]="sidebarIconClass()">
                     <i class="material-icons opacity-10">person</i>
                 </div>
-                <span class="nav-link-text ms-1">Kullanıcılar</span>
+                <span [class]='sidebarButtonTextClass("user")'>Kullanıcılar</span>
             </a>
         </li>
 
         <li *ngIf="userMenu" class="nav-item">
-            <a [class]="sidenavButtonClass('user2')"  routerLink="/user2">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <a [class]="sidenavButtonClass('user2')" routerLink="/user2">
+                <div [class]="sidebarIconClass()">
                     <i class="material-icons opacity-10">person</i>
                 </div>
-                <span class="nav-link-text ms-1">Kullanıcılar 2</span>
+                <span [class]='sidebarButtonTextClass("user2")'>Kullanıcılar 2</span>
             </a>
         </li>
 
         <li *ngIf="companyMenu" class="nav-item">
-            <a  [class]="sidenavButtonClass('company')" routerLink="/company">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <a [class]="sidenavButtonClass('company')" routerLink="/company">
+                <div [class]="sidebarIconClass()">
                     <i class="material-icons opacity-10">domain</i>
                 </div>
-                <span class="nav-link-text ms-1">Şirketler</span>
+                <span [class]='sidebarButtonTextClass("company")'>Şirketler</span>
             </a>
         </li>
 
         <li *ngIf="mailParameterMenu" class="nav-item">
             <a class="nav-link text-white " href="./pages/sign-up.html">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <div [class]="sidebarIconClass()">
                     <i class="material-icons opacity-10">mail</i>
                 </div>
                 <span class="nav-link-text ms-1">Mail Parametreleri</span>
@@ -92,7 +91,7 @@
 
         <li *ngIf="mailTemplateMenu" class="nav-item">
             <a class="nav-link text-white" href="#">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <div [class]="sidebarIconClass()">
                     <i class="material-icons opacity-10">web</i>
                 </div>
                 <span class="nav-link-text ms-1">Mail Şablonları</span>
@@ -112,7 +111,3 @@
         </a>
     </div>
 </div>
-
-
-
-

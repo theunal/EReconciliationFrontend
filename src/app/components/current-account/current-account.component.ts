@@ -7,8 +7,10 @@ import { CurrentAccountModel } from 'src/app/models/currentAccountModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { CurrentAccountService } from 'src/app/services/current-account.service';
 import { UserOperationClaimService } from 'src/app/services/user-operation-claim.service';
+import { UserService } from 'src/app/services/user.service';
 import * as XLSX from 'xlsx';
 import { UserOperationClaimModel } from './../../models/userOperationClaimModel';
+import { UserThemeModel } from './../../models/userThemeModel';
 
 @Component({
   selector: 'app-current-account',
@@ -21,6 +23,8 @@ export class CurrentAccountComponent implements OnInit {
   currentAccounts: CurrentAccountModel[] = []
   currentAccount: CurrentAccountModel
   userOperationClaims: UserOperationClaimModel[] = []
+  userTheme: UserThemeModel
+
   companyId: number
   userId: number
   searchText: string = ''
@@ -49,7 +53,7 @@ export class CurrentAccountComponent implements OnInit {
 
   constructor(private currencyAccountService: CurrentAccountService, private authService: AuthService,
     private spinner: NgxSpinnerService, private toastrService: ToastrService,
-    private userOperationClaimService: UserOperationClaimService) { }
+    private userOperationClaimService: UserOperationClaimService, private userService : UserService) { }
 
   ngOnInit(): void {
     this.refresh()
@@ -57,6 +61,7 @@ export class CurrentAccountComponent implements OnInit {
     this.getCurrencyAccounts()
     this.createCurrentAccountUpdate()
     this.createCurrentAccountAdd()
+    this.getUserTheme()
   }
 
   refresh() {
@@ -65,6 +70,19 @@ export class CurrentAccountComponent implements OnInit {
       this.companyId = decode[Object.keys(decode).filter(x => x.endsWith('/anonymous'))[0]]
       this.userId = decode[Object.keys(decode).filter(x => x.endsWith('/nameidentifier'))[0]]
     }
+  }
+
+  getUserTheme() {
+    this.userService.getUserTheme(this.userId).subscribe(res => {
+      this.userTheme = res.data
+    }, err => {
+      console.log(err)
+    })
+  }
+
+  sidebarModeClass() {
+    return 'sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-' +
+      this.userTheme?.sidebarMode
   }
 
   getCurrencyAccounts() {
