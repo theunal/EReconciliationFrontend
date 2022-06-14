@@ -7,6 +7,7 @@ export interface AccountReconciliationDto extends AccountReconciliationModel {
     companyTaxIdNumber: string
     companyIdentityNumber: string
     accountName: string
+    accountCode: string
     accountTaxDepartment: string
     accountTaxIdNumber: string
     accountIdentityNumber: string

@@ -7,6 +7,7 @@ import { ChangeCompanyDto } from './../../models/DTOs/changeCompanyDto';
 import { ToastrService } from 'ngx-toastr';
 import { UserThemeModel } from 'src/app/models/userThemeModel';
 import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-nav',
@@ -26,7 +27,7 @@ export class NavComponent implements OnInit {
   companies: CompanyModel[] = []
 
   constructor(private companyService: CompanyService, private spinner: NgxSpinnerService, private toastr: ToastrService,
-    private userService: UserService) { }
+    private userService: UserService, private authService : AuthService) { }
 
   ngOnInit(): void {
     this.refresh()

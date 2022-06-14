@@ -41,10 +41,8 @@ export class CurrentAccountService {
 
   addFromExcel(file: any, companyId: number): Observable<ResponseModel> {
     let url = this.api + 'CurrentAccounts/addByExcel?companyId=' + companyId
-
     let formData = new FormData()
     formData.append('file', file, file.name)
-
     return this.httpClient.post<ResponseModel>(url, formData)
   }
 

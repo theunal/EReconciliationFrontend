@@ -22,11 +22,11 @@
         </li>
 
         <li *ngIf="accountReconciliationMenu" class="nav-item">
-            <a class="nav-link text-white" href="#">
+            <a [class]="sidenavButtonClass('accountReconciliation')" routerLink='/accountReconciliation'>
                 <div [class]="sidebarIconClass()">
                     <i class="material-icons opacity-10">assignment_turned_in</i>
                 </div>
-                <span class="nav-link-text ms-1">Cari Mutabakatlar</span>
+                <span [class]='sidebarButtonTextClass("accountReconciliation")'>Cari Mutabakatlar</span>
             </a>
         </li>
 
@@ -151,15 +151,15 @@
                             <div class="col-md-3">SSL : </div>
 
                             <div class="col-md-3">
-                                <label class="form-check-label mx-1" for="mailcheckboxTrue">Aktif</label>
-                                <input class="form-check-input" type="checkbox" value="" id="mailcheckboxTrue"
+                                <label class="form-check-label mx-1" for="mailcheckboxTrue1">Aktif</label>
+                                <input class="form-check-input" type="checkbox" value="" id="mailcheckboxTrue1"
                                     [(ngModel)]='checkboxUpdateTrue' [ngModelOptions]="{standalone: true}"
                                     (change)="trueCheckboxUpdate()">
                             </div>
 
                             <div class="col-md-3">
-                                <label class="form-check-label mx-1" for="mailcheckboxFalse">Pasif</label>
-                                <input class="form-check-input" type="checkbox" value="" id="mailcheckboxFalse"
+                                <label class="form-check-label mx-1" for="mailcheckboxFalse1">Pasif</label>
+                                <input class="form-check-input" type="checkbox" value="" id="mailcheckboxFalse1"
                                     [(ngModel)]='checkboxUpdateFalse' [ngModelOptions]="{standalone: true}"
                                     (change)="falseCheckboxUpdate()">
                             </div>
@@ -177,62 +177,3 @@
 </div>
 <!-- mail parameter -->
 
-<!-- mail template -->
-<div class="modal fade" id="mailParameterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Mail Şablonlarını Düzenle</h5>
-            </div>
-            <div class="modal-body">
-
-                <form role="form" class="text-start" [formGroup]="mailTemplateForm">
-
-                    <div class="input-group input-group-outline mb-2">
-                        <input type="email" formControlName='email' class="form-control" placeholder="Email">
-                    </div>
-
-                    <div class="input-group input-group-outline mb-2">
-                        <input type="password" formControlName='password' class="form-control" placeholder="Şifre">
-                    </div>
-
-                    <div class="input-group input-group-outline mb-2">
-                        <input type="text" formControlName='smtp' class="form-control" placeholder="SMTP">
-                    </div>
-
-                    <div class="input-group input-group-outline mb-2">
-                        <input type="text" formControlName='port' maxlength="10" class="form-control"
-                            placeholder="Port Numarası" max="10">
-                    </div>
-
-                    <div class="form-check form-check-info text-start ps-0">
-                        <div class="row">
-                            <div class="col-md-3">SSL : </div>
-
-                            <div class="col-md-3">
-                                <label class="form-check-label mx-1" for="mailcheckboxTrue">Aktif</label>
-                                <input class="form-check-input" type="checkbox" value="" id="mailcheckboxTrue"
-                                    [(ngModel)]='checkboxUpdateTrue' [ngModelOptions]="{standalone: true}"
-                                    (change)="trueCheckboxUpdate()">
-                            </div>
-
-                            <div class="col-md-3">
-                                <label class="form-check-label mx-1" for="mailcheckboxFalse">Pasif</label>
-                                <input class="form-check-input" type="checkbox" value="" id="mailcheckboxFalse"
-                                    [(ngModel)]='checkboxUpdateFalse' [ngModelOptions]="{standalone: true}"
-                                    (change)="falseCheckboxUpdate()">
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                <button type="button" class="btn btn-primary" (click)="mailParameterUpdate()">Gönder</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- mail template -->

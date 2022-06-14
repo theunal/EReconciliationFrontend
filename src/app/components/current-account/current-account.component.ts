@@ -304,7 +304,7 @@ export class CurrentAccountComponent implements OnInit {
         this.spinner.hide()
         this.toastrService.success(res.message)
         this.getCurrencyAccounts()
-        document.getElementById('addFromExcelCurrencyAccountModal').click()
+        document.getElementById('addFromExcelCurrentAccountModal').click()
         this.file = ''
       }, err => {
         this.spinner.hide()

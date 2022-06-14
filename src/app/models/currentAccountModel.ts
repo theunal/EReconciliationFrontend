@@ -1,7 +1,6 @@
 
 
 export interface CurrentAccountModel {
-
     id: number;
     companyId: number;
     code: string;
@@ -14,5 +13,4 @@ export interface CurrentAccountModel {
     authorized: string;
     addedAt: string;
     isActive: boolean
-
 }

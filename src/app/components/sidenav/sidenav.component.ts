@@ -51,7 +51,6 @@ export class SidenavComponent implements OnInit {
     this.getUserOperationClaims()
     this.getUserTheme()
     this.createMailParameter()
-    this.createMailTemplateForm()
   }
 
   refresh() {
@@ -234,14 +233,6 @@ export class SidenavComponent implements OnInit {
   }
 
 
-
-  createMailTemplateForm() {
-    this.mailTemplateForm = new FormGroup({
-      companyId: new FormControl(this.companyId),
-      type: new FormControl('', [Validators.required]),
-      value: new FormControl('', [Validators.required]),
-    })
-  }
 
 
 

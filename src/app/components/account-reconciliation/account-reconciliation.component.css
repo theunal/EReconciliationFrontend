@@ -1,0 +1,29 @@
+::placeholder {
+    color: black;
+}
+
+form .ng-valid {
+    border-left: 5px solid #42A948;
+    /* green */
+
+}
+
+form .ng-invalid {
+    border-left: 5px solid #a94442;
+    /* red */
+}
+
+tbody tr td,
+thead tr th {
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
