@@ -105,7 +105,7 @@
 
                                 <tbody>
                                     <tr *ngFor="let user of users | userSearchPipe : searchText
-                                     | currentAccountActivePassivePipe : activePassiveStatus()">
+                                     | userActivePassivePipe : activePassiveStatus()">
 
                                         <td>
                                             <div class="px-2 py-1 text-center">

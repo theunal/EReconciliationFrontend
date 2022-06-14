@@ -12,156 +12,172 @@
     <app-nav></app-nav>
     <div class="container-fluid py-4">
 
+
         <div class="row">
-            <div class="col-12">
+            <div *ngIf="accountReconciliationGetall" class="row mb-5">
 
-                <div class="row">
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
 
-                    <div *ngIf="accountReconciliationGetall" class="row mb-5">
+                        <div class="card-header p-3 pt-2">
 
-                        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                            <div class="card">
-
-                                <div class="card-header p-3 pt-2">
-
-                                    <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center
-                                 border-radius-xl mt-n4 position-absolute">
-                                        <i class="material-icons opacity-10">weekend</i>
-                                    </div>
-
-                                    <div class="text-end pt-1">
-                                        <p class="text-sm mb-0 text-capitalize">Toplam Mutabakat Sayısı</p>
-                                        <h4 class="mb-0">{{accountReconciliationCount}}</h4>
-                                    </div>
-
-                                </div>
-
-                                <hr class="dark horizontal my-0">
-                                <div class="card-footer p-3">
-                                    <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55%
-                                        </span>than lask week</p>
-                                </div>
-
+                            <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center
+                                border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
                             </div>
+
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize">Toplam Mutabakat Sayısı</p>
+                                <h4 class="mb-0">{{accountReconciliationCount}}</h4>
+                            </div>
+
                         </div>
 
-                        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                            <div class="card">
-                                <div class="card-header p-3 pt-2">
-                                    <div
-                                        class="icon icon-lg icon-shape bg-gradient-success shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                                        <i class="fa-solid fa-check"></i>
-                                    </div>
-                                    <div class="text-end pt-1">
-                                        <p class="text-sm mb-0 text-capitalize">Onaylanan Mutabakatlar</p>
-                                        <h4 class="mb-0">{{accountReconciliationApproved}}</h4>
-                                    </div>
-                                </div>
-                                <hr class="dark horizontal my-0">
-                                <div class="card-footer p-3">
-                                    <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3%
-                                        </span>than lask month</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                            <div class="card">
-                                <div class="card-header p-3 pt-2">
-                                    <div
-                                        class="icon icon-lg icon-shape bg-gradient-danger shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </div>
-                                    <div class="text-end pt-1">
-                                        <p class="text-sm mb-0 text-capitalize">Onaylanmayan Mutabakatlar</p>
-                                        <h4 class="mb-0">{{accountReconciliationApproved}}</h4>
-                                    </div>
-                                </div>
-                                <hr class="dark horizontal my-0">
-                                <div class="card-footer p-3">
-                                    <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than
-                                        yesterday</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-sm-6">
-                            <div class="card">
-                                <div class="card-header p-3 pt-2">
-                                    <div
-                                        class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                                        <i class="fa-solid fa-clock"></i>
-                                    </div>
-                                    <div class="text-end pt-1">
-                                        <p class="text-sm mb-0 text-capitalize">Onay Bekleyen Mutabakatlar</p>
-                                        <h4 class="mb-0">{{accountReconciliationPendingApproval}}</h4>
-                                    </div>
-                                </div>
-                                <hr class="dark horizontal my-0">
-                                <div class="card-footer p-3">
-                                    <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5%
-                                        </span>than yesterday</p>
-                                </div>
-                            </div>
+                        <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55%
+                                </span>than lask week</p>
                         </div>
 
                     </div>
+                </div>
+
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-success shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize">Onaylanan Mutabakatlar</p>
+                                <h4 class="mb-0">{{accountReconciliationApproved}}</h4>
+                            </div>
+                        </div>
+                        <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3%
+                                </span>than lask month</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-danger shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize">Onaylanmayan Mutabakatlar</p>
+                                <h4 class="mb-0">{{accountReconciliationNotApproved}}</h4>
+                            </div>
+                        </div>
+                        <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than
+                                yesterday</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize">Onay Bekleyen Mutabakatlar</p>
+                                <h4 class="mb-0">{{accountReconciliationPendingApproval}}</h4>
+                            </div>
+                        </div>
+                        <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5%
+                                </span>than yesterday</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div *ngIf="accountReconciliationGetall" class="mb-3">
+            <div class="input-group input-group-outline">
+                <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)"
+                    style="border-style: solid; border-color: red; border-width: 2px;" [(ngModel)]='searchText'
+                    placeholder="Arama ifadesi giriniz">
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12">
+
+
+              
+
+                <div class="row">
 
                     <div class="col-md-12">
 
-                        <div *ngIf="accountReconciliationGetall" class="col-md-1 mt-3" style=" float: left;">
+                        <div *ngIf="accountReconciliationGetall" class="col-md-1 mt-2" style=" float: left;">
+                            <div class="form-check form-switch d-flex align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="Wait" [(ngModel)]='wait'
+                                    (change)="waitCheck()">
+                                <label class="form-check-label mb-0 ms-2" for="Wait">
+                                    Bekleniyor
+                                </label>
+                            </div>
+                        </div>
+
+                        <div *ngIf="accountReconciliationGetall" class="col-md-1 mt-2" style=" float: left;">
                             <div class="form-check form-switch d-flex align-items-center mb-3">
                                 <input class="form-check-input" type="checkbox" id="Aktif" [(ngModel)]='active'
                                     (change)="activeCheck()">
                                 <label class="form-check-label mb-0 ms-2" for="Aktif">
-                                    Aktif
+                                    Onaylandı
                                 </label>
                             </div>
                         </div>
 
-                        <div *ngIf="accountReconciliationGetall" class="col-md-1 mt-3" style=" float: left;">
+                        <div *ngIf="accountReconciliationGetall" class="col-md-1 mt-2" style=" float: left;">
                             <div class="form-check form-switch d-flex align-items-center mb-3">
                                 <input class="form-check-input" type="checkbox" id="Pasif" [(ngModel)]='passive'
                                     (change)="passiveCheck()">
                                 <label class="form-check-label mb-0 ms-2" for="Pasif">
-                                    Pasif
+                                    Onaylanmadı
                                 </label>
                             </div>
                         </div>
 
-                        <div *ngIf="accountReconciliationGetall" class="col-md-3 mt-2" style=" float: left;">
-                            <div class="input-group input-group-outline">
-                                <input type="text" class="form-control" onfocus="focused(this)"
-                                    onfocusout="defocused(this)"
-                                    style="border-style: solid; border-color: red; border-width: 2px;"
-                                    [(ngModel)]='searchText' placeholder="Arama ifadesi giriniz">
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-7" style=" float: right;">
+                        <div class="col-md-8" style=" float: right;">
 
                             <button *ngIf="accountReconciliationGetall" type="button"
-                                class="btn btn-lg bg-gradient-danger mx-2" (click)="exportToExcel()"
+                                class="btn btn-md bg-gradient-danger mx-2" (click)="exportToExcel()"
                                 style=" float: right;">
                                 <i class="fa-solid fa-download" style="font-size: 15px; margin-right: 5px;"></i>
                                 Cari Mutabakat Listesini Excel'e Aktar
                             </button>
 
                             <button *ngIf="accountReconciliationAdd" type="button"
-                                class="btn btn-lg bg-gradient-success mx-2" style=" float: right;"
+                                class="btn btn-md bg-gradient-success mx-2" style=" float: right;"
                                 data-bs-toggle="modal" data-bs-target="#addAccountReconciliationByExcelModal">
                                 <i class="fa-solid fa-file-excel" style="font-size: 15px; margin-right: 5px;"></i>
                                 Cari Mutabakat Ekle (Excel)
                             </button>
 
                             <button *ngIf="accountReconciliationAdd" type="button"
-                                class="btn btn-lg bg-gradient-info mx-2" style=" float: right;" data-bs-toggle="modal"
+                                class="btn btn-md bg-gradient-info mx-2" style=" float: right;" data-bs-toggle="modal"
                                 data-bs-target="#addCurrentAccountModal">
                                 <i class="fa-solid fa-user-plus" style="font-size: 14px; margin-right: 5px;"></i>
                                 Cari Mutabakat Ekle
                             </button>
                         </div>
+
                     </div>
 
                 </div>
@@ -202,8 +218,8 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr *ngFor="let accountReconciliation of accountReconciliations | currentAccountSearchPipe : searchText 
-                                    | currentAccountActivePassivePipe : activePassiveStatus()">
+                                    <tr *ngFor="let accountReconciliation of accountReconciliations | accountReconciliationPipe : searchText 
+                                    | accountReconciliationStatusPipe : activePassiveStatus()">
 
                                         <td>
                                             <div class="px-2 py-1">
@@ -279,24 +295,24 @@
                                         </td>
 
 
-                                        <!-- <td *ngIf="!(!accountReconciliationDelete && !accountReconciliationUpdate)"
+                                        <td *ngIf="!(!accountReconciliationDelete && !accountReconciliationUpdate)"
                                             class="align-middle">
-                                            <div class="row justify-content-center mx-2">
+                                            <!-- <div class="row justify-content-center mx-2">
                                                 <button *ngIf="accountReconciliationUpdate" type="button"
                                                     class="btn btn-info btn-sm " data-bs-toggle="modal"
                                                     data-bs-target="#updateCurrentAccountModal"
                                                     (click)="getById(currentAccount.id)">
                                                     Güncelle
                                                 </button>
-                                            </div>
-                                            <div class="row justify-content-center mx-2">
+                                            </div> -->
+                                            <div class="row justify-content-center mx-auto my-auto">
                                                 <button *ngIf="accountReconciliationDelete"
-                                                    class="btn btn-sm btn-danger w-75"
-                                                    (confirm)="delete(currentAccount)" [swal]="deleteCurrencyAccount">
+                                                    class="btn btn-sm btn-danger w-50"
+                                                    (confirm)="delete(accountReconciliation.id)" [swal]="deleteAR">
                                                     Sil
                                                 </button>
                                             </div>
-                                        </td> -->
+                                        </td>
                                     </tr>
 
                                 </tbody>
@@ -318,7 +334,7 @@
 
 </main>
 
-<swal type="question" #deleteCurrencyAccount title="Sil" text="Cari hesabı silmek istiyor musunuz?"
+<swal type="question" #deleteAR title="Sil" text="Cari hesabı silmek istiyor musunuz?"
     [showCancelButton]="true" confirmButtonText="Evet" cancelButtonText="Hayır" confirmButtonColor="#ff0000"
     cancelButtonColor="#00ff00" [focusCancel]="true">
 </swal>

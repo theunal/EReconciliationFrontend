@@ -24,7 +24,6 @@ import { CurrentAccountModel } from 'src/app/models/currentAccountModel';
 })
 export class AccountReconciliationComponent implements OnInit {
 
-
   jwtHelper: JwtHelperService = new JwtHelperService()
   accountReconciliations: AccountReconciliationDto[] = []
   accountReconciliation: AccountReconciliationModel
@@ -46,6 +45,7 @@ export class AccountReconciliationComponent implements OnInit {
 
   active: boolean = false
   passive: boolean = false
+  wait: boolean = false
   currentListText: string = 'Cari Mutabakat Listesi'
 
   file: string = ''
@@ -76,12 +76,10 @@ export class AccountReconciliationComponent implements OnInit {
     this.getUserOperationClaims()
     this.getAccountReconciliations()
     this.getUserTheme()
-
     // add  
     this.getAllCurrencies()
     this.getCurrencyAccounts()
     // add  
-
     this.createAccountReconciliationAdd()
   }
 
@@ -94,9 +92,12 @@ export class AccountReconciliationComponent implements OnInit {
   }
 
   getUserTheme() {
+    this.spinner.show()
     this.userService.getUserTheme(this.userId).subscribe(res => {
+      this.spinner.hide()
       this.userTheme = res.data
     }, err => {
+      this.spinner.hide()
       console.log(err)
     })
   }
@@ -109,6 +110,10 @@ export class AccountReconciliationComponent implements OnInit {
   getAccountReconciliations() {
     this.spinner.show()
     this.accountReconciliationService.getAllDto(this.companyId).subscribe(res => {
+      res.data.forEach(element => {
+        console.log(element.id)
+      })
+
       this.spinner.hide()
       this.accountReconciliations = res.data
       this.accountReconciliationCount = res.data.length
@@ -128,7 +133,6 @@ export class AccountReconciliationComponent implements OnInit {
     this.userOperationClaimService.getAllDto(this.userId, this.companyId).subscribe(res => {
       this.spinner.hide()
       this.userOperationClaims = res.data
-      console.log(res.data)
 
       if (res.data.find(x => x.operationClaimName == 'accountReconciliation.getall')) this.accountReconciliationGetall = true
       if (res.data.find(x => x.operationClaimName == 'accountReconciliation.get')) this.accountReconciliationGet = true
@@ -163,10 +167,13 @@ export class AccountReconciliationComponent implements OnInit {
 
 
   delete(id: number) {
+    this.spinner.show()
     this.accountReconciliationService.delete(id).subscribe(res => {
-      this.toastrService.success('Cari Hesabı Başarıyla Silindi', 'Başarılı')
+      this.spinner.hide()
+      this.toastrService.info(res.message, 'Başarılı')
       this.getAccountReconciliations()
     }, err => {
+      this.spinner.hide()
       this.toastrService.error(err.error, this.accountReconciliation.guid)
     })
   }
@@ -213,20 +220,24 @@ export class AccountReconciliationComponent implements OnInit {
   }
 
   add() {
+    this.spinner.show()
     if (this.addAccountReconciliationForm.value.startingDate > this.addAccountReconciliationForm.value.endingDate) {
       this.toastrService.error('Lütfen tarihleri doğru giriniz.', 'Hata')
       return
     }
     if (this.addAccountReconciliationForm.valid) {
       this.accountReconciliationService.add(this.addAccountReconciliationForm.value).subscribe(res => {
+        this.spinner.hide()
         this.getAccountReconciliations()
         this.createAccountReconciliationAdd()
         document.getElementById('addCurrentAccountModal').click()
         this.toastrService.success(res.message, 'Başarılı')
       }, err => {
+        this.spinner.hide()
         console.log(err)
       })
     } else {
+      this.spinner.hide()
       this.toastrService.warning('Lütfen gerekli yerleri dolrudurunu<.')
     }
   }
@@ -242,19 +253,38 @@ export class AccountReconciliationComponent implements OnInit {
 
 
 
-  // aktif pasif listesi
+  // onaylanmış onaylanmamış bekleniyor listesi
   activeCheck() {
     this.active == true ? this.passive = false : this.active = false
-    this.active == true ? this.currentListText = 'Aktif Cari Mutabakat Listesi' : this.currentListText = 'Cari MutabakatListesi'
+    if (this.active) {
+      this.passive = false
+      this.wait = false
+    } else {
+    }
+    this.active == true ? this.currentListText = 'Onaylanmış Cari Mutabakat Listesi' : this.currentListText = 'Cari Mutabakat Listesi'
   }
   passiveCheck() {
     this.passive == true ? this.active = false : this.passive = false
-    this.passive == true ? this.currentListText = 'Pasif Cari Mutabakat Listesi' : this.currentListText = 'Cari Mutabakat Listesi'
+    if (this.passive) {
+      this.active = false
+      this.wait = false
+    } else {
+    }
+    this.passive == true ? this.currentListText = 'Onaylanmamış Cari Mutabakat Listesi' : this.currentListText = 'Cari Mutabakat Listesi'
+  }
+  waitCheck() {
+    console.log(this.wait)
+    if (this.wait) {
+      this.active = false
+      this.passive = false
+    } else {
+    }
+    this.wait == true ? this.currentListText = 'Durumu Beklenen Cari Mutabakat Listesi' : this.currentListText = 'Cari Mutabakat Listesi'
   }
   activePassiveStatus() {
-    return this.active == true ? 'Aktif' : this.passive == true ? 'Pasif' : ''
+    return this.active == true ? 'Onaylandı' : this.passive == true ? 'Onaylanmadı' : this.wait == true ? 'Bekleniyor' : ''
   }
-  // aktif pasif listesi
+  // onaylanmış onaylanmamış bekleniyor listesi
 
   // current account add
   trueCheckbox() {
@@ -284,43 +314,6 @@ export class AccountReconciliationComponent implements OnInit {
   }
   // current account update
 
-  // add() {
-  //   this.spinner.show()
-  //   if (this.addCurrencyAccountForm.valid) {
-  //     // console.log('valide girdi')
-  //     let currentAccount: AccountReconciliationModel = this.addCurrencyAccountForm.value
-  //     //currentAccount.isActive = this.trueFalseStatus()
-  //     this.accountReconciliationService.add(currentAccount).subscribe(res => {
-  //       this.spinner.hide()
-  //       this.toastrService.success('Cari Mutabakat Kaydı Başarıyla Eklendi', this.addCurrencyAccountForm.value.name)
-  //       this.getAccountReconciliations()
-  //       document.getElementById('addCurrencyAccountModal').click()
-  //       this.createCurrentAccountAdd()
-  //     }, err => {
-  //       this.spinner.hide()
-  //       this.toastrService.error(err.error)
-  //     })
-  //   } else {
-  //     // console.log('else e girdi')
-  //     this.spinner.hide()
-  //     this.toastrService.warning('Lütfen gerekli alanları doldurunuz.')
-  //   }
-  // }
-
-  // getById(id: number) {
-  //   this.accountReconciliationService.getById(id).subscribe(res => {
-  //     this.currentAccountUpdateForm.setValue({
-
-  //     })
-  //     // if (res.data.isActive) {
-  //     //   this.checkboxUpdateTrue = true
-  //     //   this.checkboxUpdateFalse = false
-  //     // } else {
-  //     //   this.checkboxUpdateTrue = false
-  //     //   this.checkboxUpdateFalse = true
-  //     // }
-  //   })
-  // }
 
   // update() {
   //   this.spinner.show()
@@ -349,9 +342,9 @@ export class AccountReconciliationComponent implements OnInit {
   }
 
   addFromExcel() {
+    this.spinner.show()
     if (this.file == '') return
     if (this.file != null || this.file != undefined || this.file != '') {
-      this.spinner.show()
       this.accountReconciliationService.addByExcel(this.file, this.companyId).subscribe(res => {
         this.spinner.hide()
         this.toastrService.success(res.message)
@@ -369,6 +362,7 @@ export class AccountReconciliationComponent implements OnInit {
         else console.log(err)
       })
     } else {
+      this.spinner.hide()
       this.toastrService.warning('Lütfen Excel Dosyası Seçiniz.')
     }
   }

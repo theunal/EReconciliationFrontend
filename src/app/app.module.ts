@@ -29,6 +29,8 @@ import { User2Component } from './components/user2/user2.component';
 import { CompanyComponent } from './components/company/company.component';
 import { CompanySearchPipe } from './pipes/company-search.pipe';
 import { AccountReconciliationComponent } from './components/account-reconciliation/account-reconciliation.component';
+import { AccountReconciliationPipe } from './pipes/account-reconciliation.pipe';
+import { AccountReconciliationStatusPipe } from './pipes/account-reconciliation-status.pipe';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { AccountReconciliationComponent } from './components/account-reconciliat
     User2Component,
     CompanyComponent,
     CompanySearchPipe,
-    AccountReconciliationComponent
+    AccountReconciliationComponent,
+    AccountReconciliationPipe,
+    AccountReconciliationStatusPipe
   ],
   imports: [
     BrowserModule,
@@ -63,7 +67,7 @@ import { AccountReconciliationComponent } from './components/account-reconciliat
     BrowserAnimationsModule,
     SweetAlert2Module.forRoot(), 
     ToastrModule.forRoot({
-      positionClass: 'toast-bottom-right',
+      positionClass: 'toast-bottom-left',
       progressBar: true,
       progressAnimation: 'increasing',
       timeOut: 3000
