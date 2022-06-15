@@ -81,6 +81,7 @@ export class AccountReconciliationComponent implements OnInit {
     this.getCurrencyAccounts()
     // add  
     this.createAccountReconciliationAdd()
+    this.createAccountReconciliationUpdateForm()
   }
 
   refresh() {
@@ -110,10 +111,6 @@ export class AccountReconciliationComponent implements OnInit {
   getAccountReconciliations() {
     this.spinner.show()
     this.accountReconciliationService.getAllDto(this.companyId).subscribe(res => {
-      res.data.forEach(element => {
-        console.log(element.id)
-      })
-
       this.spinner.hide()
       this.accountReconciliations = res.data
       this.accountReconciliationCount = res.data.length
@@ -154,13 +151,16 @@ export class AccountReconciliationComponent implements OnInit {
   }
 
   exportToExcel() {
+    this.spinner.show()
     if (this.accountReconciliations.length > 0) {
-      let currencyAccountTable = document.getElementById('currencyAccountTable')
-      let ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(currencyAccountTable)
+      let arTable = document.getElementById('arTable')
+      let ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(arTable)
       let wb: XLSX.WorkBook = XLSX.utils.book_new()
-      XLSX.utils.book_append_sheet(wb, ws, 'Cari Listesi')
+      XLSX.utils.book_append_sheet(wb, ws, this.currentListText)
       XLSX.writeFile(wb, `${this.currentListText}.xlsx`)
+      this.spinner.hide()
     } else {
+      this.spinner.hide()
       this.toastrService.info('Cari Listesi Boş')
     }
   }
@@ -222,6 +222,7 @@ export class AccountReconciliationComponent implements OnInit {
   add() {
     this.spinner.show()
     if (this.addAccountReconciliationForm.value.startingDate > this.addAccountReconciliationForm.value.endingDate) {
+      this.spinner.hide()
       this.toastrService.error('Lütfen tarihleri doğru giriniz.', 'Hata')
       return
     }
@@ -230,7 +231,7 @@ export class AccountReconciliationComponent implements OnInit {
         this.spinner.hide()
         this.getAccountReconciliations()
         this.createAccountReconciliationAdd()
-        document.getElementById('addCurrentAccountModal').click()
+        document.getElementById('addARModal').click()
         this.toastrService.success(res.message, 'Başarılı')
       }, err => {
         this.spinner.hide()
@@ -315,27 +316,6 @@ export class AccountReconciliationComponent implements OnInit {
   // current account update
 
 
-  // update() {
-  //   this.spinner.show()
-  //   if (this.currentAccountUpdateForm.valid) {
-  //     let currentAccount: AccountReconciliationModel = this.currentAccountUpdateForm.value
-  //     // currentAccount.isActive = this.trueFalseStatusUpdate()
-  //     this.accountReconciliationService.update(currentAccount).subscribe(res => {
-  //       this.spinner.hide()
-  //       this.toastrService.success(res.message, this.currentAccountUpdateForm.value.name)
-  //       this.getAccountReconciliations()
-  //       document.getElementById('updateCurrencyAccountModal').click()
-  //       this.createCurrentAccountUpdate()
-  //     }, err => {
-  //       this.spinner.hide()
-  //       console.log(err)
-  //     })
-  //   } else {
-  //     console.log('else e girdi')
-  //     this.spinner.hide()
-  //     this.toastrService.warning('Lütfen gerekli alanları doldurunuz.')
-  //   }
-  // }
 
   fileChange(event: any) {
     this.file = event.target.files[0]
@@ -349,7 +329,7 @@ export class AccountReconciliationComponent implements OnInit {
         this.spinner.hide()
         this.toastrService.success(res.message)
         this.getAccountReconciliations()
-        document.getElementById('addAccountReconciliationByExcelModal').click()
+        document.getElementById('addARByExcelModal').click()
         this.file = ''
       }, err => {
         this.spinner.hide()
@@ -365,6 +345,74 @@ export class AccountReconciliationComponent implements OnInit {
       this.spinner.hide()
       this.toastrService.warning('Lütfen Excel Dosyası Seçiniz.')
     }
+  }
+
+  createAccountReconciliationUpdateForm() {
+    this.accountReconciliationUpdateForm = new FormGroup({
+      id: new FormControl(''),
+      companyId: new FormControl(''),
+
+      currencyId: new FormControl(''),
+      currentAccountId: new FormControl(''),
+
+      startingDate: new FormControl(''),
+      endingDate: new FormControl(''),
+
+      accountEmail: new FormControl(''),
+
+      currencyDebit: new FormControl(''),
+      currencyCredit: new FormControl(''),
+
+      isSendEmail: new FormControl(''),
+      code: new FormControl(''),
+    })
+  }
+
+
+  getById(id: number) {
+    this.spinner.show()
+    this.accountReconciliationService.getById(id).subscribe(res => {
+      this.spinner.hide()
+      this.accountReconciliationUpdateForm.setValue({
+        id: res.data.id,
+        companyId: res.data.companyId,
+
+        currencyId: res.data.currencyId,
+        currentAccountId: res.data.currentAccountId,
+
+        startingDate: res.data.startingDate.substring(0, 10),
+        endingDate: res.data.endingDate.substring(0, 10),
+
+        accountEmail: res.data.accountEmail,
+
+        currencyDebit: res.data.currencyDebit,
+        currencyCredit: res.data.currencyCredit,
+
+        isSendEmail: res.data.isSendEmail,
+
+        code: res.data.accountCode,
+      })
+    }, err => {
+      this.spinner.hide()
+    })
+  }
+
+  update() {
+    this.spinner.show()
+    this.accountReconciliationService.
+      update(this.accountReconciliationUpdateForm.value,
+        this.accountReconciliationUpdateForm.value.accountEmail,
+        this.accountReconciliationUpdateForm.value.code)
+      .subscribe(res => {
+        this.spinner.hide()
+        this.getAccountReconciliations()
+        this.createAccountReconciliationUpdateForm()
+        document.getElementById('updateARModal').click()
+        this.toastrService.success(res.message, 'Başarılı')
+      }, err => {
+        this.spinner.hide()
+        console.log(err)
+      })
   }
 
 

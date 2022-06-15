@@ -118,7 +118,7 @@
             <div class="col-12">
 
 
-              
+
 
                 <div class="row">
 
@@ -165,14 +165,14 @@
 
                             <button *ngIf="accountReconciliationAdd" type="button"
                                 class="btn btn-md bg-gradient-success mx-2" style=" float: right;"
-                                data-bs-toggle="modal" data-bs-target="#addAccountReconciliationByExcelModal">
+                                data-bs-toggle="modal" data-bs-target="#addARByExcelModal   ">
                                 <i class="fa-solid fa-file-excel" style="font-size: 15px; margin-right: 5px;"></i>
                                 Cari Mutabakat Ekle (Excel)
                             </button>
 
                             <button *ngIf="accountReconciliationAdd" type="button"
                                 class="btn btn-md bg-gradient-info mx-2" style=" float: right;" data-bs-toggle="modal"
-                                data-bs-target="#addCurrentAccountModal">
+                                data-bs-target="#addARModal">
                                 <i class="fa-solid fa-user-plus" style="font-size: 14px; margin-right: 5px;"></i>
                                 Cari Mutabakat Ekle
                             </button>
@@ -191,7 +191,7 @@
                     </div>
                     <div class="card-body px-0 pb-2">
                         <div class="table-responsive p-0">
-                            <table id="currencyAccountTable" class="table align-items-center mb-0">
+                            <table id="arTable" class="table align-items-center mb-0">
 
                                 <thead>
                                     <tr>
@@ -244,30 +244,6 @@
                                             </h6>
                                         </td>
 
-                                        <!-- <td>
-                                            <ul>
-                                                <li class="list-group-item ng-star-inserted rounded">
-                                                    <h6 class="mb-0 text-s">
-                                                        <span class="mb-0 text-s text-danger">
-                                                            Borç:
-                                                        </span>
-                                                        {{accountReconciliation.currencyDebit | currency : '':'':''}}
-                                                        {{accountReconciliation.currencyCode}}
-                                                    </h6>
-                                                </li>
-                                                <li class="list-group-item ng-star-inserted rounded">
-                                                    <h6 class="mb-0 text-s">
-                                                        <span class="mb-0 text-s text-info">
-                                                            Alacak:
-                                                        </span>
-                                                        {{accountReconciliation.currencyCredit | currency : '':'':''}}
-                                                        {{accountReconciliation.currencyCode}}
-                                                    </h6>
-                                                </li>
-                                            </ul>
-
-                                        </td> -->
-
                                         <td>
                                             <h6 class="mb-0 text-s">
                                                 <span class="mb-0 text-s text-danger">
@@ -297,14 +273,14 @@
 
                                         <td *ngIf="!(!accountReconciliationDelete && !accountReconciliationUpdate)"
                                             class="align-middle">
-                                            <!-- <div class="row justify-content-center mx-2">
+                                            <div class="row justify-content-center mx-auto my-auto">
                                                 <button *ngIf="accountReconciliationUpdate" type="button"
-                                                    class="btn btn-info btn-sm " data-bs-toggle="modal"
-                                                    data-bs-target="#updateCurrentAccountModal"
-                                                    (click)="getById(currentAccount.id)">
+                                                    class="btn btn-info btn-sm w-75" data-bs-toggle="modal"
+                                                    data-bs-target="#updateARModal"
+                                                    (click)="getById(accountReconciliation.id)">
                                                     Güncelle
                                                 </button>
-                                            </div> -->
+                                            </div>
                                             <div class="row justify-content-center mx-auto my-auto">
                                                 <button *ngIf="accountReconciliationDelete"
                                                     class="btn btn-sm btn-danger w-50"
@@ -334,13 +310,13 @@
 
 </main>
 
-<swal type="question" #deleteAR title="Sil" text="Cari hesabı silmek istiyor musunuz?"
-    [showCancelButton]="true" confirmButtonText="Evet" cancelButtonText="Hayır" confirmButtonColor="#ff0000"
-    cancelButtonColor="#00ff00" [focusCancel]="true">
+<swal type="question" #deleteAR title="Sil" text="Cari hesabı silmek istiyor musunuz?" [showCancelButton]="true"
+    confirmButtonText="Evet" cancelButtonText="Hayır" confirmButtonColor="#ff0000" cancelButtonColor="#00ff00"
+    [focusCancel]="true">
 </swal>
 
 <!-- cari add -->
-<div class="modal fade" id="addCurrentAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="addARModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -426,8 +402,8 @@
 <!-- cari add -->
 
 <!-- cari excel add -->
-<div class="modal fade" id="addAccountReconciliationByExcelModal" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addARByExcelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -448,63 +424,82 @@
 <!-- cari excel add -->
 
 <!-- cari update -->
-<!-- <div class="modal fade" id="updateCurrentAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="updateARModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Cari Hesabı Güncelle</h5>
             </div>
             <div class="modal-body">
 
-                <form role="form" class="text-start" [formGroup]="currentAccountUpdateForm">
+                <form role="form" class="text-start" [formGroup]="accountReconciliationUpdateForm">
 
+                    <!-- currencyid ve currentAccountId -->
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="currencyId2">Para Birimi Seçiniz</label>
+                                <select class="form-select" id="currencyId2"
+                                    style="border-style: solid; border-color: grey; border-width: 1px;"
+                                    formControlName="currencyId" required>
+                                    <option *ngFor="let currency of allCurrencies" [value]="currency.id">
+                                        {{currency.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="currentAccountId2">Cari Hesap Seçiniz</label>
+                                <select class="form-select form-lg" id="currentAccountId2"
+                                    formControlName="currentAccountId">
+                                    <option *ngFor="let currentAccount of allCurrentAccounts"
+                                        [value]="currentAccount.id">
+                                        {{currentAccount.code}} - {{currentAccount.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- başlangıç bitiş tarihleri -->
                     <div class="row">
                         <div class="col-md-6">
                             <div class='input-group input-group-outline my-3'>
-                                <input type="text" formControlName='name' placeholder="Cari Adı" class="form-control"
-                                    autocomplete="off">
+                                <input type="date" placeholder="Başlangıç Tarihi" class="form-control"
+                                    formControlName="startingDate" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class='input-group input-group-outline my-3'>
-                                <input type="text" formControlName='code' class="form-control" placeholder="Cari Kodu"
-                                    autocomplete="off">
+                                <input type="date" class="form-control" placeholder="Bitiş Tarihi"
+                                    formControlName="endingDate" required>
                             </div>
                         </div>
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='address' class="form-control" placeholder="Cari Adresi"
-                            autocomplete="off">
+                        <input type="text" formControlName='accountEmail' class="form-control"
+                            placeholder="Email Adresi">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='taxDepartment' class="form-control"
-                            placeholder="Vergi Dairesi" autocomplete="off">
+                        <input type="text" formControlName='currencyDebit' class="form-control" placeholder="Borç">
                     </div>
 
                     <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='taxIdNumber' class="form-control" minlength="10"
-                            placeholder="Vergi Numarası" maxlength="10" autocomplete="off">
+                        <input type="text" formControlName='currencyCredit' class="form-control" placeholder="Alacak">
                     </div>
 
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='identityNumber' class="form-control" minlength="11"
-                            maxlength="11" placeholder="T.C.K.N" autocomplete="off">
-                    </div>
 
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="email" formControlName='email' class="form-control" placeholder="Mail Adresi"
-                            autocomplete="off">
-                    </div>
 
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="text" formControlName='authorized' class="form-control"
-                            placeholder="Yetkili Adı Soyadı" autocomplete="off">
-                    </div>
 
-                    <div class="form-check form-check-info text-start ps-0">
+
+                    <!-- <div class="form-check form-check-info text-start ps-0">
 
                         <div class="row">
 
@@ -525,9 +520,10 @@
                             </div>
                         </div>
 
-                    </div>
+                    </div> -->
 
                 </form>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
@@ -535,5 +531,5 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>
 <!-- cari update -->

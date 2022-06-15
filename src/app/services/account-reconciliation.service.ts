@@ -20,9 +20,9 @@ export class AccountReconciliationService {
     return this.httpClient.get<ListResponseModel<AccountReconciliationDto>>(url)
   }
 
-  getById(id: number): Observable<SingleResponseModel<AccountReconciliationModel>> {
+  getById(id: number): Observable<SingleResponseModel<AccountReconciliationDto>> {
     let url = this.api + 'AccountReconciliations/getById?id=' + id
-    return this.httpClient.get<SingleResponseModel<AccountReconciliationModel>>(url)
+    return this.httpClient.get<SingleResponseModel<AccountReconciliationDto>>(url)
   }
 
   add(accountReconciliation: AccountReconciliationModel): Observable<ResponseModel> {
@@ -30,8 +30,8 @@ export class AccountReconciliationService {
     return this.httpClient.post<ResponseModel>(url, accountReconciliation)
   }
 
-  update(accountReconciliation: AccountReconciliationModel): Observable<ResponseModel> {
-    let url = this.api + 'AccountReconciliations/update'
+  update(accountReconciliation: AccountReconciliationModel, accountEmail: string, code : string): Observable<ResponseModel> {
+    let url = this.api + 'AccountReconciliations/update?accountEmail=' + accountEmail + '&code=' + code
     return this.httpClient.post<ResponseModel>(url, accountReconciliation)
   }
 
