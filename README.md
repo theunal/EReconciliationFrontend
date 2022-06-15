@@ -26,7 +26,6 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
-
 ## Ekran Görüntüleri
 ![login](https://user-images.githubusercontent.com/97359852/173870016-7077c73b-84fc-4559-bcdb-ca7276d46a6f.png)
 ![şirket değiştir](https://user-images.githubusercontent.com/97359852/173870359-f135b2ea-09ed-4b0a-9b03-d1f6c7b52ef3.png)
@@ -34,3 +33,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ![cari listesi](https://user-images.githubusercontent.com/97359852/173870369-02ba4255-d549-4232-a4c4-6d6ef0ec39ba.png)
 ![excel](https://user-images.githubusercontent.com/97359852/173870375-e2e2ce4e-b21d-4a1f-aa7e-4cc715f9d1ed.png)
 ![kullanıcı listesi](https://user-images.githubusercontent.com/97359852/173870377-362b7a65-a019-479a-ade6-c2c4c7cc14fc.png)
+
+### Backend tarafı .NET Core 6 ve Frontend kısmı Angular kullanılarak yapıldı.
+### Caching, transaction, server ve client bazlı validation, JWT, aspects ve daha fazlası.
